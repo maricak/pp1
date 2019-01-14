@@ -92,7 +92,7 @@ import java_cup.runtime.Symbol;
 "print"     { return createSymbol(sym.PRINT, yytext()); }
 "read"      { return createSymbol(sym.READ, yytext()); }
 "void"      { return createSymbol(sym.VOID, yytext()); }
-  public static final int WHILE = 38;
+"const"		{ return createSymbol(sym.CONST, yytext()); }
 
 "chr" 		{ return createSymbol(sym.CHR, yytext()); }
 "ord" 		{ return createSymbol(sym.ORD, yytext()); }
@@ -100,7 +100,7 @@ import java_cup.runtime.Symbol;
 
 // Constants
 [0-9]+                  { return createSymbol(sym.INT_VALUE, new Integer (yytext())); }
-'[ -~]'                 { return createSymbol(sym.CHAR_VALUE, yytext().charAt(1)); }
+"'"[ -~]"'"             { return createSymbol(sym.CHAR_VALUE, yytext().charAt(1)); }
 "true"                  { return createSymbol(sym.BOOL_VALUE, true); }
 "false"                 { return createSymbol(sym.BOOL_VALUE, false); }
 

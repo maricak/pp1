@@ -1,50 +1,42 @@
+
+
 package rs.ac.bg.etf.pp1;
 
 import java_cup.runtime.*;
 import org.apache.log4j.*;
-
-// import java.io.*;
 import rs.ac.bg.etf.pp1.ast.*;
 
-
 parser code {:
+
+		boolean errorDetected = false;
 	
-	boolean errorDetected = false;
-	
-	Logger log = Logger.getLogger(getClass());
-   
-   
-    // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
-     
+	Logger log = Logger.getLogger(getClass());   
+
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
       done_parsing();
       report_error(message, info);
-    }
-  
-    public void syntax_error(Symbol cur_token) {
-        report_error("\nSintaksna greska", cur_token);
-    }
-  
-    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
-    }
-
+    }      
+  	public void syntax_error(Symbol cur_token) {
+        report_error("\nSyntax error: ", cur_token);
+    }	
+	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("\nFatal error, parsing can't continue: ", cur_token);
+    }      
     public void report_error(String message, Object info) {
-    	errorDetected = true;
-    	StringBuilder msg = new StringBuilder(message); 
+		errorDetected = true;
+    	StringBuilder msg = new StringBuilder(message);
     	if (info instanceof Symbol)
-            msg.append (" na liniji ").append(((Symbol)info).left);
+            msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
         log.error(msg.toString());
-    }
-    
+    }  
     public void report_info(String message, Object info) {
     	StringBuilder msg = new StringBuilder(message); 
     	if (info instanceof Symbol)
-            msg.append (" na liniji ").append(((Symbol)info).left);
+        	msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
         log.info(msg.toString());
     }
-    
 :}
+
 
 scan with {:
 	Symbol s = this.getScanner().next_token();
@@ -53,110 +45,375 @@ scan with {:
 	return s;
 :}
 
+terminal INT, BOOL, CHAR;
+terminal NULL;
+terminal ADD, SUBTRACT, MULTIPLY, DIVIDE, MODULO;
+terminal EQUAL, NOT_EQUAL, GREATER, GREATER_EQUAL, LESS, LESS_EQUAL;
+terminal AND, OR;
+terminal ASSIGN;
+terminal INCREMENT, DECREMENT;
+terminal SEPARATOR, COMMA, POINT;
+terminal LEFT_PARENTHESIS, RIGHT_PARENTHESIS, LEFT_BRACKET, RIGHT_BRACKET, LEFT_BRACE, RIGHT_BRACE;
+terminal PROGRAM, CLASS, EXTENDS, INTERFACE, IMPLEMENTS, ENUM, IF, ELSE, NEW, FOR, RETURN, BREAK, CONTINUE, PRINT, READ, VOID, CONST;
+terminal CHR, ORD, LEN;
+terminal INT_VALUE, CHAR_VALUE, BOOL_VALUE;
+terminal IDENTIFIER;
+terminal ERROR;
 
-terminal PROG, LBRACE, RBRACE, SEMI, LPAREN, RPAREN, COMMA, PRINT, RETURN, PLUS, EQUAL, VOID;
-terminal Integer NUMBER ;
-terminal String IDENT ;
-terminal IF, ELSE;
+nonterminal Program, DeclOptionList, DeclOption, ConstDecl, IdentifierAssignConstOptionList, ConstOption, EnumDecl, OptionalAssignNum, AssignNum;
+nonterminal IdentOptionalAssignNumList, VarDecl, IdentOptionalBracketsList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
+nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
+nonterminal MethodDecl, ReturnType,  OptionalFormPars, VarDeclList, FormPars, OptionalBrackets, TypeIdentBracketsList, Type, Statement, IfStatement; 
+nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
+nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
+nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
+nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
 
-nonterminal MethodDeclList, VarDecl;
-nonterminal FormalParamList, FormalParamDecl, FormPars, ActualPars, ActualParamList; 
-nonterminal StatementList, Statement, Addop;
-nonterminal Unmatched, Matched;
+precedence left ELSE;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, Designator, MethodDecl, MethodTypeName; 
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Term, Expr, Factor, VarDeclList; 
+Program ::= (ProgramClass) PROGRAM IDENTIFIER DeclOptionList LEFT_BRACE MethodDeclList RIGHT_BRACE
+		;
 
-Program ::= (Program) PROG ProgName:p VarDeclList LBRACE MethodDeclList RBRACE 
-;
-
-ProgName ::= (ProgName) IDENT:pName 
-;
-
-VarDeclList ::= (VarDeclarations) VarDeclList VarDecl  
+DeclOptionList ::= (DeclarationOptionListClass) DeclOptionList DeclOption
 				|
-				(NoVarDecl)/* epsilon */ 
+				(NoDeclarationOptionListClass) /* epsilon */
 				;
-				
-VarDecl ::= (VarDecl) Type:varType IDENT:varName SEMI 
-;
 
-Type ::= (Type) IDENT:typeName 
-;
+DeclOption ::= (DeclarationOptionConstClass) ConstDecl
+				|
+				(DeclarationOptionVarClass) VarDecl
+				|
+				(DeclarationOptionClassClass) ClassDecl
+				|
+				(DeclarationOptionEnumClass) EnumDecl
+				|
+				(DeclarationOptionInterfaceClass) InterfaceDecl
+				;	
 
-MethodDeclList ::= (MethodDeclarations) MethodDeclList MethodDecl
+ConstDecl ::= (ConstDeclarationClass) CONST Type IDENTIFIER ASSIGN ConstOption IdentifierAssignConstOptionList SEPARATOR
+			;
+			
+IdentifierAssignConstOptionList ::= (IdentAssignConstOptionListClass) IdentifierAssignConstOptionList COMMA IDENTIFIER ASSIGN ConstOption
+								|
+								(NoIdentAssignConstOptionListClass) /* epsilon */
+								;
+								
+
+ConstOption ::= (ConstOptionIntClass) INT_VALUE
+			|
+			(ConstOptionCharClass) CHAR_VALUE
+			|
+			(ConstOptionBoolClass) BOOL_VALUE
+			;
+
+EnumDecl ::= (EnumDeclarationClass) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
+			;
+
+OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum
 					|
-					(NoMethodDecl)/* epsilon */
+					(NoOptionalAssgnNumberClass) /* epsilon */
+					;					
+					
+AssignNum ::= (AssignNumberClass) ASSIGN INT_VALUE
+			;
+
+
+IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList COMMA IDENTIFIER OptionalAssignNum
+							|
+							(NoIdentifierOptionalAssignNumberListClass) /* epsilon */
+							;
+
+VarDecl ::= (VarDeclarationClass) Type IDENTIFIER OptionalBrackets IdentOptionalBracketsList SEPARATOR
+		;
+		
+IdentOptionalBracketsList ::= (IdentifierOptionalBracketsListClass) IdentOptionalBracketsList COMMA IDENTIFIER OptionalBrackets
+							|
+							(NoIdentifierOptionalBracketsListClass) /* epsilon */
+							;
+
+ClassDecl ::= (ClassDeclarationClass) CLASS IDENTIFIER OptionalExtendsType OptionalImplementsTypeList LEFT_BRACE VarDeclList OptionalMethodDeclList RIGHT_BRACE
+			;
+			
+OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType
+					|
+					(NoOptionalExtendsTypeClass) /* epsilon */
+					;
+		
+ExtendsType ::= (ExtendsTypeClass) EXTENDS Type
+			;
+			
+OptionalImplementsTypeList ::= (OptionalImplementsTypeListClass) ImplementsTypeList
+							|
+							(NoOptionalImplementsTypeListClass) /* epsilon */
+							;
+							
+
+ImplementsTypeList ::= (ImplementsTypeListClass) IMPLEMENTS Type TypeList
+					;
+		
+TypeList ::= (TypeListClass) TypeList COMMA Type
+			|
+			(NoTypeListClass) /* epsilon */
+			;
+			
+OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList RIGHT_BRACE
+						;
+								
+MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
+			|
+			(NoMethodDeclarationListClass)/* epsilon */
+			;
+
+
+InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList RIGHT_BRACE
+				;
+
+InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS SEPARATOR
 					;
 
-MethodDecl ::= (MethodDecl) MethodTypeName
-			   LPAREN FormPars RPAREN VarDeclList LBRACE StatementList RBRACE 
-			   ;
+MethodDecl ::= (MethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
+			;
+			
+ReturnType ::= (ReturnTypeClass) Type
+			|
+			(NoReturnTypeClass) VOID
+			;
 
-MethodTypeName ::= (MethodTypeName) Type:retType IDENT:methName
-;
+OptionalFormPars ::= (OptionalFormParsClass) FormPars
+				|
+				(NoOptionalFormParsClass) /* epsilon */
+				;
 
-FormPars ::= (FormParams) FormalParamList | (NoFormParam) /* epsilon */ ;
+VarDeclList ::= (VarDeclarationListClass) VarDeclList VarDecl
+			|
+			(NoVarDeclarationListClass) /* epsilon */
+			;
+				
+FormPars ::= (FromParamsClass) Type IDENTIFIER OptionalBrackets TypeIdentBracketsList
+			;
+			
+OptionalBrackets ::= (OptionalBracketsClass) LEFT_BRACKET RIGHT_BRACKET
+				|
+				(NoOptionalBracketsClass) /* epsilon */
+				;
 
-FormalParamList ::= (FormalParamDecls) FormalParamList COMMA FormalParamDecl
+TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList COMMA Type IDENTIFIER OptionalBrackets
 					|
-					(SingleFormalParamDecl) FormalParamDecl
+					(NoTypeIdentBracketsListClass) /* epsilon */
+					;
+
+Type ::= (TypeIntClass) INT
+		|
+		(TypeBoolClass) BOOL
+		|
+		(TypeCharClass) CHAR
+		|
+		(TypeCustomClass) IDENTIFIER
+		;
+
+Statement ::= (StatementDesignatorClass) DesignatorStatement SEPARATOR
+			|
+			(StatementIfClass) IfStatement 
+			|
+			(StatementForClass) ForStatement
+			|
+			(StatementBreakClass) BREAK SEPARATOR
+			|
+			(StatementContinueClass) CONTINUE SEPARATOR
+			|
+			(StatementReturnClass) RETURN OptionalExpr SEPARATOR
+			|
+			(StatementReadClass) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
+			|
+			(StatementPrintClass) PRINT LEFT_PARENTHESIS Expr OptionalCommaNumConst RIGHT_PARENTHESIS SEPARATOR
+			|
+			(StatementStatementListClass) LEFT_BRACE StatementList RIGHT_BRACE
+			;
+
+IfStatement ::=  (IfStatementClass) IF LEFT_PARENTHESIS Condition RIGHT_PARENTHESIS Statement OptionalElse
+			;
+		
+OptionalElse ::= (OptionalElseClass) ELSE Statement
+				|
+				(NoOptionalElseClass) /* epsilon */
+				;
+			
+ForStatement ::= (ForStatementClass) FOR LEFT_PARENTHESIS OptionalDesignatorStatement SEPARATOR OptionalCondition SEPARATOR OptionalDesignatorStatement RIGHT_PARENTHESIS Statement
+			;
+			
+OptionalCondition ::= (OptionalConditionClass) Condition 
+					|
+					(NoOptionalConditionClass) /* epsilon */
+					;
+			
+OptionalDesignatorStatement ::= (OptionalDesignatorStatementClass) DesignatorStatement
+							|
+							(NoOptionalDesignatorStatementClass) /* epsilon */
+							;
+						
+OptionalExpr ::= (OptionalExprClass) Expr
+				|
+				(NoOptionalExprClass) /* epsilon */
+				;
+	
+OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE
+						|
+						(NoOptionalComaNumberConstClass) /* espilon */
+						;		
+			
+StatementList ::= (StatementListClass) StatementList Statement
+				|
+				(NoStatementListClass) /* epsilon */
+				;
+
+DesignatorStatement ::= (DesignatorStatementClass) Designator DesignatorStatementOption
 					;
 					
-FormalParamDecl ::= (FormalParamDecl) Type IDENT ;
+DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop Expr
+							|
+							(DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+							|
+							(DesignatorStatementIncrementOptionClass) INCREMENT
+							|
+							(DesignatorStatementDecrementOptionClass) DECREMENT
+							;												
 
-StatementList ::= (Statements) StatementList Statement 
-					|
-				  (NoStmt) /* epsilon */
-				  ;
-
-Statement ::= (MatchedStmt) Matched | (UnmachedStmt) Unmatched ;
-
-Unmatched ::= (UnmatchedIf) IF Expr Statement | (UnmatchedIfElse) IF Expr Matched ELSE Unmatched;
-	
-				  
-Matched ::= (Assignment) Designator:dest EQUAL Expr:e SEMI 
-			  |
-			  (ErrAssignment) Designator EQUAL error SEMI
-			  {: parser.log.debug("Uspesan oporavak od greske pri dodeli vrednosti."); :}
-			  |
-			  (PrintStmt) PRINT LPAREN Expr RPAREN SEMI 
-			  |
-			  (ReturnExpr) RETURN Expr:t SEMI
-			  |
-			  (ReturnNoExpr) RETURN SEMI
-			  | 
-			  (MatchedIf) IF Expr Matched ELSE Matched
-			  |
-			  (ProcCall) Designator:func LPAREN ActualPars RPAREN SEMI
-			  ;
-			  
-Expr ::= (AddExpr) Expr:te Addop Term:t
-		 |
-		 (TermExpr) Term:t
-		 ;
-
-Term ::= (Term) Factor:t 
-;
-
-Factor ::= (Const) NUMBER
+ActPars ::= (ActParamsClass) Expr ExprList
+		;
+		
+ExprList ::= (ExpressionListClass) ExprList COMMA Expr
 			|
-		   (Var) Designator:d
-		    |
-		   (FuncCall) Designator:func LPAREN ActualPars RPAREN
-		   ;
+			(NoExpressionListClass) /* epsilon */
+			;
 
-ActualPars ::= (Actuals) ActualParamList 
-				| 
-			   (NoActuals) /* epsilon */ 
-			   ;
-			   
-ActualParamList ::= (ActualParams) ActualParamList COMMA Expr
+Condition ::= (ConditionClass) CondTerm OrCondFactList
+			;
+			
+OrCondFactList ::= (OrConditionFactListClass) OrCondFactList OR CondFact
+				|
+				(NoOrConditionFactListClass) /* epsilon */
+				;				
+
+CondTerm ::= (ConditionTermClass) CondFact AndCondFactList
+			;
+			
+AndCondFactList ::= (AndConditionFactListClass) AndCondFactList AND CondFact
+				|
+				(NoAndConditionFactListClass) /* epsilon */
+				;	
+
+CondFact ::= (ConditionFactClass) Expr OptionalRelopExpr
+		;
+		
+OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop Expr
 					|
-					(ActualParam) Expr
+					(NoOptionalRelopExprClassClass) /* epsilon */
 					;
 
-Designator ::= (Designator) IDENT:name
-;
 
-Addop ::= (Addop) PLUS ;
+Expr ::= (ExpressionClass) OptionalMinus Term AddopTermList
+		;
+		
+OptionalMinus ::= (OptionalSubtractClass) SUBTRACT 
+				|
+				(NoOptionalSubtractClass) /* epsilon */
+				;
+
+AddopTermList ::= (AddOperationtermListClass) AddopTermList Addop Term
+				|
+				(NoAddOperationtermListClass)/* epilon */
+				;
+
+Term ::= (TermClass) Factor MulopFactorList
+		;
+
+MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList Mulop Factor
+				|
+				(NoMulOperationFactorListClass) /* epilon */
+				;
+
+Factor ::= (FactorDesignatorClass) DesignatorFactor
+		|
+		(FactorIntClass) INT_VALUE
+		|
+		(FactorCharClass) CHAR_VALUE
+		|
+		(FactorBoolClass) BOOL_VALUE
+		|
+		(FactorNewClass) NewFactor
+		|
+		(FactorExpressionClass) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+		;
+		
+DesignatorFactor ::= (DesignatorFactorClass) Designator OptionalDesignatorCallParams
+				;
+				
+OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams
+								|
+								(NoOptionalDesignatorCallParamsClass) /* epsilon */
+								;
+	
+DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+					;
+					
+OptionalActPars ::= (OptionalActParsClass) ActPars
+				|
+				(NoOptionalActParsClass) /* epsilon */
+				;
+		
+NewFactor ::= (NewFactorClass) NEW Type OptionalArraySelector
+			;
+
+OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector
+						|
+						(NoOptionalArraySelectorClass) /* epsilon */
+						;
+
+Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList
+			;
+			
+DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList DesignatorSelector
+						|
+						(NoDesignatorSelectorListClass) /* epsilon */
+						;
+						
+DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector
+					|
+					(DesignatorSelectorArrayClass) ArraySelector
+					;
+	
+PointSelector ::= (PointSelectorClass) POINT IDENTIFIER
+				;
+
+ArraySelector ::= (ArraySelectorClass) LEFT_BRACKET Expr RIGHT_BRACKET
+				;
+
+Assignop ::= (AssignOperationClass) ASSIGN 	
+			;
+
+Relop ::= (RelopEqClass) EQUAL
+		|
+		(RelopNeqClass) NOT_EQUAL
+		|
+		(RelopGtClass) GREATER
+		|
+		(RelopGeClass) GREATER_EQUAL
+		|
+		(RelopLtClass) LESS
+		|
+		(RelopLeClass) LESS_EQUAL
+		;
+
+Addop ::= (AddOpePlusClass) ADD
+		|
+		(AddOpMinusClass) SUBTRACT
+		;
+
+Mulop ::= (MulopMullClass) MULTIPLY 
+		|
+		(MulopDivClass) DIVIDE
+		|
+		(MulopModClass) MODULO
+		;
+
+

@@ -4,7 +4,7 @@
 	<target name="delete">
 		<delete>
 			<fileset dir="src/rs/ac/bg/etf/pp1">
-				<exclude name="sym.java"/>
+				<exclude name="sym_old.java"/>
 				<exclude name="util/Log4JUtils.java"/>
 				<exclude name="Yylex.java"/>
 				<exclude name="RuleVisitor.java"/>
@@ -28,7 +28,8 @@
 		</java>
 	</target>
 
-	<target name="parserGen" depends="delete">
+<!--	<target name="parserGen" depends="delete"> -->
+		<target name="parserGen" depends="delete">
 		<java jar="lib/cup_v10k.jar" fork="true">
 			<arg value="-destdir"/>
 			<arg value="src/rs/ac/bg/etf/pp1"/>

@@ -1,5 +1,5 @@
 program MJProgram
-	int x; int y;
+	int x[];
 {
 	
 	int k () int c; {

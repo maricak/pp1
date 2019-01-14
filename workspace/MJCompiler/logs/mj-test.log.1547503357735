@@ -1,0 +1,16 @@
+INFO  23:01:09,964 - Compiling source file: E:\FAKS\4\Prevodioci\pp1\workspace\MJCompiler\test\stabla.mj
+INFO  23:01:10,027 - #31 program
+INFO  23:01:10,027 - #54 Programcic123
+INFO  23:01:10,027 - #32 class
+INFO  23:01:10,028 - #54 PackedCharArray
+INFO  23:01:10,028 - #29 {
+INFO  23:01:10,029 - #4 char
+INFO  23:01:10,029 - #54 array
+INFO  23:01:10,030 - #27 [
+INFO  23:01:10,030 - #28 ]
+INFO  23:01:10,030 - #22 ;
+INFO  23:01:10,032 - #30 }
+ERROR 23:01:10,032 - 
+Syntax error: '}' at line 8
+ERROR 23:01:10,032 - 
+Fatal error, parsing can't continue: '}' at line 8
