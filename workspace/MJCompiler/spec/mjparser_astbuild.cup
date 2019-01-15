@@ -167,6 +167,8 @@ ConstOption ::= (ConstOptionIntClass) INT_VALUE {: RESULT=new ConstOptionIntClas
 			(ConstOptionCharClass) CHAR_VALUE {: RESULT=new ConstOptionCharClass(); :}
 			|
 			(ConstOptionBoolClass) BOOL_VALUE {: RESULT=new ConstOptionBoolClass(); :}
+			|
+			(ConstOptionNullClass) NULL {: RESULT=new ConstOptionNullClass(); :}
 			;
 
 EnumDecl ::= (EnumDeclarationClass) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum:O1 IdentOptionalAssignNumList:I2 RIGHT_BRACE {: RESULT=new EnumDeclarationClass(O1, I2); RESULT.setLine(O1left); :}
@@ -220,6 +222,8 @@ TypeList ::= (TypeListClass) TypeList:T1 COMMA Type:T2 {: RESULT=new TypeListCla
 			;
 			
 OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new OptionalMethodDeclarationListClass(M1); RESULT.setLine(M1left); :}
+						|
+						(NoOptionalMethodDeclarationListClass) {: RESULT=new NoOptionalMethodDeclarationListClass(); :} /* epsilon */
 						;
 								
 MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new MethodDeclarationListClass(M1, M2); RESULT.setLine(M1left); :}
@@ -230,6 +234,11 @@ MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList:M1 MethodDecl:M2 
 
 InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList:I1 RIGHT_BRACE {: RESULT=new InterfaceDeclarationClass(I1); RESULT.setLine(I1left); :}
 				;
+
+InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclListClass(I1, I2); RESULT.setLine(I1left); :}
+						|
+						(NoInterfaceMethodDeclListClass) {: RESULT=new NoInterfaceMethodDeclListClass(); :} /* epsilon */
+						;
 
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER LEFT_PARENTHESIS OptionalFormPars:O2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, O2); RESULT.setLine(R1left); :}
 					;
@@ -404,6 +413,8 @@ Factor ::= (FactorDesignatorClass) DesignatorFactor:D1 {: RESULT=new FactorDesig
 		(FactorBoolClass) BOOL_VALUE {: RESULT=new FactorBoolClass(); :}
 		|
 		(FactorNewClass) NewFactor:N1 {: RESULT=new FactorNewClass(N1); RESULT.setLine(N1left); :}
+		|
+		(FactorNullClass) NULL {: RESULT=new FactorNullClass(); :}
 		|
 		(FactorExpressionClass) LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new FactorExpressionClass(E1); RESULT.setLine(E1left); :}
 		;

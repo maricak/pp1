@@ -94,9 +94,9 @@ import java_cup.runtime.Symbol;
 "void"      { return createSymbol(sym.VOID, yytext()); }
 "const"		{ return createSymbol(sym.CONST, yytext()); }
 
-"chr" 		{ return createSymbol(sym.CHR, yytext()); }
-"ord" 		{ return createSymbol(sym.ORD, yytext()); }
-"len" 		{ return createSymbol(sym.LEN, yytext()); }
+//"chr" 		{ return createSymbol(sym.CHR, yytext()); }
+//"ord" 		{ return createSymbol(sym.ORD, yytext()); }
+//"len" 		{ return createSymbol(sym.LEN, yytext()); }
 
 // Constants
 [0-9]+                  { return createSymbol(sym.INT_VALUE, new Integer (yytext())); }

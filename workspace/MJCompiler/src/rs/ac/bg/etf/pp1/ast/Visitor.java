@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:0:38
+// 14/0/2019 23:40:59
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -107,6 +107,7 @@ public interface Visitor {
     public void visit(OptionalDesignatorCallParamsClass OptionalDesignatorCallParamsClass);
     public void visit(DesignatorFactorClass DesignatorFactorClass);
     public void visit(FactorExpressionClass FactorExpressionClass);
+    public void visit(FactorNullClass FactorNullClass);
     public void visit(FactorNewClass FactorNewClass);
     public void visit(FactorBoolClass FactorBoolClass);
     public void visit(FactorCharClass FactorCharClass);
@@ -177,9 +178,12 @@ public interface Visitor {
     public void visit(ReturnTypeClass ReturnTypeClass);
     public void visit(MethodDeclarationClass MethodDeclarationClass);
     public void visit(InterfaceMethodDeclarationClass InterfaceMethodDeclarationClass);
+    public void visit(NoInterfaceMethodDeclListClass NoInterfaceMethodDeclListClass);
+    public void visit(InterfaceMethodDeclListClass InterfaceMethodDeclListClass);
     public void visit(InterfaceDeclarationClass InterfaceDeclarationClass);
     public void visit(NoMethodDeclarationListClass NoMethodDeclarationListClass);
     public void visit(MethodDeclarationListClass MethodDeclarationListClass);
+    public void visit(NoOptionalMethodDeclarationListClass NoOptionalMethodDeclarationListClass);
     public void visit(OptionalMethodDeclarationListClass OptionalMethodDeclarationListClass);
     public void visit(NoTypeListClass NoTypeListClass);
     public void visit(TypeListClass TypeListClass);
@@ -199,6 +203,7 @@ public interface Visitor {
     public void visit(NoOptionalAssgnNumberClass NoOptionalAssgnNumberClass);
     public void visit(OptionalAssgnNumberClass OptionalAssgnNumberClass);
     public void visit(EnumDeclarationClass EnumDeclarationClass);
+    public void visit(ConstOptionNullClass ConstOptionNullClass);
     public void visit(ConstOptionBoolClass ConstOptionBoolClass);
     public void visit(ConstOptionCharClass ConstOptionCharClass);
     public void visit(ConstOptionIntClass ConstOptionIntClass);

@@ -1,6 +1,8 @@
 package rs.ac.bg.etf.pp1;
 import org.apache.log4j.Logger;
 
+import rs.ac.bg.etf.pp1.ast.VisitorAdaptor;
+/*
 import rs.ac.bg.etf.pp1.ast.AddExpr;
 import rs.ac.bg.etf.pp1.ast.Assignment;
 import rs.ac.bg.etf.pp1.ast.Const;
@@ -23,9 +25,9 @@ import rs.ac.bg.etf.pp1.ast.VisitorAdaptor;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
-
+*/
 public class SemanticPass extends VisitorAdaptor {
-
+/*
 	boolean errorDetected = false;
 	int printCallCount = 0;
 	Obj currentMethod = null;
@@ -182,7 +184,7 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	public boolean passed() {
 		return !errorDetected;
-	}
+	}*/
 	
 }
 

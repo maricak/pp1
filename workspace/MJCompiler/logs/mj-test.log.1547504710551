@@ -1,0 +1,382 @@
+INFO  23:24:49,073 - Compiling source file: E:\FAKS\4\Prevodioci\pp1\workspace\MJCompiler\test\program.mj
+INFO  23:24:49,132 - #31 program
+INFO  23:24:49,132 - #54 MJProgram
+INFO  23:24:49,133 - #2 int
+INFO  23:24:49,133 - #54 x
+INFO  23:24:49,134 - #27 [
+INFO  23:24:49,134 - #28 ]
+INFO  23:24:49,134 - #23 ,
+INFO  23:24:49,135 - #54 y
+INFO  23:24:49,135 - #27 [
+INFO  23:24:49,135 - #28 ]
+INFO  23:24:49,135 - #22 ;
+INFO  23:24:49,136 - #32 class
+INFO  23:24:49,136 - #54 A
+INFO  23:24:49,136 - #29 {
+INFO  23:24:49,137 - #2 int
+INFO  23:24:49,138 - #54 x
+INFO  23:24:49,138 - #22 ;
+INFO  23:24:49,138 - #30 }
+INFO  23:24:49,139 - #29 {
+INFO  23:24:49,139 - #2 int
+INFO  23:24:49,140 - #54 k
+INFO  23:24:49,140 - #25 (
+INFO  23:24:49,140 - #26 )
+INFO  23:24:49,141 - #2 int
+INFO  23:24:49,141 - #54 c
+INFO  23:24:49,141 - #22 ;
+INFO  23:24:49,141 - #29 {
+INFO  23:24:49,141 - #54 c
+INFO  23:24:49,142 - #19 =
+INFO  23:24:49,142 - #51 1
+INFO  23:24:49,144 - #22 ;
+INFO  23:24:49,147 - #41 return
+INFO  23:24:49,147 - #54 c
+INFO  23:24:49,147 - #6 +
+INFO  23:24:49,148 - #51 2
+INFO  23:24:49,150 - #22 ;
+INFO  23:24:49,150 - #30 }
+INFO  23:24:49,150 - #2 int
+INFO  23:24:49,150 - #54 main
+INFO  23:24:49,151 - #25 (
+INFO  23:24:49,151 - #26 )
+INFO  23:24:49,151 - #29 {
+INFO  23:24:49,151 - #54 y
+INFO  23:24:49,151 - #19 =
+INFO  23:24:49,151 - #51 2
+INFO  23:24:49,151 - #22 ;
+INFO  23:24:49,151 - #54 x
+INFO  23:24:49,151 - #19 =
+INFO  23:24:49,151 - #54 y
+INFO  23:24:49,151 - #6 +
+INFO  23:24:49,151 - #51 2
+INFO  23:24:49,151 - #22 ;
+INFO  23:24:49,151 - #54 y
+INFO  23:24:49,151 - #19 =
+INFO  23:24:49,152 - #54 k
+INFO  23:24:49,152 - #25 (
+INFO  23:24:49,152 - #26 )
+INFO  23:24:49,152 - #6 +
+INFO  23:24:49,152 - #51 3
+INFO  23:24:49,153 - #22 ;
+INFO  23:24:49,153 - #44 print
+INFO  23:24:49,153 - #25 (
+INFO  23:24:49,153 - #54 y
+INFO  23:24:49,153 - #26 )
+INFO  23:24:49,154 - #22 ;
+INFO  23:24:49,154 - #41 return
+INFO  23:24:49,154 - #51 0
+INFO  23:24:49,155 - #22 ;
+INFO  23:24:49,155 - #30 }
+INFO  23:24:49,155 - #30 }
+INFO  23:24:49,155 - #0 eof
+INFO  23:24:49,155 - #0 eof
+INFO  23:24:49,156 - ProgramClass(
+  DeclarationOptionListClass(
+    DeclarationOptionListClass(
+      NoDeclarationOptionListClass(
+      ) [NoDeclarationOptionListClass]
+      DeclarationOptionVarClass(
+        VarDeclarationClass(
+          TypeIntClass(
+          ) [TypeIntClass]
+          OptionalBracketsClass(
+          ) [OptionalBracketsClass]
+          IdentifierOptionalBracketsListClass(
+            NoIdentifierOptionalBracketsListClass(
+            ) [NoIdentifierOptionalBracketsListClass]
+            OptionalBracketsClass(
+            ) [OptionalBracketsClass]
+          ) [IdentifierOptionalBracketsListClass]
+        ) [VarDeclarationClass]
+      ) [DeclarationOptionVarClass]
+    ) [DeclarationOptionListClass]
+    DeclarationOptionClassClass(
+      ClassDeclarationClass(
+        NoOptionalExtendsTypeClass(
+        ) [NoOptionalExtendsTypeClass]
+        NoOptionalImplementsTypeListClass(
+        ) [NoOptionalImplementsTypeListClass]
+        VarDeclarationListClass(
+          NoVarDeclarationListClass(
+          ) [NoVarDeclarationListClass]
+          VarDeclarationClass(
+            TypeIntClass(
+            ) [TypeIntClass]
+            NoOptionalBracketsClass(
+            ) [NoOptionalBracketsClass]
+            NoIdentifierOptionalBracketsListClass(
+            ) [NoIdentifierOptionalBracketsListClass]
+          ) [VarDeclarationClass]
+        ) [VarDeclarationListClass]
+        NoOptionalMethodDeclarationListClass(
+        ) [NoOptionalMethodDeclarationListClass]
+      ) [ClassDeclarationClass]
+    ) [DeclarationOptionClassClass]
+  ) [DeclarationOptionListClass]
+  MethodDeclarationListClass(
+    MethodDeclarationListClass(
+      NoMethodDeclarationListClass(
+      ) [NoMethodDeclarationListClass]
+      MethodDeclarationClass(
+        ReturnTypeClass(
+          TypeIntClass(
+          ) [TypeIntClass]
+        ) [ReturnTypeClass]
+        NoOptionalFormParsClass(
+        ) [NoOptionalFormParsClass]
+        VarDeclarationListClass(
+          NoVarDeclarationListClass(
+          ) [NoVarDeclarationListClass]
+          VarDeclarationClass(
+            TypeIntClass(
+            ) [TypeIntClass]
+            NoOptionalBracketsClass(
+            ) [NoOptionalBracketsClass]
+            NoIdentifierOptionalBracketsListClass(
+            ) [NoIdentifierOptionalBracketsListClass]
+          ) [VarDeclarationClass]
+        ) [VarDeclarationListClass]
+        StatementListClass(
+          StatementListClass(
+            NoStatementListClass(
+            ) [NoStatementListClass]
+            StatementDesignatorClass(
+              DesignatorStatementClass(
+                DesignatorClass(
+                  NoDesignatorSelectorListClass(
+                  ) [NoDesignatorSelectorListClass]
+                ) [DesignatorClass]
+                DesignatorStatementAssignOptionClass(
+                  AssignOperationClass(
+                  ) [AssignOperationClass]
+                  ExpressionClass(
+                    NoOptionalSubtractClass(
+                    ) [NoOptionalSubtractClass]
+                    TermClass(
+                      FactorIntClass(
+                      ) [FactorIntClass]
+                      NoMulOperationFactorListClass(
+                      ) [NoMulOperationFactorListClass]
+                    ) [TermClass]
+                    NoAddOperationtermListClass(
+                    ) [NoAddOperationtermListClass]
+                  ) [ExpressionClass]
+                ) [DesignatorStatementAssignOptionClass]
+              ) [DesignatorStatementClass]
+            ) [StatementDesignatorClass]
+          ) [StatementListClass]
+          StatementReturnClass(
+            OptionalExprClass(
+              ExpressionClass(
+                NoOptionalSubtractClass(
+                ) [NoOptionalSubtractClass]
+                TermClass(
+                  FactorDesignatorClass(
+                    DesignatorFactorClass(
+                      DesignatorClass(
+                        NoDesignatorSelectorListClass(
+                        ) [NoDesignatorSelectorListClass]
+                      ) [DesignatorClass]
+                      NoOptionalDesignatorCallParamsClass(
+                      ) [NoOptionalDesignatorCallParamsClass]
+                    ) [DesignatorFactorClass]
+                  ) [FactorDesignatorClass]
+                  NoMulOperationFactorListClass(
+                  ) [NoMulOperationFactorListClass]
+                ) [TermClass]
+                AddOperationtermListClass(
+                  NoAddOperationtermListClass(
+                  ) [NoAddOperationtermListClass]
+                  AddOpePlusClass(
+                  ) [AddOpePlusClass]
+                  TermClass(
+                    FactorIntClass(
+                    ) [FactorIntClass]
+                    NoMulOperationFactorListClass(
+                    ) [NoMulOperationFactorListClass]
+                  ) [TermClass]
+                ) [AddOperationtermListClass]
+              ) [ExpressionClass]
+            ) [OptionalExprClass]
+          ) [StatementReturnClass]
+        ) [StatementListClass]
+      ) [MethodDeclarationClass]
+    ) [MethodDeclarationListClass]
+    MethodDeclarationClass(
+      ReturnTypeClass(
+        TypeIntClass(
+        ) [TypeIntClass]
+      ) [ReturnTypeClass]
+      NoOptionalFormParsClass(
+      ) [NoOptionalFormParsClass]
+      NoVarDeclarationListClass(
+      ) [NoVarDeclarationListClass]
+      StatementListClass(
+        StatementListClass(
+          StatementListClass(
+            StatementListClass(
+              StatementListClass(
+                NoStatementListClass(
+                ) [NoStatementListClass]
+                StatementDesignatorClass(
+                  DesignatorStatementClass(
+                    DesignatorClass(
+                      NoDesignatorSelectorListClass(
+                      ) [NoDesignatorSelectorListClass]
+                    ) [DesignatorClass]
+                    DesignatorStatementAssignOptionClass(
+                      AssignOperationClass(
+                      ) [AssignOperationClass]
+                      ExpressionClass(
+                        NoOptionalSubtractClass(
+                        ) [NoOptionalSubtractClass]
+                        TermClass(
+                          FactorIntClass(
+                          ) [FactorIntClass]
+                          NoMulOperationFactorListClass(
+                          ) [NoMulOperationFactorListClass]
+                        ) [TermClass]
+                        NoAddOperationtermListClass(
+                        ) [NoAddOperationtermListClass]
+                      ) [ExpressionClass]
+                    ) [DesignatorStatementAssignOptionClass]
+                  ) [DesignatorStatementClass]
+                ) [StatementDesignatorClass]
+              ) [StatementListClass]
+              StatementDesignatorClass(
+                DesignatorStatementClass(
+                  DesignatorClass(
+                    NoDesignatorSelectorListClass(
+                    ) [NoDesignatorSelectorListClass]
+                  ) [DesignatorClass]
+                  DesignatorStatementAssignOptionClass(
+                    AssignOperationClass(
+                    ) [AssignOperationClass]
+                    ExpressionClass(
+                      NoOptionalSubtractClass(
+                      ) [NoOptionalSubtractClass]
+                      TermClass(
+                        FactorDesignatorClass(
+                          DesignatorFactorClass(
+                            DesignatorClass(
+                              NoDesignatorSelectorListClass(
+                              ) [NoDesignatorSelectorListClass]
+                            ) [DesignatorClass]
+                            NoOptionalDesignatorCallParamsClass(
+                            ) [NoOptionalDesignatorCallParamsClass]
+                          ) [DesignatorFactorClass]
+                        ) [FactorDesignatorClass]
+                        NoMulOperationFactorListClass(
+                        ) [NoMulOperationFactorListClass]
+                      ) [TermClass]
+                      AddOperationtermListClass(
+                        NoAddOperationtermListClass(
+                        ) [NoAddOperationtermListClass]
+                        AddOpePlusClass(
+                        ) [AddOpePlusClass]
+                        TermClass(
+                          FactorIntClass(
+                          ) [FactorIntClass]
+                          NoMulOperationFactorListClass(
+                          ) [NoMulOperationFactorListClass]
+                        ) [TermClass]
+                      ) [AddOperationtermListClass]
+                    ) [ExpressionClass]
+                  ) [DesignatorStatementAssignOptionClass]
+                ) [DesignatorStatementClass]
+              ) [StatementDesignatorClass]
+            ) [StatementListClass]
+            StatementDesignatorClass(
+              DesignatorStatementClass(
+                DesignatorClass(
+                  NoDesignatorSelectorListClass(
+                  ) [NoDesignatorSelectorListClass]
+                ) [DesignatorClass]
+                DesignatorStatementAssignOptionClass(
+                  AssignOperationClass(
+                  ) [AssignOperationClass]
+                  ExpressionClass(
+                    NoOptionalSubtractClass(
+                    ) [NoOptionalSubtractClass]
+                    TermClass(
+                      FactorDesignatorClass(
+                        DesignatorFactorClass(
+                          DesignatorClass(
+                            NoDesignatorSelectorListClass(
+                            ) [NoDesignatorSelectorListClass]
+                          ) [DesignatorClass]
+                          OptionalDesignatorCallParamsClass(
+                            DesignatorCallParamsClass(
+                              NoOptionalActParsClass(
+                              ) [NoOptionalActParsClass]
+                            ) [DesignatorCallParamsClass]
+                          ) [OptionalDesignatorCallParamsClass]
+                        ) [DesignatorFactorClass]
+                      ) [FactorDesignatorClass]
+                      NoMulOperationFactorListClass(
+                      ) [NoMulOperationFactorListClass]
+                    ) [TermClass]
+                    AddOperationtermListClass(
+                      NoAddOperationtermListClass(
+                      ) [NoAddOperationtermListClass]
+                      AddOpePlusClass(
+                      ) [AddOpePlusClass]
+                      TermClass(
+                        FactorIntClass(
+                        ) [FactorIntClass]
+                        NoMulOperationFactorListClass(
+                        ) [NoMulOperationFactorListClass]
+                      ) [TermClass]
+                    ) [AddOperationtermListClass]
+                  ) [ExpressionClass]
+                ) [DesignatorStatementAssignOptionClass]
+              ) [DesignatorStatementClass]
+            ) [StatementDesignatorClass]
+          ) [StatementListClass]
+          StatementPrintClass(
+            ExpressionClass(
+              NoOptionalSubtractClass(
+              ) [NoOptionalSubtractClass]
+              TermClass(
+                FactorDesignatorClass(
+                  DesignatorFactorClass(
+                    DesignatorClass(
+                      NoDesignatorSelectorListClass(
+                      ) [NoDesignatorSelectorListClass]
+                    ) [DesignatorClass]
+                    NoOptionalDesignatorCallParamsClass(
+                    ) [NoOptionalDesignatorCallParamsClass]
+                  ) [DesignatorFactorClass]
+                ) [FactorDesignatorClass]
+                NoMulOperationFactorListClass(
+                ) [NoMulOperationFactorListClass]
+              ) [TermClass]
+              NoAddOperationtermListClass(
+              ) [NoAddOperationtermListClass]
+            ) [ExpressionClass]
+            NoOptionalComaNumberConstClass(
+            ) [NoOptionalComaNumberConstClass]
+          ) [StatementPrintClass]
+        ) [StatementListClass]
+        StatementReturnClass(
+          OptionalExprClass(
+            ExpressionClass(
+              NoOptionalSubtractClass(
+              ) [NoOptionalSubtractClass]
+              TermClass(
+                FactorIntClass(
+                ) [FactorIntClass]
+                NoMulOperationFactorListClass(
+                ) [NoMulOperationFactorListClass]
+              ) [TermClass]
+              NoAddOperationtermListClass(
+              ) [NoAddOperationtermListClass]
+            ) [ExpressionClass]
+          ) [OptionalExprClass]
+        ) [StatementReturnClass]
+      ) [StatementListClass]
+    ) [MethodDeclarationClass]
+  ) [MethodDeclarationListClass]
+) [ProgramClass]
+INFO  23:24:49,157 - ===================================

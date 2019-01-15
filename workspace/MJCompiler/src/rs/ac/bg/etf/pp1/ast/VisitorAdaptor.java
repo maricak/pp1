@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:0:38
+// 14/0/2019 23:40:59
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -107,6 +107,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(OptionalDesignatorCallParamsClass OptionalDesignatorCallParamsClass) { visit(); }
     public void visit(DesignatorFactorClass DesignatorFactorClass) { visit(); }
     public void visit(FactorExpressionClass FactorExpressionClass) { visit(); }
+    public void visit(FactorNullClass FactorNullClass) { visit(); }
     public void visit(FactorNewClass FactorNewClass) { visit(); }
     public void visit(FactorBoolClass FactorBoolClass) { visit(); }
     public void visit(FactorCharClass FactorCharClass) { visit(); }
@@ -177,9 +178,12 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ReturnTypeClass ReturnTypeClass) { visit(); }
     public void visit(MethodDeclarationClass MethodDeclarationClass) { visit(); }
     public void visit(InterfaceMethodDeclarationClass InterfaceMethodDeclarationClass) { visit(); }
+    public void visit(NoInterfaceMethodDeclListClass NoInterfaceMethodDeclListClass) { visit(); }
+    public void visit(InterfaceMethodDeclListClass InterfaceMethodDeclListClass) { visit(); }
     public void visit(InterfaceDeclarationClass InterfaceDeclarationClass) { visit(); }
     public void visit(NoMethodDeclarationListClass NoMethodDeclarationListClass) { visit(); }
     public void visit(MethodDeclarationListClass MethodDeclarationListClass) { visit(); }
+    public void visit(NoOptionalMethodDeclarationListClass NoOptionalMethodDeclarationListClass) { visit(); }
     public void visit(OptionalMethodDeclarationListClass OptionalMethodDeclarationListClass) { visit(); }
     public void visit(NoTypeListClass NoTypeListClass) { visit(); }
     public void visit(TypeListClass TypeListClass) { visit(); }
@@ -199,6 +203,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(NoOptionalAssgnNumberClass NoOptionalAssgnNumberClass) { visit(); }
     public void visit(OptionalAssgnNumberClass OptionalAssgnNumberClass) { visit(); }
     public void visit(EnumDeclarationClass EnumDeclarationClass) { visit(); }
+    public void visit(ConstOptionNullClass ConstOptionNullClass) { visit(); }
     public void visit(ConstOptionBoolClass ConstOptionBoolClass) { visit(); }
     public void visit(ConstOptionCharClass ConstOptionCharClass) { visit(); }
     public void visit(ConstOptionIntClass ConstOptionIntClass) { visit(); }

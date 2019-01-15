@@ -1,0 +1,67 @@
+INFO  23:33:01,477 - Compiling source file: E:\FAKS\4\Prevodioci\pp1\workspace\MJCompiler\test\stabla.mj
+INFO  23:33:01,541 - #31 program
+INFO  23:33:01,541 - #54 Programcic123
+INFO  23:33:01,541 - #32 class
+INFO  23:33:01,541 - #54 PackedCharArray
+INFO  23:33:01,541 - #29 {
+INFO  23:33:01,542 - #4 char
+INFO  23:33:01,543 - #54 array
+INFO  23:33:01,544 - #27 [
+INFO  23:33:01,544 - #28 ]
+INFO  23:33:01,544 - #22 ;
+INFO  23:33:01,545 - #30 }
+INFO  23:33:01,546 - #34 interface
+INFO  23:33:01,547 - #54 IUtil
+INFO  23:33:01,547 - #29 {
+INFO  23:33:01,547 - #46 void
+INFO  23:33:01,548 - #54 printstr
+INFO  23:33:01,548 - #25 (
+INFO  23:33:01,548 - #4 char
+INFO  23:33:01,548 - #54 str
+INFO  23:33:01,548 - #27 [
+INFO  23:33:01,549 - #28 ]
+INFO  23:33:01,549 - #26 )
+INFO  23:33:01,550 - #22 ;
+INFO  23:33:01,550 - #30 }
+INFO  23:33:01,550 - #34 interface
+INFO  23:33:01,550 - #54 IBuilder
+INFO  23:33:01,550 - #29 {
+INFO  23:33:01,550 - #54 PackedCharArray
+INFO  23:33:01,551 - #54 buildIma
+INFO  23:33:01,551 - #25 (
+INFO  23:33:01,551 - #26 )
+INFO  23:33:01,552 - #22 ;
+INFO  23:33:01,552 - #30 }
+INFO  23:33:01,552 - #34 interface
+INFO  23:33:01,552 - #54 IBuilder2
+INFO  23:33:01,552 - #29 {
+INFO  23:33:01,552 - #54 PackedCharArray
+INFO  23:33:01,552 - #54 buildNema
+INFO  23:33:01,552 - #25 (
+INFO  23:33:01,553 - #26 )
+INFO  23:33:01,553 - #22 ;
+INFO  23:33:01,553 - #30 }
+INFO  23:33:01,553 - #54 IBuilder
+INFO  23:33:01,553 - #54 builder1
+INFO  23:33:01,553 - #22 ;
+INFO  23:33:01,553 - #32 class
+INFO  23:33:01,553 - #54 Util
+INFO  23:33:01,553 - #35 implements
+INFO  23:33:01,553 - #54 IBuilder
+INFO  23:33:01,553 - #23 ,
+INFO  23:33:01,554 - #54 IBuilder2
+INFO  23:33:01,554 - #29 {
+INFO  23:33:01,554 - #29 {
+INFO  23:33:01,554 - #54 PackedCharArray
+INFO  23:33:01,555 - #54 buildIma
+INFO  23:33:01,555 - #25 (
+INFO  23:33:01,555 - #26 )
+INFO  23:33:01,555 - #54 PackedCharArray
+INFO  23:33:01,555 - #54 pca
+INFO  23:33:01,555 - #22 ;
+INFO  23:33:01,555 - #4 char
+INFO  23:33:01,555 - #48 chr
+ERROR 23:33:01,555 - 
+Syntax error: 'chr' at line 34
+ERROR 23:33:01,555 - 
+Fatal error, parsing can't continue: 'chr' at line 34

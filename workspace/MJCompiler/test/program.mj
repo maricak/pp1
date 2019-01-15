@@ -1,5 +1,8 @@
 program MJProgram
-	int x[];
+	int x[], y[];
+	class A {
+		int x;
+	}
 {
 	
 	int k () int c; {

@@ -104,6 +104,8 @@ ConstOption ::= (ConstOptionIntClass) INT_VALUE
 			(ConstOptionCharClass) CHAR_VALUE
 			|
 			(ConstOptionBoolClass) BOOL_VALUE
+			|
+			(ConstOptionNullClass) NULL
 			;
 
 EnumDecl ::= (EnumDeclarationClass) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
@@ -157,6 +159,8 @@ TypeList ::= (TypeListClass) TypeList COMMA Type
 			;
 			
 OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList RIGHT_BRACE
+						|
+						(NoOptionalMethodDeclarationListClass) /* epsilon */
 						;
 								
 MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
@@ -167,6 +171,11 @@ MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
 
 InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList RIGHT_BRACE
 				;
+
+InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList InterfaceMethodDecl
+						|
+						(NoInterfaceMethodDeclListClass) /* epsilon */
+						;
 
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS SEPARATOR
 					;
@@ -341,6 +350,8 @@ Factor ::= (FactorDesignatorClass) DesignatorFactor
 		(FactorBoolClass) BOOL_VALUE
 		|
 		(FactorNewClass) NewFactor
+		|
+		(FactorNullClass) NULL
 		|
 		(FactorExpressionClass) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
 		;

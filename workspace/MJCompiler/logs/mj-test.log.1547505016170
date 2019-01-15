@@ -1,0 +1,20 @@
+INFO  23:25:10,554 - Compiling source file: E:\FAKS\4\Prevodioci\pp1\workspace\MJCompiler\test\stabla.mj
+INFO  23:25:10,617 - #31 program
+INFO  23:25:10,617 - #54 Programcic123
+INFO  23:25:10,617 - #32 class
+INFO  23:25:10,618 - #54 PackedCharArray
+INFO  23:25:10,618 - #29 {
+INFO  23:25:10,619 - #4 char
+INFO  23:25:10,620 - #54 array
+INFO  23:25:10,621 - #27 [
+INFO  23:25:10,621 - #28 ]
+INFO  23:25:10,621 - #22 ;
+INFO  23:25:10,623 - #30 }
+INFO  23:25:10,624 - #34 interface
+INFO  23:25:10,624 - #54 IUtil
+INFO  23:25:10,624 - #29 {
+INFO  23:25:10,624 - #46 void
+ERROR 23:25:10,624 - 
+Syntax error: 'void' at line 13
+ERROR 23:25:10,625 - 
+Fatal error, parsing can't continue: 'void' at line 13
