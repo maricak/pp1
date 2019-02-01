@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,11 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class InterfaceMethodDeclarationClass extends InterfaceMethodDecl {
 
     private ReturnType ReturnType;
+    private String I2;
     private OptionalFormPars OptionalFormPars;
 
-    public InterfaceMethodDeclarationClass (ReturnType ReturnType, OptionalFormPars OptionalFormPars) {
+    public InterfaceMethodDeclarationClass (ReturnType ReturnType, String I2, OptionalFormPars OptionalFormPars) {
         this.ReturnType=ReturnType;
         if(ReturnType!=null) ReturnType.setParent(this);
+        this.I2=I2;
         this.OptionalFormPars=OptionalFormPars;
         if(OptionalFormPars!=null) OptionalFormPars.setParent(this);
     }
@@ -23,6 +25,14 @@ public class InterfaceMethodDeclarationClass extends InterfaceMethodDecl {
 
     public void setReturnType(ReturnType ReturnType) {
         this.ReturnType=ReturnType;
+    }
+
+    public String getI2() {
+        return I2;
+    }
+
+    public void setI2(String I2) {
+        this.I2=I2;
     }
 
     public OptionalFormPars getOptionalFormPars() {
@@ -63,6 +73,9 @@ public class InterfaceMethodDeclarationClass extends InterfaceMethodDecl {
             buffer.append(ReturnType.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(OptionalFormPars!=null)

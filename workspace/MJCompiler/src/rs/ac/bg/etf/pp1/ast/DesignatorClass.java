@@ -1,17 +1,27 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:58
+// 1/1/2019 21:25:13
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class DesignatorClass extends Designator {
 
+    private String I1;
     private DesignatorSelectorList DesignatorSelectorList;
 
-    public DesignatorClass (DesignatorSelectorList DesignatorSelectorList) {
+    public DesignatorClass (String I1, DesignatorSelectorList DesignatorSelectorList) {
+        this.I1=I1;
         this.DesignatorSelectorList=DesignatorSelectorList;
         if(DesignatorSelectorList!=null) DesignatorSelectorList.setParent(this);
+    }
+
+    public String getI1() {
+        return I1;
+    }
+
+    public void setI1(String I1) {
+        this.I1=I1;
     }
 
     public DesignatorSelectorList getDesignatorSelectorList() {
@@ -44,6 +54,9 @@ public class DesignatorClass extends Designator {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("DesignatorClass(\n");
+
+        buffer.append(" "+tab+I1);
+        buffer.append("\n");
 
         if(DesignatorSelectorList!=null)
             buffer.append(DesignatorSelectorList.toString("  "+tab));

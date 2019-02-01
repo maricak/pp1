@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,11 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class IdentifierOptionalAssignNumberListClass extends IdentOptionalAssignNumList {
 
     private IdentOptionalAssignNumList IdentOptionalAssignNumList;
+    private String I2;
     private OptionalAssignNum OptionalAssignNum;
 
-    public IdentifierOptionalAssignNumberListClass (IdentOptionalAssignNumList IdentOptionalAssignNumList, OptionalAssignNum OptionalAssignNum) {
+    public IdentifierOptionalAssignNumberListClass (IdentOptionalAssignNumList IdentOptionalAssignNumList, String I2, OptionalAssignNum OptionalAssignNum) {
         this.IdentOptionalAssignNumList=IdentOptionalAssignNumList;
         if(IdentOptionalAssignNumList!=null) IdentOptionalAssignNumList.setParent(this);
+        this.I2=I2;
         this.OptionalAssignNum=OptionalAssignNum;
         if(OptionalAssignNum!=null) OptionalAssignNum.setParent(this);
     }
@@ -23,6 +25,14 @@ public class IdentifierOptionalAssignNumberListClass extends IdentOptionalAssign
 
     public void setIdentOptionalAssignNumList(IdentOptionalAssignNumList IdentOptionalAssignNumList) {
         this.IdentOptionalAssignNumList=IdentOptionalAssignNumList;
+    }
+
+    public String getI2() {
+        return I2;
+    }
+
+    public void setI2(String I2) {
+        this.I2=I2;
     }
 
     public OptionalAssignNum getOptionalAssignNum() {
@@ -63,6 +73,9 @@ public class IdentifierOptionalAssignNumberListClass extends IdentOptionalAssign
             buffer.append(IdentOptionalAssignNumList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(OptionalAssignNum!=null)

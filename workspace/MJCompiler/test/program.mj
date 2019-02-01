@@ -1,5 +1,7 @@
 program MJProgram
-	int x[], y[];
+	const int x=2, y=3;
+	const char a = '1', b=4;
+	const int a= 4;
 	class A {
 		int x;
 	}
@@ -7,6 +9,7 @@ program MJProgram
 	
 	int k () int c; {
 		c = 1;
+		
 		return c+2;
 	}
 	

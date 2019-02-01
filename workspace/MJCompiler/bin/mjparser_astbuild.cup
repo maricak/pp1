@@ -8,7 +8,7 @@ import rs.ac.bg.etf.pp1.ast.*;
 
 parser code {:
 
-		boolean errorDetected = false;
+	boolean errorDetected = false;
 	
 	Logger log = Logger.getLogger(getClass());   
 
@@ -17,22 +17,22 @@ parser code {:
       report_error(message, info);
     }      
   	public void syntax_error(Symbol cur_token) {
-        report_error("\nSyntax error: ", cur_token);
+        report_error("\nSintaksna greska: ", cur_token);
     }	
 	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        report_fatal_error("\nFatal error, parsing can't continue: ", cur_token);
+        report_fatal_error("\nFatalna greska, parsiranje ne moze da se nastavi: ", cur_token);
     }      
     public void report_error(String message, Object info) {
 		errorDetected = true;
     	StringBuilder msg = new StringBuilder(message);
     	if (info instanceof Symbol)
-            msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
+            msg.append("'").append(((Symbol)info).value).append("' na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
     }  
     public void report_info(String message, Object info) {
     	StringBuilder msg = new StringBuilder(message); 
     	if (info instanceof Symbol)
-        	msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
+        	msg.append("'").append(((Symbol)info).value).append("' na liniji ").append(((Symbol)info).left);
         log.info(msg.toString());
     }
 :}
@@ -41,7 +41,7 @@ parser code {:
 scan with {:
 	Symbol s = this.getScanner().next_token();
 	if (s != null && s.value != null) 
-		log.info(s.toString() + " " + s.value.toString());
+		log.info(s.toString() + " " + s.value.toString() + " " +s.value.getClass());
 	return s;
 :}
 
@@ -56,16 +56,16 @@ terminal SEPARATOR, COMMA, POINT;
 terminal LEFT_PARENTHESIS, RIGHT_PARENTHESIS, LEFT_BRACKET, RIGHT_BRACKET, LEFT_BRACE, RIGHT_BRACE;
 terminal PROGRAM, CLASS, EXTENDS, INTERFACE, IMPLEMENTS, ENUM, IF, ELSE, NEW, FOR, RETURN, BREAK, CONTINUE, PRINT, READ, VOID, CONST;
 terminal CHR, ORD, LEN;
-terminal INT_VALUE, CHAR_VALUE, BOOL_VALUE;
-terminal IDENTIFIER;
+terminal Integer INT_VALUE;
+terminal Integer CHAR_VALUE;
+terminal Integer BOOL_VALUE;
+terminal String IDENTIFIER;
 terminal ERROR;
 
 nonterminal Program Program;
-nonterminal DeclOptionList DeclOptionList;
-nonterminal DeclOption DeclOption;
+nonterminal DeclList DeclList;
+nonterminal Decl Decl;
 nonterminal ConstDecl ConstDecl;
-nonterminal IdentifierAssignConstOptionList IdentifierAssignConstOptionList;
-nonterminal ConstOption ConstOption;
 nonterminal EnumDecl EnumDecl;
 nonterminal OptionalAssignNum OptionalAssignNum;
 nonterminal AssignNum AssignNum;
@@ -90,7 +90,6 @@ nonterminal VarDeclList VarDeclList;
 nonterminal FormPars FormPars;
 nonterminal OptionalBrackets OptionalBrackets;
 nonterminal TypeIdentBracketsList TypeIdentBracketsList;
-nonterminal Type Type;
 nonterminal Statement Statement;
 nonterminal IfStatement IfStatement; 
 nonterminal OptionalElse OptionalElse;
@@ -132,46 +131,47 @@ nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, AssignConstList;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.ConstValue ConstValue;
+
 precedence left ELSE;
 
-Program ::= (ProgramClass) PROGRAM IDENTIFIER DeclOptionList:D1 LEFT_BRACE MethodDeclList:M2 RIGHT_BRACE {: RESULT=new ProgramClass(D1, M2); RESULT.setLine(D1left); :}
+Program ::= (Program) PROGRAM IDENTIFIER:I1 DeclList:D2 LEFT_BRACE MethodDeclList:M3 RIGHT_BRACE {: RESULT=new Program(I1, D2, M3); RESULT.setLine(I1left); :}
 		;
 
-DeclOptionList ::= (DeclarationOptionListClass) DeclOptionList:D1 DeclOption:D2 {: RESULT=new DeclarationOptionListClass(D1, D2); RESULT.setLine(D1left); :}
-				|
-				(NoDeclarationOptionListClass) {: RESULT=new NoDeclarationOptionListClass(); :} /* epsilon */
-				;
+DeclList ::= (DeclarationList) DeclList:D1 Decl:D2 {: RESULT=new DeclarationList(D1, D2); RESULT.setLine(D1left); :}
+			|
+			(DeclarationListNO) {: RESULT=new DeclarationListNO(); :} /* epsilon */
+			;
 
-DeclOption ::= (DeclarationOptionConstClass) ConstDecl:C1 {: RESULT=new DeclarationOptionConstClass(C1); RESULT.setLine(C1left); :}
+Decl ::= (Declaration) ConstDecl:C1 {: RESULT=new Declaration(C1); RESULT.setLine(C1left); :}
 				|
-				(DeclarationOptionVarClass) VarDecl:V1 {: RESULT=new DeclarationOptionVarClass(V1); RESULT.setLine(V1left); :}
+				(DeclarationVar) VarDecl:V1 {: RESULT=new DeclarationVar(V1); RESULT.setLine(V1left); :}
 				|
-				(DeclarationOptionClassClass) ClassDecl:C1 {: RESULT=new DeclarationOptionClassClass(C1); RESULT.setLine(C1left); :}
+				(DeclarationClass) ClassDecl:C1 {: RESULT=new DeclarationClass(C1); RESULT.setLine(C1left); :}
 				|
-				(DeclarationOptionEnumClass) EnumDecl:E1 {: RESULT=new DeclarationOptionEnumClass(E1); RESULT.setLine(E1left); :}
+				(DeclarationEnum) EnumDecl:E1 {: RESULT=new DeclarationEnum(E1); RESULT.setLine(E1left); :}
 				|
-				(DeclarationOptionInterfaceClass) InterfaceDecl:I1 {: RESULT=new DeclarationOptionInterfaceClass(I1); RESULT.setLine(I1left); :}
+				(DeclarationInterface) InterfaceDecl:I1 {: RESULT=new DeclarationInterface(I1); RESULT.setLine(I1left); :}
 				;	
 
-ConstDecl ::= (ConstDeclarationClass) CONST Type:T1 IDENTIFIER ASSIGN ConstOption:C2 IdentifierAssignConstOptionList:I3 SEPARATOR {: RESULT=new ConstDeclarationClass(T1, C2, I3); RESULT.setLine(T1left); :}
+ConstDecl ::= (ConstDecl) CONST Type:constType IDENTIFIER:constName ASSIGN ConstValue:constValue AssignConstList:A1 SEPARATOR {: RESULT=new ConstDecl(constType, constName, constValue, A1); RESULT.setLine(constTypeleft); :}
 			;
 			
-IdentifierAssignConstOptionList ::= (IdentAssignConstOptionListClass) IdentifierAssignConstOptionList:I1 COMMA IDENTIFIER ASSIGN ConstOption:C2 {: RESULT=new IdentAssignConstOptionListClass(I1, C2); RESULT.setLine(I1left); :}
-								|
-								(NoIdentAssignConstOptionListClass) {: RESULT=new NoIdentAssignConstOptionListClass(); :} /* epsilon */
-								;
+AssignConstList ::= (AssignConstantList) AssignConstList:A1 COMMA IDENTIFIER:constName ASSIGN ConstValue:constValue {: RESULT=new AssignConstantList(A1, constName, constValue); RESULT.setLine(A1left); :}
+				|
+				(AssignConstantListNO) {: RESULT=new AssignConstantListNO(); :} /* epsilon */
+				;
 								
 
-ConstOption ::= (ConstOptionIntClass) INT_VALUE {: RESULT=new ConstOptionIntClass(); :}
+ConstValue ::= (ConstValueInt) INT_VALUE:value {: RESULT=new ConstValueInt(value); RESULT.setLine(valueleft); :} 
 			|
-			(ConstOptionCharClass) CHAR_VALUE {: RESULT=new ConstOptionCharClass(); :}
+			(ConstValueChar) CHAR_VALUE:value {: RESULT=new ConstValueChar(value); RESULT.setLine(valueleft); :} 
 			|
-			(ConstOptionBoolClass) BOOL_VALUE {: RESULT=new ConstOptionBoolClass(); :}
-			|
-			(ConstOptionNullClass) NULL {: RESULT=new ConstOptionNullClass(); :}
+			(ConstValueBool) BOOL_VALUE:value {: RESULT=new ConstValueBool(value); RESULT.setLine(valueleft); :} 
 			;
 
-EnumDecl ::= (EnumDeclarationClass) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum:O1 IdentOptionalAssignNumList:I2 RIGHT_BRACE {: RESULT=new EnumDeclarationClass(O1, I2); RESULT.setLine(O1left); :}
+EnumDecl ::= (EnumDecl) ENUM IDENTIFIER:I1 LEFT_BRACE IDENTIFIER:I2 OptionalAssignNum:O3 IdentOptionalAssignNumList:I4 RIGHT_BRACE {: RESULT=new EnumDecl(I1, I2, O3, I4); RESULT.setLine(I1left); :}
 			;
 
 OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum:A1 {: RESULT=new OptionalAssgnNumberClass(A1); RESULT.setLine(A1left); :}
@@ -179,24 +179,24 @@ OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum:A1 {: RESULT=new Opti
 					(NoOptionalAssgnNumberClass) {: RESULT=new NoOptionalAssgnNumberClass(); :} /* epsilon */
 					;					
 					
-AssignNum ::= (AssignNumberClass) ASSIGN INT_VALUE {: RESULT=new AssignNumberClass(); :}
+AssignNum ::= (AssignNum) ASSIGN INT_VALUE:I1 {: RESULT=new AssignNum(I1); RESULT.setLine(I1left); :}
 			;
 
 
-IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList:I1 COMMA IDENTIFIER OptionalAssignNum:O2 {: RESULT=new IdentifierOptionalAssignNumberListClass(I1, O2); RESULT.setLine(I1left); :}
+IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList:I1 COMMA IDENTIFIER:I2 OptionalAssignNum:O3 {: RESULT=new IdentifierOptionalAssignNumberListClass(I1, I2, O3); RESULT.setLine(I1left); :}
 							|
 							(NoIdentifierOptionalAssignNumberListClass) {: RESULT=new NoIdentifierOptionalAssignNumberListClass(); :} /* epsilon */
 							;
 
-VarDecl ::= (VarDeclarationClass) Type:T1 IDENTIFIER OptionalBrackets:O2 IdentOptionalBracketsList:I3 SEPARATOR {: RESULT=new VarDeclarationClass(T1, O2, I3); RESULT.setLine(T1left); :}
+VarDecl ::= (VarDeclarationClass) Type:T1 IDENTIFIER:I2 OptionalBrackets:O3 IdentOptionalBracketsList:I4 SEPARATOR {: RESULT=new VarDeclarationClass(T1, I2, O3, I4); RESULT.setLine(T1left); :}
 		;
 		
-IdentOptionalBracketsList ::= (IdentifierOptionalBracketsListClass) IdentOptionalBracketsList:I1 COMMA IDENTIFIER OptionalBrackets:O2 {: RESULT=new IdentifierOptionalBracketsListClass(I1, O2); RESULT.setLine(I1left); :}
+IdentOptionalBracketsList ::= (IdentifierOptionalBracketsListClass) IdentOptionalBracketsList:I1 COMMA IDENTIFIER:I2 OptionalBrackets:O3 {: RESULT=new IdentifierOptionalBracketsListClass(I1, I2, O3); RESULT.setLine(I1left); :}
 							|
 							(NoIdentifierOptionalBracketsListClass) {: RESULT=new NoIdentifierOptionalBracketsListClass(); :} /* epsilon */
 							;
 
-ClassDecl ::= (ClassDeclarationClass) CLASS IDENTIFIER OptionalExtendsType:O1 OptionalImplementsTypeList:O2 LEFT_BRACE VarDeclList:V3 OptionalMethodDeclList:O4 RIGHT_BRACE {: RESULT=new ClassDeclarationClass(O1, O2, V3, O4); RESULT.setLine(O1left); :}
+ClassDecl ::= (ClassDeclarationClass) CLASS IDENTIFIER:I1 OptionalExtendsType:O2 OptionalImplementsTypeList:O3 LEFT_BRACE VarDeclList:V4 OptionalMethodDeclList:O5 RIGHT_BRACE {: RESULT=new ClassDeclarationClass(I1, O2, O3, V4, O5); RESULT.setLine(I1left); :}
 			;
 			
 OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType:E1 {: RESULT=new OptionalExtendsTypeClass(E1); RESULT.setLine(E1left); :}
@@ -232,7 +232,7 @@ MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList:M1 MethodDecl:M2 
 			;
 
 
-InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList:I1 RIGHT_BRACE {: RESULT=new InterfaceDeclarationClass(I1); RESULT.setLine(I1left); :}
+InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER:I1 LEFT_BRACE InterfaceMethodDeclList:I2 RIGHT_BRACE {: RESULT=new InterfaceDeclarationClass(I1, I2); RESULT.setLine(I1left); :}
 				;
 
 InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclListClass(I1, I2); RESULT.setLine(I1left); :}
@@ -240,10 +240,10 @@ InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclLi
 						(NoInterfaceMethodDeclListClass) {: RESULT=new NoInterfaceMethodDeclListClass(); :} /* epsilon */
 						;
 
-InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER LEFT_PARENTHESIS OptionalFormPars:O2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, O2); RESULT.setLine(R1left); :}
+InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS OptionalFormPars:O3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, I2, O3); RESULT.setLine(R1left); :}
 					;
 
-MethodDecl ::= (MethodDeclarationClass) ReturnType:R1 IDENTIFIER LEFT_PARENTHESIS OptionalFormPars:O2 RIGHT_PARENTHESIS VarDeclList:V3 LEFT_BRACE StatementList:S4 RIGHT_BRACE {: RESULT=new MethodDeclarationClass(R1, O2, V3, S4); RESULT.setLine(R1left); :}
+MethodDecl ::= (MethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS OptionalFormPars:O3 RIGHT_PARENTHESIS VarDeclList:V4 LEFT_BRACE StatementList:S5 RIGHT_BRACE {: RESULT=new MethodDeclarationClass(R1, I2, O3, V4, S5); RESULT.setLine(R1left); :}
 			;
 			
 ReturnType ::= (ReturnTypeClass) Type:T1 {: RESULT=new ReturnTypeClass(T1); RESULT.setLine(T1left); :}
@@ -261,7 +261,7 @@ VarDeclList ::= (VarDeclarationListClass) VarDeclList:V1 VarDecl:V2 {: RESULT=ne
 			(NoVarDeclarationListClass) {: RESULT=new NoVarDeclarationListClass(); :} /* epsilon */
 			;
 				
-FormPars ::= (FromParamsClass) Type:T1 IDENTIFIER OptionalBrackets:O2 TypeIdentBracketsList:T3 {: RESULT=new FromParamsClass(T1, O2, T3); RESULT.setLine(T1left); :}
+FormPars ::= (FromParamsClass) Type:T1 IDENTIFIER:I2 OptionalBrackets:O3 TypeIdentBracketsList:T4 {: RESULT=new FromParamsClass(T1, I2, O3, T4); RESULT.setLine(T1left); :}
 			;
 			
 OptionalBrackets ::= (OptionalBracketsClass) LEFT_BRACKET RIGHT_BRACKET {: RESULT=new OptionalBracketsClass(); :}
@@ -269,18 +269,18 @@ OptionalBrackets ::= (OptionalBracketsClass) LEFT_BRACKET RIGHT_BRACKET {: RESUL
 				(NoOptionalBracketsClass) {: RESULT=new NoOptionalBracketsClass(); :} /* epsilon */
 				;
 
-TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList:T1 COMMA Type:T2 IDENTIFIER OptionalBrackets:O3 {: RESULT=new TypeIdentBracketsListClass(T1, T2, O3); RESULT.setLine(T1left); :}
+TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList:T1 COMMA Type:T2 IDENTIFIER:I3 OptionalBrackets:O4 {: RESULT=new TypeIdentBracketsListClass(T1, T2, I3, O4); RESULT.setLine(T1left); :}
 					|
 					(NoTypeIdentBracketsListClass) {: RESULT=new NoTypeIdentBracketsListClass(); :} /* epsilon */
 					;
 
-Type ::= (TypeIntClass) INT {: RESULT=new TypeIntClass(); :}
+Type ::= (TypeInt) INT {: RESULT=new TypeInt(); :}
 		|
-		(TypeBoolClass) BOOL {: RESULT=new TypeBoolClass(); :}
+		(TypeBool) BOOL {: RESULT=new TypeBool(); :}
 		|
-		(TypeCharClass) CHAR {: RESULT=new TypeCharClass(); :}
+		(TypeChar) CHAR {: RESULT=new TypeChar(); :}
 		|
-		(TypeCustomClass) IDENTIFIER {: RESULT=new TypeCustomClass(); :}
+		(TypeCustom) IDENTIFIER:typeName {: RESULT=new TypeCustom(typeName); RESULT.setLine(typeNameleft); :}
 		;
 
 Statement ::= (StatementDesignatorClass) DesignatorStatement:D1 SEPARATOR {: RESULT=new StatementDesignatorClass(D1); RESULT.setLine(D1left); :}
@@ -328,7 +328,7 @@ OptionalExpr ::= (OptionalExprClass) Expr:E1 {: RESULT=new OptionalExprClass(E1)
 				(NoOptionalExprClass) {: RESULT=new NoOptionalExprClass(); :} /* epsilon */
 				;
 	
-OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE {: RESULT=new OptionalComaNumberConstClass(); :}
+OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE:I1 {: RESULT=new OptionalComaNumberConstClass(I1); RESULT.setLine(I1left); :}
 						|
 						(NoOptionalComaNumberConstClass) {: RESULT=new NoOptionalComaNumberConstClass(); :} /* espilon */
 						;		
@@ -406,11 +406,11 @@ MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList:M1 Mulop:M2 Fa
 
 Factor ::= (FactorDesignatorClass) DesignatorFactor:D1 {: RESULT=new FactorDesignatorClass(D1); RESULT.setLine(D1left); :}
 		|
-		(FactorIntClass) INT_VALUE {: RESULT=new FactorIntClass(); :}
+		(FactorIntClass) INT_VALUE:I1 {: RESULT=new FactorIntClass(I1); RESULT.setLine(I1left); :}
 		|
-		(FactorCharClass) CHAR_VALUE {: RESULT=new FactorCharClass(); :}
+		(FactorCharClass) CHAR_VALUE:C1 {: RESULT=new FactorCharClass(C1); RESULT.setLine(C1left); :}
 		|
-		(FactorBoolClass) BOOL_VALUE {: RESULT=new FactorBoolClass(); :}
+		(FactorBoolClass) BOOL_VALUE:B1 {: RESULT=new FactorBoolClass(B1); RESULT.setLine(B1left); :}
 		|
 		(FactorNewClass) NewFactor:N1 {: RESULT=new FactorNewClass(N1); RESULT.setLine(N1left); :}
 		|
@@ -443,7 +443,7 @@ OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector:A1 {: RESUL
 						(NoOptionalArraySelectorClass) {: RESULT=new NoOptionalArraySelectorClass(); :} /* epsilon */
 						;
 
-Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList:D1 {: RESULT=new DesignatorClass(D1); RESULT.setLine(D1left); :}
+Designator ::= (DesignatorClass) IDENTIFIER:I1 DesignatorSelectorList:D2 {: RESULT=new DesignatorClass(I1, D2); RESULT.setLine(I1left); :}
 			;
 			
 DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList:D1 DesignatorSelector:D2 {: RESULT=new DesignatorSelectorListClass(D1, D2); RESULT.setLine(D1left); :}
@@ -456,7 +456,7 @@ DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector:P1 {: RESULT
 					(DesignatorSelectorArrayClass) ArraySelector:A1 {: RESULT=new DesignatorSelectorArrayClass(A1); RESULT.setLine(A1left); :}
 					;
 	
-PointSelector ::= (PointSelectorClass) POINT IDENTIFIER {: RESULT=new PointSelectorClass(); :}
+PointSelector ::= (PointSelectorClass) POINT IDENTIFIER:I1 {: RESULT=new PointSelectorClass(I1); RESULT.setLine(I1left); :}
 				;
 
 ArraySelector ::= (ArraySelectorClass) LEFT_BRACKET Expr:E1 RIGHT_BRACKET {: RESULT=new ArraySelectorClass(E1); RESULT.setLine(E1left); :}
@@ -478,7 +478,7 @@ Relop ::= (RelopEqClass) EQUAL {: RESULT=new RelopEqClass(); :}
 		(RelopLeClass) LESS_EQUAL {: RESULT=new RelopLeClass(); :}
 		;
 
-Addop ::= (AddOpePlusClass) ADD {: RESULT=new AddOpePlusClass(); :}
+Addop ::= (AddopPlusClass) ADD {: RESULT=new AddopPlusClass(); :}
 		|
 		(AddOpMinusClass) SUBTRACT {: RESULT=new AddOpMinusClass(); :}
 		;

@@ -2,6 +2,7 @@
 
 program test302
 
+enum IncrementType { BY_ONE, DOUBLE_VALUE }
 
 int i;
 bool ibool;
@@ -14,32 +15,29 @@ int niz[];
 		return z + d;
 	}
 	
-	int inkrement(int a) int pom; 
+	int inkrement(int a, IncrementType type) int pom; 
 	{
-		pom = 1;
+		if(type == IncrementType.BY_ONE) pom = 1;
+		else if(type == IncrementType.DOUBLE_VALUE) pom = a;
+
 		return sum(a,pom);
 	}
 	
 	void main()
 	{
-
-			
 		if(1!=1) print(-6);
 		else print(0);  
-
 			
 		ibool = false;
 		i = 0;
-		do
+		for(i=0;i<5;i++)
 		{
 			if(i == 2) ibool = true;
-			i++;
-		}while(i < 5);
+		}
 		
 		if(ibool)
 			if(i == 5) print(1); 
 			else print(-1);
-		
 		
 		niz = new int[3];
 		niz[0] = 1;
@@ -50,7 +48,7 @@ int niz[];
 		
 		print(eol);
 		i = 0;
-		do 
+		for(;i<10;) 
 		{
 			if(i == 3)
 			{
@@ -58,8 +56,8 @@ int niz[];
 				continue;
 			}
 			if(i == 4) break;
-			i = inkrement(i);
-		}while (true);
+			i = inkrement(i, IncrementType.BY_ONE);
+		}
 		
 		if(i == 3) print(4);
 		else print(-4);  
@@ -71,6 +69,8 @@ int niz[];
 		
 		print(sum (sum(niz[0], niz[1]), niz[2])); 
 			
+		print(eol); 
+		print(inkrement(niz[2], IncrementType.DOUBLE_VALUE));
 	}
 }
 

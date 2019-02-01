@@ -1,13 +1,24 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:58
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class OptionalComaNumberConstClass extends OptionalCommaNumConst {
 
-    public OptionalComaNumberConstClass () {
+    private Integer I1;
+
+    public OptionalComaNumberConstClass (Integer I1) {
+        this.I1=I1;
+    }
+
+    public Integer getI1() {
+        return I1;
+    }
+
+    public void setI1(Integer I1) {
+        this.I1=I1;
     }
 
     public void accept(Visitor visitor) {
@@ -29,6 +40,9 @@ public class OptionalComaNumberConstClass extends OptionalCommaNumConst {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("OptionalComaNumberConstClass(\n");
+
+        buffer.append(" "+tab+I1);
+        buffer.append("\n");
 
         buffer.append(tab);
         buffer.append(") [OptionalComaNumberConstClass]");

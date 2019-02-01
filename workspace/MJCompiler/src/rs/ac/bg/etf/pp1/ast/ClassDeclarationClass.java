@@ -1,18 +1,20 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class ClassDeclarationClass extends ClassDecl {
 
+    private String I1;
     private OptionalExtendsType OptionalExtendsType;
     private OptionalImplementsTypeList OptionalImplementsTypeList;
     private VarDeclList VarDeclList;
     private OptionalMethodDeclList OptionalMethodDeclList;
 
-    public ClassDeclarationClass (OptionalExtendsType OptionalExtendsType, OptionalImplementsTypeList OptionalImplementsTypeList, VarDeclList VarDeclList, OptionalMethodDeclList OptionalMethodDeclList) {
+    public ClassDeclarationClass (String I1, OptionalExtendsType OptionalExtendsType, OptionalImplementsTypeList OptionalImplementsTypeList, VarDeclList VarDeclList, OptionalMethodDeclList OptionalMethodDeclList) {
+        this.I1=I1;
         this.OptionalExtendsType=OptionalExtendsType;
         if(OptionalExtendsType!=null) OptionalExtendsType.setParent(this);
         this.OptionalImplementsTypeList=OptionalImplementsTypeList;
@@ -21,6 +23,14 @@ public class ClassDeclarationClass extends ClassDecl {
         if(VarDeclList!=null) VarDeclList.setParent(this);
         this.OptionalMethodDeclList=OptionalMethodDeclList;
         if(OptionalMethodDeclList!=null) OptionalMethodDeclList.setParent(this);
+    }
+
+    public String getI1() {
+        return I1;
+    }
+
+    public void setI1(String I1) {
+        this.I1=I1;
     }
 
     public OptionalExtendsType getOptionalExtendsType() {
@@ -86,6 +96,9 @@ public class ClassDeclarationClass extends ClassDecl {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("ClassDeclarationClass(\n");
+
+        buffer.append(" "+tab+I1);
+        buffer.append("\n");
 
         if(OptionalExtendsType!=null)
             buffer.append(OptionalExtendsType.toString("  "+tab));

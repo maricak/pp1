@@ -8,7 +8,7 @@ import rs.ac.bg.etf.pp1.ast.*;
 
 parser code {:
 
-		boolean errorDetected = false;
+	boolean errorDetected = false;
 	
 	Logger log = Logger.getLogger(getClass());   
 
@@ -17,22 +17,22 @@ parser code {:
       report_error(message, info);
     }      
   	public void syntax_error(Symbol cur_token) {
-        report_error("\nSyntax error: ", cur_token);
+        report_error("\nSintaksna greska: ", cur_token);
     }	
 	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        report_fatal_error("\nFatal error, parsing can't continue: ", cur_token);
+        report_fatal_error("\nFatalna greska, parsiranje ne moze da se nastavi: ", cur_token);
     }      
     public void report_error(String message, Object info) {
 		errorDetected = true;
     	StringBuilder msg = new StringBuilder(message);
     	if (info instanceof Symbol)
-            msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
+            msg.append("'").append(((Symbol)info).value).append("' na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
     }  
     public void report_info(String message, Object info) {
     	StringBuilder msg = new StringBuilder(message); 
     	if (info instanceof Symbol)
-        	msg.append("'").append(((Symbol)info).value).append("' at line ").append(((Symbol)info).left);
+        	msg.append("'").append(((Symbol)info).value).append("' na liniji ").append(((Symbol)info).left);
         log.info(msg.toString());
     }
 :}
@@ -41,7 +41,7 @@ parser code {:
 scan with {:
 	Symbol s = this.getScanner().next_token();
 	if (s != null && s.value != null) 
-		log.info(s.toString() + " " + s.value.toString());
+		log.info(s.toString() + " " + s.value.toString() + " " +s.value.getClass());
 	return s;
 :}
 
@@ -56,59 +56,62 @@ terminal SEPARATOR, COMMA, POINT;
 terminal LEFT_PARENTHESIS, RIGHT_PARENTHESIS, LEFT_BRACKET, RIGHT_BRACKET, LEFT_BRACE, RIGHT_BRACE;
 terminal PROGRAM, CLASS, EXTENDS, INTERFACE, IMPLEMENTS, ENUM, IF, ELSE, NEW, FOR, RETURN, BREAK, CONTINUE, PRINT, READ, VOID, CONST;
 terminal CHR, ORD, LEN;
-terminal INT_VALUE, CHAR_VALUE, BOOL_VALUE;
-terminal IDENTIFIER;
+terminal Integer INT_VALUE;
+terminal Integer CHAR_VALUE;
+terminal Integer BOOL_VALUE;
+terminal String IDENTIFIER;
 terminal ERROR;
 
-nonterminal Program, DeclOptionList, DeclOption, ConstDecl, IdentifierAssignConstOptionList, ConstOption, EnumDecl, OptionalAssignNum, AssignNum;
+nonterminal Program, DeclList, Decl, ConstDecl, EnumDecl, OptionalAssignNum, AssignNum;
 nonterminal IdentOptionalAssignNumList, VarDecl, IdentOptionalBracketsList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
 nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
-nonterminal MethodDecl, ReturnType,  OptionalFormPars, VarDeclList, FormPars, OptionalBrackets, TypeIdentBracketsList, Type, Statement, IfStatement; 
+nonterminal MethodDecl, ReturnType,  OptionalFormPars, VarDeclList, FormPars, OptionalBrackets, TypeIdentBracketsList, Statement, IfStatement; 
 nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
 nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
 nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
 nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
 
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, AssignConstList;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.ConstValue ConstValue;
+
 precedence left ELSE;
 
-Program ::= (ProgramClass) PROGRAM IDENTIFIER DeclOptionList LEFT_BRACE MethodDeclList RIGHT_BRACE
+Program ::= (Program) PROGRAM IDENTIFIER DeclList LEFT_BRACE MethodDeclList RIGHT_BRACE
 		;
 
-DeclOptionList ::= (DeclarationOptionListClass) DeclOptionList DeclOption
-				|
-				(NoDeclarationOptionListClass) /* epsilon */
-				;
+DeclList ::= (DeclarationList) DeclList Decl
+			|
+			(DeclarationListNO) /* epsilon */
+			;
 
-DeclOption ::= (DeclarationOptionConstClass) ConstDecl
+Decl ::= (Declaration) ConstDecl
 				|
-				(DeclarationOptionVarClass) VarDecl
+				(DeclarationVar) VarDecl
 				|
-				(DeclarationOptionClassClass) ClassDecl
+				(DeclarationClass) ClassDecl
 				|
-				(DeclarationOptionEnumClass) EnumDecl
+				(DeclarationEnum) EnumDecl
 				|
-				(DeclarationOptionInterfaceClass) InterfaceDecl
+				(DeclarationInterface) InterfaceDecl
 				;	
 
-ConstDecl ::= (ConstDeclarationClass) CONST Type IDENTIFIER ASSIGN ConstOption IdentifierAssignConstOptionList SEPARATOR
+ConstDecl ::= (ConstDecl) CONST Type:constType IDENTIFIER:constName ASSIGN ConstValue:constValue AssignConstList SEPARATOR
 			;
 			
-IdentifierAssignConstOptionList ::= (IdentAssignConstOptionListClass) IdentifierAssignConstOptionList COMMA IDENTIFIER ASSIGN ConstOption
-								|
-								(NoIdentAssignConstOptionListClass) /* epsilon */
-								;
+AssignConstList ::= (AssignConstantList) AssignConstList COMMA IDENTIFIER:constName ASSIGN ConstValue:constValue
+				|
+				(AssignConstantListNO) /* epsilon */
+				;
 								
 
-ConstOption ::= (ConstOptionIntClass) INT_VALUE
+ConstValue ::= (ConstValueInt) INT_VALUE:value 
 			|
-			(ConstOptionCharClass) CHAR_VALUE
+			(ConstValueChar) CHAR_VALUE:value 
 			|
-			(ConstOptionBoolClass) BOOL_VALUE
-			|
-			(ConstOptionNullClass) NULL
+			(ConstValueBool) BOOL_VALUE:value 
 			;
 
-EnumDecl ::= (EnumDeclarationClass) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
+EnumDecl ::= (EnumDecl) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
 			;
 
 OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum
@@ -116,7 +119,7 @@ OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum
 					(NoOptionalAssgnNumberClass) /* epsilon */
 					;					
 					
-AssignNum ::= (AssignNumberClass) ASSIGN INT_VALUE
+AssignNum ::= (AssignNum) ASSIGN INT_VALUE
 			;
 
 
@@ -211,13 +214,13 @@ TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList COM
 					(NoTypeIdentBracketsListClass) /* epsilon */
 					;
 
-Type ::= (TypeIntClass) INT
+Type ::= (TypeInt) INT
 		|
-		(TypeBoolClass) BOOL
+		(TypeBool) BOOL
 		|
-		(TypeCharClass) CHAR
+		(TypeChar) CHAR
 		|
-		(TypeCustomClass) IDENTIFIER
+		(TypeCustom) IDENTIFIER:typeName
 		;
 
 Statement ::= (StatementDesignatorClass) DesignatorStatement SEPARATOR
@@ -415,7 +418,7 @@ Relop ::= (RelopEqClass) EQUAL
 		(RelopLeClass) LESS_EQUAL
 		;
 
-Addop ::= (AddOpePlusClass) ADD
+Addop ::= (AddopPlusClass) ADD
 		|
 		(AddOpMinusClass) SUBTRACT
 		;

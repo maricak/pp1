@@ -99,10 +99,10 @@ import java_cup.runtime.Symbol;
 //"len" 		{ return createSymbol(sym.LEN, yytext()); }
 
 // Constants
-[0-9]+                  { return createSymbol(sym.INT_VALUE, new Integer (yytext())); }
-"'"[ -~]"'"             { return createSymbol(sym.CHAR_VALUE, yytext().charAt(1)); }
-"true"                  { return createSymbol(sym.BOOL_VALUE, true); }
-"false"                 { return createSymbol(sym.BOOL_VALUE, false); }
+[0-9]+                  { return createSymbol(sym.INT_VALUE, new Integer(yytext())); }
+"'"[ -~]"'"             { return createSymbol(sym.CHAR_VALUE, new Integer(yytext().charAt(1))); }
+"true"                  { return createSymbol(sym.BOOL_VALUE, new Integer(1)); }
+"false"                 { return createSymbol(sym.BOOL_VALUE, new Integer(0)); }
 
 // Identifiers
 [a-zA-Z][_a-zA-Z0-9]* 	{ return createSymbol(sym.IDENTIFIER, yytext()); }
@@ -114,4 +114,4 @@ import java_cup.runtime.Symbol;
 <COMMENT> "\n"   { yybegin(YYINITIAL); }
 
 // Everything else is a syntax error
-. { return createSymbol(sym.ERROR, "Line " + (yyline + 1) + ", syntax error: '" + yytext() + "'"); }
+. { return createSymbol(sym.ERROR, "Linija " + (yyline + 1) + ", sintaksna greska: '" + yytext() + "'"); }

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,12 +8,14 @@ package rs.ac.bg.etf.pp1.ast;
 public class FromParamsClass extends FormPars {
 
     private Type Type;
+    private String I2;
     private OptionalBrackets OptionalBrackets;
     private TypeIdentBracketsList TypeIdentBracketsList;
 
-    public FromParamsClass (Type Type, OptionalBrackets OptionalBrackets, TypeIdentBracketsList TypeIdentBracketsList) {
+    public FromParamsClass (Type Type, String I2, OptionalBrackets OptionalBrackets, TypeIdentBracketsList TypeIdentBracketsList) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
+        this.I2=I2;
         this.OptionalBrackets=OptionalBrackets;
         if(OptionalBrackets!=null) OptionalBrackets.setParent(this);
         this.TypeIdentBracketsList=TypeIdentBracketsList;
@@ -26,6 +28,14 @@ public class FromParamsClass extends FormPars {
 
     public void setType(Type Type) {
         this.Type=Type;
+    }
+
+    public String getI2() {
+        return I2;
+    }
+
+    public void setI2(String I2) {
+        this.I2=I2;
     }
 
     public OptionalBrackets getOptionalBrackets() {
@@ -77,6 +87,9 @@ public class FromParamsClass extends FormPars {
             buffer.append(Type.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(OptionalBrackets!=null)

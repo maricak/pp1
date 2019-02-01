@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,13 +9,15 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
 
     private TypeIdentBracketsList TypeIdentBracketsList;
     private Type Type;
+    private String I3;
     private OptionalBrackets OptionalBrackets;
 
-    public TypeIdentBracketsListClass (TypeIdentBracketsList TypeIdentBracketsList, Type Type, OptionalBrackets OptionalBrackets) {
+    public TypeIdentBracketsListClass (TypeIdentBracketsList TypeIdentBracketsList, Type Type, String I3, OptionalBrackets OptionalBrackets) {
         this.TypeIdentBracketsList=TypeIdentBracketsList;
         if(TypeIdentBracketsList!=null) TypeIdentBracketsList.setParent(this);
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
+        this.I3=I3;
         this.OptionalBrackets=OptionalBrackets;
         if(OptionalBrackets!=null) OptionalBrackets.setParent(this);
     }
@@ -34,6 +36,14 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
 
     public void setType(Type Type) {
         this.Type=Type;
+    }
+
+    public String getI3() {
+        return I3;
+    }
+
+    public void setI3(String I3) {
+        this.I3=I3;
     }
 
     public OptionalBrackets getOptionalBrackets() {
@@ -83,6 +93,9 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
             buffer.append(Type.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I3);
         buffer.append("\n");
 
         if(OptionalBrackets!=null)

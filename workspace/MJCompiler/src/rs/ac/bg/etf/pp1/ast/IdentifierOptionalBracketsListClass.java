@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:57
+// 1/1/2019 21:25:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,11 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class IdentifierOptionalBracketsListClass extends IdentOptionalBracketsList {
 
     private IdentOptionalBracketsList IdentOptionalBracketsList;
+    private String I2;
     private OptionalBrackets OptionalBrackets;
 
-    public IdentifierOptionalBracketsListClass (IdentOptionalBracketsList IdentOptionalBracketsList, OptionalBrackets OptionalBrackets) {
+    public IdentifierOptionalBracketsListClass (IdentOptionalBracketsList IdentOptionalBracketsList, String I2, OptionalBrackets OptionalBrackets) {
         this.IdentOptionalBracketsList=IdentOptionalBracketsList;
         if(IdentOptionalBracketsList!=null) IdentOptionalBracketsList.setParent(this);
+        this.I2=I2;
         this.OptionalBrackets=OptionalBrackets;
         if(OptionalBrackets!=null) OptionalBrackets.setParent(this);
     }
@@ -23,6 +25,14 @@ public class IdentifierOptionalBracketsListClass extends IdentOptionalBracketsLi
 
     public void setIdentOptionalBracketsList(IdentOptionalBracketsList IdentOptionalBracketsList) {
         this.IdentOptionalBracketsList=IdentOptionalBracketsList;
+    }
+
+    public String getI2() {
+        return I2;
+    }
+
+    public void setI2(String I2) {
+        this.I2=I2;
     }
 
     public OptionalBrackets getOptionalBrackets() {
@@ -63,6 +73,9 @@ public class IdentifierOptionalBracketsListClass extends IdentOptionalBracketsLi
             buffer.append(IdentOptionalBracketsList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(OptionalBrackets!=null)

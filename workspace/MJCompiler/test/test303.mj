@@ -3,17 +3,23 @@
 program test_303
 
 const int cinilac = 4, delilac = 3;
-class Predmet
+enum VrstaPredmeta{ SFERA, KVADAR }
+interface IPredmet
+{
+	int zapremina();
+	int Q();
+}
+class Predmet implements IPredmet
 {
 	int tezina;
-	char vrsta;
+	VrstaPredmeta vrsta;
 
 	{
 		void postaviTezinu(int tezina) {this.tezina = tezina;}  
 		void ucitajTezinu() { read(tezina); }
 		int zapremina() { return 0;}
 		int Q() {return zapremina() * tezina;}
-		void postaviVrstu(char vrsta) {this.vrsta = vrsta;}
+		void postaviVrstu(VrstaPredmeta vrsta) {this.vrsta = vrsta;}
 	}
 }
 
@@ -21,8 +27,8 @@ class Sfera extends Predmet
 {
 	int r;
 	{
-		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = 's';}
-		void postaviPoluprecnik(int r) {this.r = r; postaviVrstu('s');}
+		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = VrstaPredmeta.SFERA;}
+		void postaviPoluprecnik(int r) {this.r = r; postaviVrstu(VrstaPredmeta.SFERA);}
 		int zapremina()
 		int z;
 		{
@@ -36,8 +42,8 @@ class Kvadar extends Predmet
 {
 	int a, b, c;
 	{
-		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = 'k';}
-		void postaviStranice(int a, int b, int c) {this.a = a; this.b = b; this.c = c; vrsta = 'k';}
+		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = VrstaPredmeta.KVADAR;}
+		void postaviStranice(int a, int b, int c) {this.a = a; this.b = b; this.c = c; vrsta = VrstaPredmeta.KVADAR;}
 		int zapremina()
 		int z;
 		{
@@ -53,15 +59,18 @@ int tezinaK, tezinaS;
 
 	void ispis( Predmet p)
 	{
-		print(p.vrsta); 
+		if(p.vrsta == VrstaPredmeta.SFERA) print('S');
+		else if(p.vrsta == VrstaPredmeta.KVADAR) print('K');
+
 		print(eol); 
 		print(p.tezina);
 	}
 		
-	void main() Predmet predmeti[]; int i; Sfera s1, s2, s3; Kvadar k1, k2, k3; int t;
+	void main() Predmet predmeti[]; IPredmet interPredmeti[]; int i; Sfera s1, s2, s3; Kvadar k1, k2, k3; int t;
 	{
 		
 		predmeti = new Predmet[6];
+		interPredmeti = new IPredmet[6];
 		s1 = new Sfera;
 		s2 = new Sfera;
 		s3 = new Sfera;
@@ -86,31 +95,26 @@ int tezinaK, tezinaS;
 		predmeti[5] = k3;
 
 		read(t);
-		i = 0;
-		for(i =0; i < 6; i++) {
+		for(i=0;i<6;i++)
 		{
 			predmeti[i].postaviTezinu(t);	
-			i++;
+			interPredmeti[i] = predmeti[i];
 		}
-		
 
-		i = 0;
 		zapreminaS = 0;
 		tezinaS = 0;
-		for(i =0; i < 6; i++) 
+		for(i=1;i<=6;i++)
 		{
-			i++;
 			if(i % 2 == 0) continue; 
-			zapreminaS = zapreminaS + predmeti[i - 1].zapremina();
-			tezinaS = tezinaS + predmeti[i - 1].Q();
+			zapreminaS = zapreminaS + interPredmeti[i - 1].zapremina();
+			tezinaS = tezinaS + interPredmeti[i - 1].Q();
 			ispis(predmeti[i - 1]);
 		}
 		
-		i = 0;
-		zapreminaK = 0; tezinaK = 0;
-		for(i =0; i < 6; i++) 
-		{		
-			i++;
+		zapreminaK = 0; 
+		tezinaK = 0;
+		for(i=1;i<=6;i++)
+		{
 			if(i % 2 == 1) continue; 
 			zapreminaK = zapreminaK + predmeti[i - 1].zapremina();
 			tezinaK = tezinaK + predmeti[i - 1].Q();

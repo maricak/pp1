@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 14/0/2019 23:40:59
+// 1/1/2019 21:25:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -13,14 +13,13 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Factor Factor) { }
     public void visit(Statement Statement) { }
     public void visit(OptionalRelopExpr OptionalRelopExpr) { }
-    public void visit(ConstOption ConstOption) { }
     public void visit(MethodDecl MethodDecl) { }
     public void visit(ExprList ExprList) { }
     public void visit(ImplementsTypeList ImplementsTypeList) { }
     public void visit(ExtendsType ExtendsType) { }
     public void visit(Relop Relop) { }
     public void visit(OptionalMethodDeclList OptionalMethodDeclList) { }
-    public void visit(EnumDecl EnumDecl) { }
+    public void visit(DeclList DeclList) { }
     public void visit(Expr Expr) { }
     public void visit(OptionalDesignatorStatement OptionalDesignatorStatement) { }
     public void visit(MulopFactorList MulopFactorList) { }
@@ -31,11 +30,9 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorSelector DesignatorSelector) { }
     public void visit(OrCondFactList OrCondFactList) { }
     public void visit(OptionalImplementsTypeList OptionalImplementsTypeList) { }
-    public void visit(IdentifierAssignConstOptionList IdentifierAssignConstOptionList) { }
-    public void visit(Program Program) { }
+    public void visit(AssignConstList AssignConstList) { }
     public void visit(NewFactor NewFactor) { }
     public void visit(OptionalActPars OptionalActPars) { }
-    public void visit(AssignNum AssignNum) { }
     public void visit(DesignatorFactor DesignatorFactor) { }
     public void visit(TypeList TypeList) { }
     public void visit(OptionalExtendsType OptionalExtendsType) { }
@@ -48,11 +45,8 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Addop Addop) { }
     public void visit(StatementList StatementList) { }
     public void visit(Assignop Assignop) { }
-    public void visit(DeclOption DeclOption) { }
-    public void visit(ConstDecl ConstDecl) { }
     public void visit(DesignatorCallParams DesignatorCallParams) { }
     public void visit(Type Type) { }
-    public void visit(DeclOptionList DeclOptionList) { }
     public void visit(ReturnType ReturnType) { }
     public void visit(DesignatorStatementOption DesignatorStatementOption) { }
     public void visit(CondTerm CondTerm) { }
@@ -60,6 +54,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ClassDecl ClassDecl) { }
     public void visit(MethodDeclList MethodDeclList) { }
     public void visit(OptionalAssignNum OptionalAssignNum) { }
+    public void visit(ConstValue ConstValue) { }
     public void visit(OptionalDesignatorCallParams OptionalDesignatorCallParams) { }
     public void visit(InterfaceDecl InterfaceDecl) { }
     public void visit(OptionalFormPars OptionalFormPars) { }
@@ -78,11 +73,12 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(OptionalBrackets OptionalBrackets) { }
     public void visit(OptionalExpr OptionalExpr) { }
     public void visit(Term Term) { }
+    public void visit(Decl Decl) { }
     public void visit(MulopModClass MulopModClass) { visit(); }
     public void visit(MulopDivClass MulopDivClass) { visit(); }
     public void visit(MulopMullClass MulopMullClass) { visit(); }
     public void visit(AddOpMinusClass AddOpMinusClass) { visit(); }
-    public void visit(AddOpePlusClass AddOpePlusClass) { visit(); }
+    public void visit(AddopPlusClass AddopPlusClass) { visit(); }
     public void visit(RelopLeClass RelopLeClass) { visit(); }
     public void visit(RelopLtClass RelopLtClass) { visit(); }
     public void visit(RelopGeClass RelopGeClass) { visit(); }
@@ -161,10 +157,10 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(StatementForClass StatementForClass) { visit(); }
     public void visit(StatementIfClass StatementIfClass) { visit(); }
     public void visit(StatementDesignatorClass StatementDesignatorClass) { visit(); }
-    public void visit(TypeCustomClass TypeCustomClass) { visit(); }
-    public void visit(TypeCharClass TypeCharClass) { visit(); }
-    public void visit(TypeBoolClass TypeBoolClass) { visit(); }
-    public void visit(TypeIntClass TypeIntClass) { visit(); }
+    public void visit(TypeCustom TypeCustom) { visit(); }
+    public void visit(TypeChar TypeChar) { visit(); }
+    public void visit(TypeBool TypeBool) { visit(); }
+    public void visit(TypeInt TypeInt) { visit(); }
     public void visit(NoTypeIdentBracketsListClass NoTypeIdentBracketsListClass) { visit(); }
     public void visit(TypeIdentBracketsListClass TypeIdentBracketsListClass) { visit(); }
     public void visit(NoOptionalBracketsClass NoOptionalBracketsClass) { visit(); }
@@ -199,25 +195,24 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(VarDeclarationClass VarDeclarationClass) { visit(); }
     public void visit(NoIdentifierOptionalAssignNumberListClass NoIdentifierOptionalAssignNumberListClass) { visit(); }
     public void visit(IdentifierOptionalAssignNumberListClass IdentifierOptionalAssignNumberListClass) { visit(); }
-    public void visit(AssignNumberClass AssignNumberClass) { visit(); }
+    public void visit(AssignNum AssignNum) { visit(); }
     public void visit(NoOptionalAssgnNumberClass NoOptionalAssgnNumberClass) { visit(); }
     public void visit(OptionalAssgnNumberClass OptionalAssgnNumberClass) { visit(); }
-    public void visit(EnumDeclarationClass EnumDeclarationClass) { visit(); }
-    public void visit(ConstOptionNullClass ConstOptionNullClass) { visit(); }
-    public void visit(ConstOptionBoolClass ConstOptionBoolClass) { visit(); }
-    public void visit(ConstOptionCharClass ConstOptionCharClass) { visit(); }
-    public void visit(ConstOptionIntClass ConstOptionIntClass) { visit(); }
-    public void visit(NoIdentAssignConstOptionListClass NoIdentAssignConstOptionListClass) { visit(); }
-    public void visit(IdentAssignConstOptionListClass IdentAssignConstOptionListClass) { visit(); }
-    public void visit(ConstDeclarationClass ConstDeclarationClass) { visit(); }
-    public void visit(DeclarationOptionInterfaceClass DeclarationOptionInterfaceClass) { visit(); }
-    public void visit(DeclarationOptionEnumClass DeclarationOptionEnumClass) { visit(); }
-    public void visit(DeclarationOptionClassClass DeclarationOptionClassClass) { visit(); }
-    public void visit(DeclarationOptionVarClass DeclarationOptionVarClass) { visit(); }
-    public void visit(DeclarationOptionConstClass DeclarationOptionConstClass) { visit(); }
-    public void visit(NoDeclarationOptionListClass NoDeclarationOptionListClass) { visit(); }
-    public void visit(DeclarationOptionListClass DeclarationOptionListClass) { visit(); }
-    public void visit(ProgramClass ProgramClass) { visit(); }
+    public void visit(EnumDecl EnumDecl) { visit(); }
+    public void visit(ConstValueBool ConstValueBool) { visit(); }
+    public void visit(ConstValueChar ConstValueChar) { visit(); }
+    public void visit(ConstValueInt ConstValueInt) { visit(); }
+    public void visit(AssignConstantListNO AssignConstantListNO) { visit(); }
+    public void visit(AssignConstantList AssignConstantList) { visit(); }
+    public void visit(ConstDecl ConstDecl) { visit(); }
+    public void visit(DeclarationInterface DeclarationInterface) { visit(); }
+    public void visit(DeclarationEnum DeclarationEnum) { visit(); }
+    public void visit(DeclarationClass DeclarationClass) { visit(); }
+    public void visit(DeclarationVar DeclarationVar) { visit(); }
+    public void visit(Declaration Declaration) { visit(); }
+    public void visit(DeclarationListNO DeclarationListNO) { visit(); }
+    public void visit(DeclarationList DeclarationList) { visit(); }
+    public void visit(Program Program) { visit(); }
 
 
     public void visit() { }
