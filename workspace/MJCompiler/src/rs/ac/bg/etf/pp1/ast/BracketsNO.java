@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:12
+// 1/1/2019 23:41:19
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class AssignConstantListNO extends AssignConstList {
+public class BracketsNO extends OptionalBrackets {
 
-    public AssignConstantListNO () {
+    public BracketsNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class AssignConstantListNO extends AssignConstList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("AssignConstantListNO(\n");
+        buffer.append("BracketsNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [AssignConstantListNO]");
+        buffer.append(") [BracketsNO]");
         return buffer.toString();
     }
 }

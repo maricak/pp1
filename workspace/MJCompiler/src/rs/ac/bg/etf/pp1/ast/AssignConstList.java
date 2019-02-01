@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:13
+// 1/1/2019 23:41:20
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -10,8 +10,6 @@ public abstract class AssignConstList implements SyntaxNode {
     private SyntaxNode parent;
 
     private int line;
-
-    public rs.etf.pp1.symboltable.concepts.Obj obj = null;
 
     public SyntaxNode getParent() {
         return parent;

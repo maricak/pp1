@@ -41,7 +41,7 @@ parser code {:
 scan with {:
 	Symbol s = this.getScanner().next_token();
 	if (s != null && s.value != null) 
-		log.info(s.toString() + " " + s.value.toString() + " " +s.value.getClass());
+		log.info(s.toString() + " " + s.value.toString());
 	return s;
 :}
 
@@ -62,17 +62,18 @@ terminal Integer BOOL_VALUE;
 terminal String IDENTIFIER;
 terminal ERROR;
 
-nonterminal Program, DeclList, Decl, ConstDecl, EnumDecl, OptionalAssignNum, AssignNum;
-nonterminal IdentOptionalAssignNumList, VarDecl, IdentOptionalBracketsList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
+nonterminal Program, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
+nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
 nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
-nonterminal MethodDecl, ReturnType,  OptionalFormPars, VarDeclList, FormPars, OptionalBrackets, TypeIdentBracketsList, Statement, IfStatement; 
+nonterminal MethodDecl, ReturnType, OptionalBrackets, OptionalFormPars, VarDeclList, FormPars, TypeIdentBracketsList, Statement, IfStatement; 
 nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
 nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
 nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
 nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, AssignConstList;
-nonterminal rs.ac.bg.etf.pp1.mysymboltable.ConstValue ConstValue;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
 precedence left ELSE;
 
@@ -95,12 +96,12 @@ Decl ::= (Declaration) ConstDecl
 				(DeclarationInterface) InterfaceDecl
 				;	
 
-ConstDecl ::= (ConstDecl) CONST Type:constType IDENTIFIER:constName ASSIGN ConstValue:constValue AssignConstList SEPARATOR
+ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList SEPARATOR
 			;
 			
 AssignConstList ::= (AssignConstantList) AssignConstList COMMA IDENTIFIER:constName ASSIGN ConstValue:constValue
 				|
-				(AssignConstantListNO) /* epsilon */
+				(AssignConstantListEnd) IDENTIFIER:constName ASSIGN ConstValue:constValue /* epsilon */
 				;
 								
 
@@ -128,15 +129,18 @@ IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOp
 							(NoIdentifierOptionalAssignNumberListClass) /* epsilon */
 							;
 
-VarDecl ::= (VarDeclarationClass) Type IDENTIFIER OptionalBrackets IdentOptionalBracketsList SEPARATOR
+VarDecl ::= (VarDecl) Type:varType VarList SEPARATOR
 		;
 		
-IdentOptionalBracketsList ::= (IdentifierOptionalBracketsListClass) IdentOptionalBracketsList COMMA IDENTIFIER OptionalBrackets
-							|
-							(NoIdentifierOptionalBracketsListClass) /* epsilon */
-							;
+VarList ::= (VariableList) VarList COMMA VarName
+			|
+			(VariableListEnd) VarName /* epsilon */
+			;
+			
+VarName ::= (VarName) IDENTIFIER:varName OptionalBrackets:brackets
+		;
 
-ClassDecl ::= (ClassDeclarationClass) CLASS IDENTIFIER OptionalExtendsType OptionalImplementsTypeList LEFT_BRACE VarDeclList OptionalMethodDeclList RIGHT_BRACE
+ClassDecl ::= (ClassDecl) CLASS IDENTIFIER OptionalExtendsType OptionalImplementsTypeList LEFT_BRACE VarDeclList:declList OptionalMethodDeclList RIGHT_BRACE
 			;
 			
 OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType
@@ -183,7 +187,7 @@ InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclLi
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS SEPARATOR
 					;
 
-MethodDecl ::= (MethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
+MethodDecl ::= (MethodDecl) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
 			;
 			
 ReturnType ::= (ReturnTypeClass) Type
@@ -196,20 +200,20 @@ OptionalFormPars ::= (OptionalFormParsClass) FormPars
 				(NoOptionalFormParsClass) /* epsilon */
 				;
 
-VarDeclList ::= (VarDeclarationListClass) VarDeclList VarDecl
+VarDeclList ::= (VariableDeclList) VarDeclList VarDecl
 			|
-			(NoVarDeclarationListClass) /* epsilon */
+			(VariableDeclListNO) /* epsilon */
 			;
 				
-FormPars ::= (FromParamsClass) Type IDENTIFIER OptionalBrackets TypeIdentBracketsList
+FormPars ::= (FromParamsClass) Type VarName TypeIdentBracketsList
 			;
 			
-OptionalBrackets ::= (OptionalBracketsClass) LEFT_BRACKET RIGHT_BRACKET
+OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET
 				|
-				(NoOptionalBracketsClass) /* epsilon */
+				(BracketsNO) /* epsilon */
 				;
 
-TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList COMMA Type IDENTIFIER OptionalBrackets
+TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList COMMA Type VarName
 					|
 					(NoTypeIdentBracketsListClass) /* epsilon */
 					;

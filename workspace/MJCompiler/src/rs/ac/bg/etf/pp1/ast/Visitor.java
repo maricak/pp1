@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:13
+// 1/1/2019 23:41:20
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -13,7 +13,6 @@ public interface Visitor {
     public void visit(Factor Factor);
     public void visit(Statement Statement);
     public void visit(OptionalRelopExpr OptionalRelopExpr);
-    public void visit(MethodDecl MethodDecl);
     public void visit(ExprList ExprList);
     public void visit(ImplementsTypeList ImplementsTypeList);
     public void visit(ExtendsType ExtendsType);
@@ -25,7 +24,6 @@ public interface Visitor {
     public void visit(MulopFactorList MulopFactorList);
     public void visit(AndCondFactList AndCondFactList);
     public void visit(AddopTermList AddopTermList);
-    public void visit(VarDecl VarDecl);
     public void visit(DesignatorSelectorList DesignatorSelectorList);
     public void visit(DesignatorSelector DesignatorSelector);
     public void visit(OrCondFactList OrCondFactList);
@@ -41,7 +39,6 @@ public interface Visitor {
     public void visit(Condition Condition);
     public void visit(Mulop Mulop);
     public void visit(DesignatorStatement DesignatorStatement);
-    public void visit(IdentOptionalBracketsList IdentOptionalBracketsList);
     public void visit(Addop Addop);
     public void visit(StatementList StatementList);
     public void visit(Assignop Assignop);
@@ -50,8 +47,8 @@ public interface Visitor {
     public void visit(ReturnType ReturnType);
     public void visit(DesignatorStatementOption DesignatorStatementOption);
     public void visit(CondTerm CondTerm);
+    public void visit(VarList VarList);
     public void visit(IfStatement IfStatement);
-    public void visit(ClassDecl ClassDecl);
     public void visit(MethodDeclList MethodDeclList);
     public void visit(OptionalAssignNum OptionalAssignNum);
     public void visit(ConstValue ConstValue);
@@ -163,16 +160,16 @@ public interface Visitor {
     public void visit(TypeInt TypeInt);
     public void visit(NoTypeIdentBracketsListClass NoTypeIdentBracketsListClass);
     public void visit(TypeIdentBracketsListClass TypeIdentBracketsListClass);
-    public void visit(NoOptionalBracketsClass NoOptionalBracketsClass);
-    public void visit(OptionalBracketsClass OptionalBracketsClass);
+    public void visit(BracketsNO BracketsNO);
+    public void visit(Brackets Brackets);
     public void visit(FromParamsClass FromParamsClass);
-    public void visit(NoVarDeclarationListClass NoVarDeclarationListClass);
-    public void visit(VarDeclarationListClass VarDeclarationListClass);
+    public void visit(VariableDeclListNO VariableDeclListNO);
+    public void visit(VariableDeclList VariableDeclList);
     public void visit(NoOptionalFormParsClass NoOptionalFormParsClass);
     public void visit(OptionalFormParsClass OptionalFormParsClass);
     public void visit(NoReturnTypeClass NoReturnTypeClass);
     public void visit(ReturnTypeClass ReturnTypeClass);
-    public void visit(MethodDeclarationClass MethodDeclarationClass);
+    public void visit(MethodDecl MethodDecl);
     public void visit(InterfaceMethodDeclarationClass InterfaceMethodDeclarationClass);
     public void visit(NoInterfaceMethodDeclListClass NoInterfaceMethodDeclListClass);
     public void visit(InterfaceMethodDeclListClass InterfaceMethodDeclListClass);
@@ -189,10 +186,11 @@ public interface Visitor {
     public void visit(ExtendsTypeClass ExtendsTypeClass);
     public void visit(NoOptionalExtendsTypeClass NoOptionalExtendsTypeClass);
     public void visit(OptionalExtendsTypeClass OptionalExtendsTypeClass);
-    public void visit(ClassDeclarationClass ClassDeclarationClass);
-    public void visit(NoIdentifierOptionalBracketsListClass NoIdentifierOptionalBracketsListClass);
-    public void visit(IdentifierOptionalBracketsListClass IdentifierOptionalBracketsListClass);
-    public void visit(VarDeclarationClass VarDeclarationClass);
+    public void visit(ClassDecl ClassDecl);
+    public void visit(VarName VarName);
+    public void visit(VariableListEnd VariableListEnd);
+    public void visit(VariableList VariableList);
+    public void visit(VarDecl VarDecl);
     public void visit(NoIdentifierOptionalAssignNumberListClass NoIdentifierOptionalAssignNumberListClass);
     public void visit(IdentifierOptionalAssignNumberListClass IdentifierOptionalAssignNumberListClass);
     public void visit(AssignNum AssignNum);
@@ -202,7 +200,7 @@ public interface Visitor {
     public void visit(ConstValueBool ConstValueBool);
     public void visit(ConstValueChar ConstValueChar);
     public void visit(ConstValueInt ConstValueInt);
-    public void visit(AssignConstantListNO AssignConstantListNO);
+    public void visit(AssignConstantListEnd AssignConstantListEnd);
     public void visit(AssignConstantList AssignConstantList);
     public void visit(ConstDecl ConstDecl);
     public void visit(DeclarationInterface DeclarationInterface);

@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:12
+// 1/1/2019 23:41:19
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoOptionalBracketsClass extends OptionalBrackets {
+public class VariableDeclListNO extends VarDeclList {
 
-    public NoOptionalBracketsClass () {
+    public VariableDeclListNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoOptionalBracketsClass extends OptionalBrackets {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoOptionalBracketsClass(\n");
+        buffer.append("VariableDeclListNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoOptionalBracketsClass]");
+        buffer.append(") [VariableDeclListNO]");
         return buffer.toString();
     }
 }

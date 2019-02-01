@@ -1,13 +1,15 @@
 program MJProgram
 	const int x=2, y=3;
 	const char a = '1', b=4;
-	const int a= 4;
+	const int a= 4; int d[];
+	int a, b, c[];
+	char d, e, f;
 	class A {
 		int x;
 	}
 {
 	
-	int k () int c; {
+	int k () int c, d; bool e; {
 		c = 1;
 		
 		return c+2;

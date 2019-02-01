@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import java_cup.runtime.Symbol;
+import rs.ac.bg.etf.pp1.ast.Program;
 import rs.ac.bg.etf.pp1.ast.SyntaxNode;
 import rs.ac.bg.etf.pp1.mysymboltable.MyTable;
 import rs.ac.bg.etf.pp1.util.Log4JUtils;
@@ -89,7 +90,7 @@ public class MJParserTest {
 			MyTable.init(); // Universe scope
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
-			
+			//log.info(((Program)prog).toString("")); log.info("===================================");
 	        //log.info("Print calls = " + semanticCheck.printCallCount);
 			MyTable.dump();
 	        

@@ -41,7 +41,7 @@ parser code {:
 scan with {:
 	Symbol s = this.getScanner().next_token();
 	if (s != null && s.value != null) 
-		log.info(s.toString() + " " + s.value.toString() + " " +s.value.getClass());
+		log.info(s.toString() + " " + s.value.toString());
 	return s;
 :}
 
@@ -66,12 +66,13 @@ nonterminal Program Program;
 nonterminal DeclList DeclList;
 nonterminal Decl Decl;
 nonterminal ConstDecl ConstDecl;
+nonterminal AssignConstList AssignConstList;
 nonterminal EnumDecl EnumDecl;
 nonterminal OptionalAssignNum OptionalAssignNum;
 nonterminal AssignNum AssignNum;
 nonterminal IdentOptionalAssignNumList IdentOptionalAssignNumList;
 nonterminal VarDecl VarDecl;
-nonterminal IdentOptionalBracketsList IdentOptionalBracketsList;
+nonterminal VarList VarList;
 nonterminal ClassDecl ClassDecl;
 nonterminal OptionalExtendsType OptionalExtendsType;
 nonterminal ExtendsType ExtendsType;
@@ -85,10 +86,10 @@ nonterminal InterfaceMethodDeclList InterfaceMethodDeclList;
 nonterminal InterfaceMethodDecl InterfaceMethodDecl;
 nonterminal MethodDecl MethodDecl;
 nonterminal ReturnType ReturnType;
-nonterminal  OptionalFormPars OptionalFormPars;
+nonterminal OptionalBrackets OptionalBrackets;
+nonterminal OptionalFormPars OptionalFormPars;
 nonterminal VarDeclList VarDeclList;
 nonterminal FormPars FormPars;
-nonterminal OptionalBrackets OptionalBrackets;
 nonterminal TypeIdentBracketsList TypeIdentBracketsList;
 nonterminal Statement Statement;
 nonterminal IfStatement IfStatement; 
@@ -131,8 +132,9 @@ nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, AssignConstList;
-nonterminal rs.ac.bg.etf.pp1.mysymboltable.ConstValue ConstValue;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
+nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
 precedence left ELSE;
 
@@ -155,12 +157,12 @@ Decl ::= (Declaration) ConstDecl:C1 {: RESULT=new Declaration(C1); RESULT.setLin
 				(DeclarationInterface) InterfaceDecl:I1 {: RESULT=new DeclarationInterface(I1); RESULT.setLine(I1left); :}
 				;	
 
-ConstDecl ::= (ConstDecl) CONST Type:constType IDENTIFIER:constName ASSIGN ConstValue:constValue AssignConstList:A1 SEPARATOR {: RESULT=new ConstDecl(constType, constName, constValue, A1); RESULT.setLine(constTypeleft); :}
+ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList:A1 SEPARATOR {: RESULT=new ConstDecl(constType, A1); RESULT.setLine(constTypeleft); :}
 			;
 			
 AssignConstList ::= (AssignConstantList) AssignConstList:A1 COMMA IDENTIFIER:constName ASSIGN ConstValue:constValue {: RESULT=new AssignConstantList(A1, constName, constValue); RESULT.setLine(A1left); :}
 				|
-				(AssignConstantListNO) {: RESULT=new AssignConstantListNO(); :} /* epsilon */
+				(AssignConstantListEnd) IDENTIFIER:constName ASSIGN ConstValue:constValue {: RESULT=new AssignConstantListEnd(constName, constValue); RESULT.setLine(constNameleft); :} /* epsilon */
 				;
 								
 
@@ -188,15 +190,18 @@ IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOp
 							(NoIdentifierOptionalAssignNumberListClass) {: RESULT=new NoIdentifierOptionalAssignNumberListClass(); :} /* epsilon */
 							;
 
-VarDecl ::= (VarDeclarationClass) Type:T1 IDENTIFIER:I2 OptionalBrackets:O3 IdentOptionalBracketsList:I4 SEPARATOR {: RESULT=new VarDeclarationClass(T1, I2, O3, I4); RESULT.setLine(T1left); :}
+VarDecl ::= (VarDecl) Type:varType VarList:V1 SEPARATOR {: RESULT=new VarDecl(varType, V1); RESULT.setLine(varTypeleft); :}
 		;
 		
-IdentOptionalBracketsList ::= (IdentifierOptionalBracketsListClass) IdentOptionalBracketsList:I1 COMMA IDENTIFIER:I2 OptionalBrackets:O3 {: RESULT=new IdentifierOptionalBracketsListClass(I1, I2, O3); RESULT.setLine(I1left); :}
-							|
-							(NoIdentifierOptionalBracketsListClass) {: RESULT=new NoIdentifierOptionalBracketsListClass(); :} /* epsilon */
-							;
+VarList ::= (VariableList) VarList:V1 COMMA VarName:V2 {: RESULT=new VariableList(V1, V2); RESULT.setLine(V1left); :}
+			|
+			(VariableListEnd) VarName:V1 {: RESULT=new VariableListEnd(V1); RESULT.setLine(V1left); :} /* epsilon */
+			;
+			
+VarName ::= (VarName) IDENTIFIER:varName OptionalBrackets:brackets {: RESULT=new VarName(varName, brackets); RESULT.setLine(varNameleft); :}
+		;
 
-ClassDecl ::= (ClassDeclarationClass) CLASS IDENTIFIER:I1 OptionalExtendsType:O2 OptionalImplementsTypeList:O3 LEFT_BRACE VarDeclList:V4 OptionalMethodDeclList:O5 RIGHT_BRACE {: RESULT=new ClassDeclarationClass(I1, O2, O3, V4, O5); RESULT.setLine(I1left); :}
+ClassDecl ::= (ClassDecl) CLASS IDENTIFIER:I1 OptionalExtendsType:O2 OptionalImplementsTypeList:O3 LEFT_BRACE VarDeclList:declList OptionalMethodDeclList:O4 RIGHT_BRACE {: RESULT=new ClassDecl(I1, O2, O3, declList, O4); RESULT.setLine(I1left); :}
 			;
 			
 OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType:E1 {: RESULT=new OptionalExtendsTypeClass(E1); RESULT.setLine(E1left); :}
@@ -243,7 +248,7 @@ InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclLi
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS OptionalFormPars:O3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, I2, O3); RESULT.setLine(R1left); :}
 					;
 
-MethodDecl ::= (MethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS OptionalFormPars:O3 RIGHT_PARENTHESIS VarDeclList:V4 LEFT_BRACE StatementList:S5 RIGHT_BRACE {: RESULT=new MethodDeclarationClass(R1, I2, O3, V4, S5); RESULT.setLine(R1left); :}
+MethodDecl ::= (MethodDecl) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS OptionalFormPars:O3 RIGHT_PARENTHESIS VarDeclList:V4 LEFT_BRACE StatementList:S5 RIGHT_BRACE {: RESULT=new MethodDecl(R1, I2, O3, V4, S5); RESULT.setLine(R1left); :}
 			;
 			
 ReturnType ::= (ReturnTypeClass) Type:T1 {: RESULT=new ReturnTypeClass(T1); RESULT.setLine(T1left); :}
@@ -256,20 +261,20 @@ OptionalFormPars ::= (OptionalFormParsClass) FormPars:F1 {: RESULT=new OptionalF
 				(NoOptionalFormParsClass) {: RESULT=new NoOptionalFormParsClass(); :} /* epsilon */
 				;
 
-VarDeclList ::= (VarDeclarationListClass) VarDeclList:V1 VarDecl:V2 {: RESULT=new VarDeclarationListClass(V1, V2); RESULT.setLine(V1left); :}
+VarDeclList ::= (VariableDeclList) VarDeclList:V1 VarDecl:V2 {: RESULT=new VariableDeclList(V1, V2); RESULT.setLine(V1left); :}
 			|
-			(NoVarDeclarationListClass) {: RESULT=new NoVarDeclarationListClass(); :} /* epsilon */
+			(VariableDeclListNO) {: RESULT=new VariableDeclListNO(); :} /* epsilon */
 			;
 				
-FormPars ::= (FromParamsClass) Type:T1 IDENTIFIER:I2 OptionalBrackets:O3 TypeIdentBracketsList:T4 {: RESULT=new FromParamsClass(T1, I2, O3, T4); RESULT.setLine(T1left); :}
+FormPars ::= (FromParamsClass) Type:T1 VarName:V2 TypeIdentBracketsList:T3 {: RESULT=new FromParamsClass(T1, V2, T3); RESULT.setLine(T1left); :}
 			;
 			
-OptionalBrackets ::= (OptionalBracketsClass) LEFT_BRACKET RIGHT_BRACKET {: RESULT=new OptionalBracketsClass(); :}
+OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET {: RESULT=new Brackets(); :}
 				|
-				(NoOptionalBracketsClass) {: RESULT=new NoOptionalBracketsClass(); :} /* epsilon */
+				(BracketsNO) {: RESULT=new BracketsNO(); :} /* epsilon */
 				;
 
-TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList:T1 COMMA Type:T2 IDENTIFIER:I3 OptionalBrackets:O4 {: RESULT=new TypeIdentBracketsListClass(T1, T2, I3, O4); RESULT.setLine(T1left); :}
+TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList:T1 COMMA Type:T2 VarName:V3 {: RESULT=new TypeIdentBracketsListClass(T1, T2, V3); RESULT.setLine(T1left); :}
 					|
 					(NoTypeIdentBracketsListClass) {: RESULT=new NoTypeIdentBracketsListClass(); :} /* epsilon */
 					;

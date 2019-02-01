@@ -1,96 +1,133 @@
-INFO  21:36:30,537 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
-INFO  21:36:30,604 - #31 program class java.lang.String
-INFO  21:36:30,604 - #54 MJProgram class java.lang.String
-INFO  21:36:30,604 - #47 const class java.lang.String
-INFO  21:36:30,605 - #2 int class java.lang.String
-INFO  21:36:30,605 - #54 x class java.lang.String
-INFO  21:36:30,605 - #19 = class java.lang.String
-INFO  21:36:30,605 - #51 2 class java.lang.Integer
-INFO  21:36:30,605 - #23 , class java.lang.String
-INFO  21:36:30,606 - #54 y class java.lang.String
-INFO  21:36:30,606 - #19 = class java.lang.String
-INFO  21:36:30,606 - #51 3 class java.lang.Integer
-INFO  21:36:30,607 - #22 ; class java.lang.String
-INFO  21:36:30,607 - #47 const class java.lang.String
-INFO  21:36:30,608 - #4 char class java.lang.String
-INFO  21:36:30,608 - #54 a class java.lang.String
-INFO  21:36:30,609 - #19 = class java.lang.String
-INFO  21:36:30,609 - #52 49 class java.lang.Integer
-INFO  21:36:30,609 - #23 , class java.lang.String
-INFO  21:36:30,609 - #54 b class java.lang.String
-INFO  21:36:30,609 - #19 = class java.lang.String
-INFO  21:36:30,609 - #51 4 class java.lang.Integer
-INFO  21:36:30,609 - #22 ; class java.lang.String
-INFO  21:36:30,609 - #47 const class java.lang.String
-INFO  21:36:30,609 - #2 int class java.lang.String
-INFO  21:36:30,609 - #54 a class java.lang.String
-INFO  21:36:30,610 - #19 = class java.lang.String
-INFO  21:36:30,610 - #51 4 class java.lang.Integer
-INFO  21:36:30,610 - #22 ; class java.lang.String
-INFO  21:36:30,610 - #32 class class java.lang.String
-INFO  21:36:30,610 - #54 A class java.lang.String
-INFO  21:36:30,610 - #29 { class java.lang.String
-INFO  21:36:30,611 - #2 int class java.lang.String
-INFO  21:36:30,612 - #54 x class java.lang.String
-INFO  21:36:30,612 - #22 ; class java.lang.String
-INFO  21:36:30,613 - #30 } class java.lang.String
-INFO  21:36:30,614 - #29 { class java.lang.String
-INFO  21:36:30,615 - #2 int class java.lang.String
-INFO  21:36:30,615 - #54 k class java.lang.String
-INFO  21:36:30,615 - #25 ( class java.lang.String
-INFO  21:36:30,615 - #26 ) class java.lang.String
-INFO  21:36:30,616 - #2 int class java.lang.String
-INFO  21:36:30,616 - #54 c class java.lang.String
-INFO  21:36:30,616 - #22 ; class java.lang.String
-INFO  21:36:30,616 - #29 { class java.lang.String
-INFO  21:36:30,616 - #54 c class java.lang.String
-INFO  21:36:30,617 - #19 = class java.lang.String
-INFO  21:36:30,617 - #51 1 class java.lang.Integer
-INFO  21:36:30,619 - #22 ; class java.lang.String
-INFO  21:36:30,621 - #41 return class java.lang.String
-INFO  21:36:30,621 - #54 c class java.lang.String
-INFO  21:36:30,621 - #6 + class java.lang.String
-INFO  21:36:30,622 - #51 2 class java.lang.Integer
-INFO  21:36:30,623 - #22 ; class java.lang.String
-INFO  21:36:30,623 - #30 } class java.lang.String
-INFO  21:36:30,623 - #2 int class java.lang.String
-INFO  21:36:30,623 - #54 main class java.lang.String
-INFO  21:36:30,623 - #25 ( class java.lang.String
-INFO  21:36:30,623 - #26 ) class java.lang.String
-INFO  21:36:30,624 - #29 { class java.lang.String
-INFO  21:36:30,624 - #54 y class java.lang.String
-INFO  21:36:30,624 - #19 = class java.lang.String
-INFO  21:36:30,624 - #51 2 class java.lang.Integer
-INFO  21:36:30,624 - #22 ; class java.lang.String
-INFO  21:36:30,624 - #54 x class java.lang.String
-INFO  21:36:30,624 - #19 = class java.lang.String
-INFO  21:36:30,624 - #54 y class java.lang.String
-INFO  21:36:30,624 - #6 + class java.lang.String
-INFO  21:36:30,624 - #51 2 class java.lang.Integer
-INFO  21:36:30,624 - #22 ; class java.lang.String
-INFO  21:36:30,624 - #54 y class java.lang.String
-INFO  21:36:30,624 - #19 = class java.lang.String
-INFO  21:36:30,624 - #54 k class java.lang.String
-INFO  21:36:30,625 - #25 ( class java.lang.String
-INFO  21:36:30,625 - #26 ) class java.lang.String
-INFO  21:36:30,625 - #6 + class java.lang.String
-INFO  21:36:30,625 - #51 3 class java.lang.Integer
-INFO  21:36:30,625 - #22 ; class java.lang.String
-INFO  21:36:30,626 - #44 print class java.lang.String
-INFO  21:36:30,626 - #25 ( class java.lang.String
-INFO  21:36:30,626 - #54 y class java.lang.String
-INFO  21:36:30,626 - #26 ) class java.lang.String
-INFO  21:36:30,626 - #22 ; class java.lang.String
-INFO  21:36:30,626 - #41 return class java.lang.String
-INFO  21:36:30,627 - #51 0 class java.lang.Integer
-INFO  21:36:30,627 - #22 ; class java.lang.String
-INFO  21:36:30,627 - #30 } class java.lang.String
-INFO  21:36:30,627 - #30 } class java.lang.String
-INFO  21:36:30,627 - #0 eof class java.lang.String
-INFO  21:36:30,628 - #0 eof class java.lang.String
-INFO  21:36:30,638 - Deklarisana konstanta x tipa int vrednost=2 na liniji 2
-INFO  21:36:30,638 - Deklarisana konstanta y tipa int vrednost=3 na liniji 2
-INFO  21:36:30,638 - Deklarisana konstanta a tipa char vrednost=49 na liniji 3
-ERROR 21:36:30,638 - SINTAKSNA GRESKA!: [Konstanti b koja je tipa char ne moze se dodeliti vrednost 4 koja je tipa int] na liniji 3
-ERROR 21:36:30,638 - SINTAKSNA GRESKA!: [Konstanta a je vec deklarisana u trenutnom opsegu] na liniji 4
-ERROR 21:36:30,639 - Parsiranje NIJE uspesno zavrseno!
+INFO  23:59:32,665 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
+INFO  23:59:32,734 - #31 program
+INFO  23:59:32,734 - #54 MJProgram
+INFO  23:59:32,734 - #47 const
+INFO  23:59:32,734 - #2 int
+INFO  23:59:32,734 - #54 x
+INFO  23:59:32,735 - #19 =
+INFO  23:59:32,735 - #51 2
+INFO  23:59:32,735 - #23 ,
+INFO  23:59:32,735 - #54 y
+INFO  23:59:32,735 - #19 =
+INFO  23:59:32,735 - #51 3
+INFO  23:59:32,735 - #22 ;
+INFO  23:59:32,735 - #47 const
+INFO  23:59:32,736 - #4 char
+INFO  23:59:32,736 - #54 a
+INFO  23:59:32,737 - #19 =
+INFO  23:59:32,737 - #52 49
+INFO  23:59:32,737 - #23 ,
+INFO  23:59:32,737 - #54 b
+INFO  23:59:32,737 - #19 =
+INFO  23:59:32,737 - #51 4
+INFO  23:59:32,738 - #22 ;
+INFO  23:59:32,738 - #47 const
+INFO  23:59:32,738 - #2 int
+INFO  23:59:32,738 - #54 a
+INFO  23:59:32,738 - #19 =
+INFO  23:59:32,738 - #51 4
+INFO  23:59:32,738 - #22 ;
+INFO  23:59:32,738 - #2 int
+INFO  23:59:32,738 - #54 d
+INFO  23:59:32,738 - #27 [
+INFO  23:59:32,738 - #28 ]
+INFO  23:59:32,738 - #22 ;
+INFO  23:59:32,740 - #2 int
+INFO  23:59:32,741 - #54 a
+INFO  23:59:32,741 - #23 ,
+INFO  23:59:32,741 - #54 b
+INFO  23:59:32,742 - #23 ,
+INFO  23:59:32,742 - #54 c
+INFO  23:59:32,742 - #27 [
+INFO  23:59:32,742 - #28 ]
+INFO  23:59:32,742 - #22 ;
+INFO  23:59:32,742 - #4 char
+INFO  23:59:32,742 - #54 d
+INFO  23:59:32,742 - #23 ,
+INFO  23:59:32,742 - #54 e
+INFO  23:59:32,742 - #23 ,
+INFO  23:59:32,742 - #54 f
+INFO  23:59:32,742 - #22 ;
+INFO  23:59:32,742 - #32 class
+INFO  23:59:32,742 - #54 A
+INFO  23:59:32,742 - #29 {
+INFO  23:59:32,744 - #2 int
+INFO  23:59:32,744 - #54 x
+INFO  23:59:32,744 - #22 ;
+INFO  23:59:32,744 - #30 }
+INFO  23:59:32,745 - #29 {
+INFO  23:59:32,746 - #2 int
+INFO  23:59:32,747 - #54 k
+INFO  23:59:32,747 - #25 (
+INFO  23:59:32,747 - #26 )
+INFO  23:59:32,747 - #2 int
+INFO  23:59:32,747 - #54 c
+INFO  23:59:32,748 - #23 ,
+INFO  23:59:32,748 - #54 d
+INFO  23:59:32,748 - #22 ;
+INFO  23:59:32,748 - #3 bool
+INFO  23:59:32,748 - #54 e
+INFO  23:59:32,748 - #22 ;
+INFO  23:59:32,749 - #29 {
+INFO  23:59:32,749 - #54 c
+INFO  23:59:32,749 - #19 =
+INFO  23:59:32,750 - #51 1
+INFO  23:59:32,752 - #22 ;
+INFO  23:59:32,753 - #41 return
+INFO  23:59:32,753 - #54 c
+INFO  23:59:32,753 - #6 +
+INFO  23:59:32,754 - #51 2
+INFO  23:59:32,755 - #22 ;
+INFO  23:59:32,755 - #30 }
+INFO  23:59:32,755 - #2 int
+INFO  23:59:32,756 - #54 main
+INFO  23:59:32,756 - #25 (
+INFO  23:59:32,756 - #26 )
+INFO  23:59:32,756 - #29 {
+INFO  23:59:32,756 - #54 y
+INFO  23:59:32,756 - #19 =
+INFO  23:59:32,756 - #51 2
+INFO  23:59:32,756 - #22 ;
+INFO  23:59:32,756 - #54 x
+INFO  23:59:32,757 - #19 =
+INFO  23:59:32,757 - #54 y
+INFO  23:59:32,757 - #6 +
+INFO  23:59:32,757 - #51 2
+INFO  23:59:32,757 - #22 ;
+INFO  23:59:32,757 - #54 y
+INFO  23:59:32,757 - #19 =
+INFO  23:59:32,757 - #54 k
+INFO  23:59:32,757 - #25 (
+INFO  23:59:32,757 - #26 )
+INFO  23:59:32,758 - #6 +
+INFO  23:59:32,759 - #51 3
+INFO  23:59:32,759 - #22 ;
+INFO  23:59:32,759 - #44 print
+INFO  23:59:32,759 - #25 (
+INFO  23:59:32,759 - #54 y
+INFO  23:59:32,759 - #26 )
+INFO  23:59:32,760 - #22 ;
+INFO  23:59:32,760 - #41 return
+INFO  23:59:32,760 - #51 0
+INFO  23:59:32,760 - #22 ;
+INFO  23:59:32,760 - #30 }
+INFO  23:59:32,760 - #30 }
+INFO  23:59:32,760 - #0 eof
+INFO  23:59:32,761 - #0 eof
+INFO  23:59:32,771 - Deklarisana konstanta x tipa int vrednost=2 na liniji 2
+INFO  23:59:32,771 - Deklarisana konstanta y tipa int vrednost=3 na liniji 2
+INFO  23:59:32,771 - Deklarisana konstanta a tipa char vrednost=49 na liniji 3
+ERROR 23:59:32,771 - SINTAKSNA GRESKA!: [Konstanti b koja je tipa char ne moze se dodeliti vrednost 4 koja je tipa int] na liniji 3
+ERROR 23:59:32,771 - SINTAKSNA GRESKA!: [Konstanta a je vec deklarisana u trenutnom opsegu] na liniji 4
+INFO  23:59:32,772 - Deklarisana globalna promenljiva d tipa int[] na liniji 4
+ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Globalna Promenljiva a je vec deklarisana u trenutnom opsegu] na liniji 5
+INFO  23:59:32,772 - Deklarisana globalna promenljiva b tipa int na liniji 5
+INFO  23:59:32,772 - Deklarisana globalna promenljiva c tipa int[] na liniji 5
+ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Globalna Promenljiva d je vec deklarisana u trenutnom opsegu] na liniji 6
+INFO  23:59:32,772 - Deklarisana globalna promenljiva e tipa char na liniji 6
+INFO  23:59:32,772 - Deklarisana globalna promenljiva f tipa char na liniji 6
+ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Polje klase x je vec deklarisana u trenutnom opsegu] na liniji 8
+ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva c je vec deklarisana u trenutnom opsegu] na liniji 12
+ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva d je vec deklarisana u trenutnom opsegu] na liniji 12
+ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva e je vec deklarisana u trenutnom opsegu] na liniji 12
+ERROR 23:59:32,775 - Parsiranje NIJE uspesno zavrseno!

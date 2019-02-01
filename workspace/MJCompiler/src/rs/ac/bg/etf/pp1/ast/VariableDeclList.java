@@ -1,16 +1,16 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:12
+// 1/1/2019 23:41:19
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class VarDeclarationListClass extends VarDeclList {
+public class VariableDeclList extends VarDeclList {
 
     private VarDeclList VarDeclList;
     private VarDecl VarDecl;
 
-    public VarDeclarationListClass (VarDeclList VarDeclList, VarDecl VarDecl) {
+    public VariableDeclList (VarDeclList VarDeclList, VarDecl VarDecl) {
         this.VarDeclList=VarDeclList;
         if(VarDeclList!=null) VarDeclList.setParent(this);
         this.VarDecl=VarDecl;
@@ -57,7 +57,7 @@ public class VarDeclarationListClass extends VarDeclList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("VarDeclarationListClass(\n");
+        buffer.append("VariableDeclList(\n");
 
         if(VarDeclList!=null)
             buffer.append(VarDeclList.toString("  "+tab));
@@ -72,7 +72,7 @@ public class VarDeclarationListClass extends VarDeclList {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [VarDeclarationListClass]");
+        buffer.append(") [VariableDeclList]");
         return buffer.toString();
     }
 }

@@ -2,28 +2,31 @@ package rs.ac.bg.etf.pp1.mysymboltable;
 
 import rs.etf.pp1.symboltable.concepts.Obj;
 
-public class ConstValue {
+public class Constant {
 	
 	private Obj obj;
 	private int value;
 	private String name;
+	private int line;
 	
 	
-	public ConstValue(Obj obj, int value) {	
+	public Constant(Obj obj, int value, int line) {	
 		this.obj = obj;
 		this.value = value;
+		this.line = line;
 	}
 
-	public ConstValue(int value, String name) {
-		super();
+	public Constant(int value, String name, int line) {
 		this.value = value;
 		this.name = name;
+		this.line = line;
 	}
 
-	public ConstValue(Obj obj, int value, String name) {
+	public Constant(Obj obj, int value, String name, int line) {
 		this.obj = obj;
 		this.value = value;
 		this.name = name;
+		this.line = line;
 	}	
 	
 	public String getName() {
@@ -43,5 +46,15 @@ public class ConstValue {
 	}
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	public int getLine() {
+		return line;
+	}
+
+	public void setLine(int line) {
+		this.line = line;
 	}	
+	
+	
 }

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 21:25:12
+// 1/1/2019 23:41:19
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,17 +9,15 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
 
     private TypeIdentBracketsList TypeIdentBracketsList;
     private Type Type;
-    private String I3;
-    private OptionalBrackets OptionalBrackets;
+    private VarName VarName;
 
-    public TypeIdentBracketsListClass (TypeIdentBracketsList TypeIdentBracketsList, Type Type, String I3, OptionalBrackets OptionalBrackets) {
+    public TypeIdentBracketsListClass (TypeIdentBracketsList TypeIdentBracketsList, Type Type, VarName VarName) {
         this.TypeIdentBracketsList=TypeIdentBracketsList;
         if(TypeIdentBracketsList!=null) TypeIdentBracketsList.setParent(this);
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
-        this.I3=I3;
-        this.OptionalBrackets=OptionalBrackets;
-        if(OptionalBrackets!=null) OptionalBrackets.setParent(this);
+        this.VarName=VarName;
+        if(VarName!=null) VarName.setParent(this);
     }
 
     public TypeIdentBracketsList getTypeIdentBracketsList() {
@@ -38,20 +36,12 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
         this.Type=Type;
     }
 
-    public String getI3() {
-        return I3;
+    public VarName getVarName() {
+        return VarName;
     }
 
-    public void setI3(String I3) {
-        this.I3=I3;
-    }
-
-    public OptionalBrackets getOptionalBrackets() {
-        return OptionalBrackets;
-    }
-
-    public void setOptionalBrackets(OptionalBrackets OptionalBrackets) {
-        this.OptionalBrackets=OptionalBrackets;
+    public void setVarName(VarName VarName) {
+        this.VarName=VarName;
     }
 
     public void accept(Visitor visitor) {
@@ -61,20 +51,20 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
     public void childrenAccept(Visitor visitor) {
         if(TypeIdentBracketsList!=null) TypeIdentBracketsList.accept(visitor);
         if(Type!=null) Type.accept(visitor);
-        if(OptionalBrackets!=null) OptionalBrackets.accept(visitor);
+        if(VarName!=null) VarName.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(TypeIdentBracketsList!=null) TypeIdentBracketsList.traverseTopDown(visitor);
         if(Type!=null) Type.traverseTopDown(visitor);
-        if(OptionalBrackets!=null) OptionalBrackets.traverseTopDown(visitor);
+        if(VarName!=null) VarName.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(TypeIdentBracketsList!=null) TypeIdentBracketsList.traverseBottomUp(visitor);
         if(Type!=null) Type.traverseBottomUp(visitor);
-        if(OptionalBrackets!=null) OptionalBrackets.traverseBottomUp(visitor);
+        if(VarName!=null) VarName.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -95,11 +85,8 @@ public class TypeIdentBracketsListClass extends TypeIdentBracketsList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        buffer.append(" "+tab+I3);
-        buffer.append("\n");
-
-        if(OptionalBrackets!=null)
-            buffer.append(OptionalBrackets.toString("  "+tab));
+        if(VarName!=null)
+            buffer.append(VarName.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
