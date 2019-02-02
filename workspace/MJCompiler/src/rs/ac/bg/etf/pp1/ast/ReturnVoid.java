@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 23:41:19
+// 2/1/2019 2:21:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoTypeIdentBracketsListClass extends TypeIdentBracketsList {
+public class ReturnVoid extends ReturnType {
 
-    public NoTypeIdentBracketsListClass () {
+    public ReturnVoid () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoTypeIdentBracketsListClass extends TypeIdentBracketsList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoTypeIdentBracketsListClass(\n");
+        buffer.append("ReturnVoid(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoTypeIdentBracketsListClass]");
+        buffer.append(") [ReturnVoid]");
         return buffer.toString();
     }
 }

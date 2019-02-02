@@ -62,23 +62,28 @@ terminal Integer BOOL_VALUE;
 terminal String IDENTIFIER;
 terminal ERROR;
 
-nonterminal Program, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
+nonterminal Program, ProgramStart, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
 nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
-nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
-nonterminal MethodDecl, ReturnType, OptionalBrackets, OptionalFormPars, VarDeclList, FormPars, TypeIdentBracketsList, Statement, IfStatement; 
+nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, MethodStart, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
+nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, IfStatement, AssignConst;
 nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
 nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
 nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
 nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
+
+
 precedence left ELSE;
 
-Program ::= (Program) PROGRAM IDENTIFIER DeclList LEFT_BRACE MethodDeclList RIGHT_BRACE
+Program ::= (Program) ProgramStart DeclList LEFT_BRACE MethodDeclList RIGHT_BRACE
 		;
+
+ProgramStart ::= (ProgramStart) PROGRAM IDENTIFIER:programName
+				;
 
 DeclList ::= (DeclarationList) DeclList Decl
 			|
@@ -99,11 +104,13 @@ Decl ::= (Declaration) ConstDecl
 ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList SEPARATOR
 			;
 			
-AssignConstList ::= (AssignConstantList) AssignConstList COMMA IDENTIFIER:constName ASSIGN ConstValue:constValue
+AssignConstList ::= (AssignConstantList) AssignConstList COMMA AssignConst
 				|
-				(AssignConstantListEnd) IDENTIFIER:constName ASSIGN ConstValue:constValue /* epsilon */
+				(AssignConstantListEnd) AssignConst 
 				;
-								
+	
+AssignConst ::= (AssignConst)  IDENTIFIER:constName ASSIGN ConstValue:constValue
+			;					
 
 ConstValue ::= (ConstValueInt) INT_VALUE:value 
 			|
@@ -184,28 +191,34 @@ InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclLi
 						(NoInterfaceMethodDeclListClass) /* epsilon */
 						;
 
-InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS SEPARATOR
+InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS SEPARATOR
 					;
 
-MethodDecl ::= (MethodDecl) ReturnType IDENTIFIER LEFT_PARENTHESIS OptionalFormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
-			;
-			
-ReturnType ::= (ReturnTypeClass) Type
-			|
-			(NoReturnTypeClass) VOID
+MethodDecl ::= (MethodDecl) MethodStart LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
 			;
 
-OptionalFormPars ::= (OptionalFormParsClass) FormPars
-				|
-				(NoOptionalFormParsClass) /* epsilon */
-				;
+MethodStart ::= (MethodStart) ReturnType IDENTIFIER:methodName
+			;
+	
+ReturnType ::= (ReturnT) Type
+			|
+			(ReturnVoid) VOID
+			;
+			
+FormPars ::= (FormalParameters) FormPars COMMA FormPar				
+			|
+			(FormalParameter) FormPar
+			|
+			(FormalParametersNO)	/* epsilon */
+			;
+
 
 VarDeclList ::= (VariableDeclList) VarDeclList VarDecl
 			|
 			(VariableDeclListNO) /* epsilon */
 			;
 				
-FormPars ::= (FromParamsClass) Type VarName TypeIdentBracketsList
+FormPar ::= (FormPar) Type VarName 
 			;
 			
 OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET
@@ -213,10 +226,6 @@ OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET
 				(BracketsNO) /* epsilon */
 				;
 
-TypeIdentBracketsList ::= (TypeIdentBracketsListClass) TypeIdentBracketsList COMMA Type VarName
-					|
-					(NoTypeIdentBracketsListClass) /* epsilon */
-					;
 
 Type ::= (TypeInt) INT
 		|

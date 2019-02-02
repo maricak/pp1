@@ -50,10 +50,25 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 
 	public boolean passed() {
-		return errorDetected == false;
+		if (!foundMain)
+			report_error("Nije deklarisana funkcija main", null);
+		return !errorDetected && foundMain;
 	}
 
-	// simbolicke konstante
+	private Obj programObj;
+
+	// program
+	public void visit(ProgramStart programStart) {
+		programObj = MyTable.insert(Obj.Prog, programStart.getProgramName(), MyTable.noType);
+		MyTable.openScope();
+	}
+
+	public void visit(Program program) {
+		MyTable.chainLocalSymbols(programObj);
+		MyTable.closeScope();
+	}
+
+	// deklaracije simbolickih konstanti
 	private LinkedList<Constant> constants = new LinkedList<>();
 
 	public void visit(ConstDecl constDecl) {
@@ -73,7 +88,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		constants.clear();
 	}
 
-	public void visit(AssignConstantList assignConstantList) {
+	/*public void visit(AssignConstantList assignConstantList) {
 		constants.add(new Constant(assignConstantList.getConstValue().constant.getObj(),
 				assignConstantList.getConstValue().constant.getValue(), assignConstantList.getConstName(),
 				assignConstantList.getLine()));
@@ -83,6 +98,12 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		constants.add(new Constant(assignConstantListEnd.getConstValue().constant.getObj(),
 				assignConstantListEnd.getConstValue().constant.getValue(), assignConstantListEnd.getConstName(),
 				assignConstantListEnd.getLine()));
+	}
+	*/
+	public void visit(AssignConst assignConst) {
+		constants.add(new Constant(assignConst.getConstValue().constant.getObj(),
+				assignConst.getConstValue().constant.getValue(), assignConst.getConstName(),
+				assignConst.getLine()));
 	}
 
 	public void visit(ConstValueInt constValueInt) {
@@ -100,9 +121,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 
 	private LinkedList<Variable> variables = new LinkedList<>();
-	private LinkedList<Variable> oneDeclarationVariables = new LinkedList<>();
 
-	// globale promenljive
+	// MOZE U METODU VISIT VARDECL
+	// deklaracije globalnih promenljivih
 	public void visit(DeclarationVar declarationVar) {
 		for (Variable variable : variables) {
 			if (MyTable.existsInCurrentScope(variable.getName())) {
@@ -121,21 +142,57 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		variables.clear();
 	}
 
+	private boolean insideClass = false;
+
 	public void visit(VarDecl varDecl) {
-		// variables.addFirst(new Variable(varDecl.getVarName().variable));
-		for (Variable variable : oneDeclarationVariables) {
-			variable.setObj(varDecl.getType().obj);
-			variables.add(variable);
+		if (insideClass) {
+			for (Variable variable : variables) {
+				variable.setObj(varDecl.getType().obj);
+				if (MyTable.existsInCurrentScope(variable.getName())) {
+					report_error("Polje klase " + variable.getName() + " je vec deklarisana u trenutnom opsegu",
+							variable.getLine());
+				} else {
+					report_info(
+							"Deklarisana polje klase promenljiva " + variable.getName() + " tipa "
+									+ variable.getObj().getName() + (variable.isArray() ? "[]" : ""),
+							variable.getLine());
+					if (variable.isArray()) {
+						MyTable.insert(Obj.Fld, variable.getName(),
+								new Struct(Struct.Array, variable.getObj().getType()));
+					} else {
+						MyTable.insert(Obj.Fld, variable.getName(), variable.getObj().getType());
+					}
+				}
+			}
+		} else {
+			for (Variable variable : variables) {
+				variable.setObj(varDecl.getType().obj);
+				if (MyTable.existsInCurrentScope(variable.getName())) {
+					report_error("Lokalna Promenljiva " + variable.getName() + " je vec deklarisana u trenutnom opsegu",
+							variable.getLine());
+				} else {
+					report_info(
+							"Deklarisana lokalna promenljiva " + variable.getName() + " tipa "
+									+ variable.getObj().getName() + (variable.isArray() ? "[]" : ""),
+							variable.getLine());
+					if (variable.isArray()) {
+						MyTable.insert(Obj.Var, variable.getName(),
+								new Struct(Struct.Array, variable.getObj().getType()));
+					} else {
+						MyTable.insert(Obj.Var, variable.getName(), variable.getObj().getType());
+					}
+				}
+			}
 		}
-		oneDeclarationVariables.clear();
+		variables.clear();
 	}
 
 	public void visit(VariableList variableList) {
-		oneDeclarationVariables.add(new Variable(variableList.getVarName().variable));
+		variables.add(new Variable(variableList.getVarName().variable));
 	}
 
 	public void visit(VariableListEnd variableListEnd) {
-		oneDeclarationVariables.add(new Variable(variableListEnd.getVarName().variable));
+		variables.add(new Variable(variableListEnd.getVarName().variable));
 	}
 
 	public void visit(VarName varName) {
@@ -143,42 +200,68 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				varName.getLine());
 	}
 
-		// lokalne promenljive metoda
-	public void visit(MethodDecl methodDecl) {		
-		for (Variable variable : variables) {
-			if (MyTable.existsInCurrentScope(variable.getName())) {
-				report_error("Lokalna Promenljiva " + variable.getName() + " je vec deklarisana u trenutnom opsegu",
-						variable.getLine());
-			} else {
-				report_info("Deklarisana lokalna promenljiva " + variable.getName() + " tipa "
-						+ variable.getObj().getName() + (variable.isArray() ? "[]" : ""), variable.getLine());
-				if (variable.isArray()) {
-					MyTable.insert(Obj.Var, variable.getName(), new Struct(Struct.Array, variable.getObj().getType()));
-				} else {
-					MyTable.insert(Obj.Var, variable.getName(), variable.getObj().getType());
-				}
-			}
+	private Obj methodObj;
+	private int numberOfParameters = 0;
+	private boolean isReturned = false;
+	private boolean foundMain = false;
+
+	// deklaracije metoda
+	// pocetak metode
+	public void visit(MethodStart methodStart) {
+		if (MyTable.existsInCurrentScope(methodStart.getMethodName())) {
+			report_error("Metoda " + methodStart.getMethodName() + " vec postoji u trenutnom opsegu", methodStart);
+		} else {
+			report_info("Zapoceta metoda " + methodStart.getMethodName(), methodStart);
+			methodObj = MyTable.insert(Obj.Meth, methodStart.getMethodName(),
+					methodStart.getReturnType().obj.getType());
+			numberOfParameters = 0;
+			isReturned = false;
+			MyTable.openScope();
 		}
-		variables.clear();
 	}
 
-	// polja klase
-	public void visit(ClassDecl classDecl) {
-		for (Variable variable : variables) {
-			if (MyTable.existsInCurrentScope(variable.getName())) {
-				report_error("Polje klase " + variable.getName() + " je vec deklarisana u trenutnom opsegu",
-						variable.getLine());
-			} else {
-				report_info("Deklarisana polje klase promenljiva " + variable.getName() + " tipa "
-						+ variable.getObj().getName() + (variable.isArray() ? "[]" : ""), variable.getLine());
-				if (variable.isArray()) {
-					MyTable.insert(Obj.Fld, variable.getName(), new Struct(Struct.Array, variable.getObj().getType()));
-				} else {
-					MyTable.insert(Obj.Fld, variable.getName(), variable.getObj().getType());
-				}
-			}
+	// kraj metode
+	public void visit(MethodDecl methodDecl) {
+		if (methodObj.getType() != MyTable.noType && !isReturned) {
+			report_error("Metoda " + methodDecl.getMethodStart().getMethodName() + " nema return naredbu", methodDecl);
 		}
-		variables.clear();
+		if (methodObj.getType() == MyTable.noType && methodDecl.getMethodStart().getMethodName().equals("main")
+				&& numberOfParameters == 0) {
+			foundMain = true;
+		}
+		report_info("Zavrsena metoda " + methodDecl.getMethodStart().getMethodName(), methodDecl);
+		methodObj.setLevel(numberOfParameters);
+		MyTable.chainLocalSymbols(methodObj);
+		MyTable.closeScope();
+	}
+
+	// formalni parametri
+	public void visit(FormPar formPar) {
+		Variable variable = formPar.getVarName().variable;
+		variable.setObj(formPar.getType().obj);
+
+		if (MyTable.existsInCurrentScope(variable.getName())) {
+			report_error("Formalni parametar " + variable.getName() + " je vec deklarisana u trenutnom opsegu",
+					variable.getLine());
+		} else {
+			report_info("Formalni parametar " + variable.getName() + " tipa " + variable.getObj().getName()
+					+ (variable.isArray() ? "[]" : ""), variable.getLine());
+			if (variable.isArray()) {
+				MyTable.insert(Obj.Var, variable.getName(), new Struct(Struct.Array, variable.getObj().getType()));
+			} else {
+				MyTable.insert(Obj.Var, variable.getName(), variable.getObj().getType());
+			}
+			numberOfParameters++;
+		}
+	}
+
+	// return tip
+	public void visit(ReturnT returnT) {
+		returnT.obj = returnT.getType().obj;
+	}
+
+	public void visit(ReturnVoid returnVoid) {
+		returnVoid.obj = MyTable.noObj;
 	}
 
 	// tipovi

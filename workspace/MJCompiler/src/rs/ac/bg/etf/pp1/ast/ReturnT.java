@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 23:41:19
+// 2/1/2019 2:21:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ReturnTypeClass extends ReturnType {
+public class ReturnT extends ReturnType {
 
     private Type Type;
 
-    public ReturnTypeClass (Type Type) {
+    public ReturnT (Type Type) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
     }
@@ -43,7 +43,7 @@ public class ReturnTypeClass extends ReturnType {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ReturnTypeClass(\n");
+        buffer.append("ReturnT(\n");
 
         if(Type!=null)
             buffer.append(Type.toString("  "+tab));
@@ -52,7 +52,7 @@ public class ReturnTypeClass extends ReturnType {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [ReturnTypeClass]");
+        buffer.append(") [ReturnT]");
         return buffer.toString();
     }
 }

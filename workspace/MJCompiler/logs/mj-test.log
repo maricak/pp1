@@ -1,133 +1,140 @@
-INFO  23:59:32,665 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
-INFO  23:59:32,734 - #31 program
-INFO  23:59:32,734 - #54 MJProgram
-INFO  23:59:32,734 - #47 const
-INFO  23:59:32,734 - #2 int
-INFO  23:59:32,734 - #54 x
-INFO  23:59:32,735 - #19 =
-INFO  23:59:32,735 - #51 2
-INFO  23:59:32,735 - #23 ,
-INFO  23:59:32,735 - #54 y
-INFO  23:59:32,735 - #19 =
-INFO  23:59:32,735 - #51 3
-INFO  23:59:32,735 - #22 ;
-INFO  23:59:32,735 - #47 const
-INFO  23:59:32,736 - #4 char
-INFO  23:59:32,736 - #54 a
-INFO  23:59:32,737 - #19 =
-INFO  23:59:32,737 - #52 49
-INFO  23:59:32,737 - #23 ,
-INFO  23:59:32,737 - #54 b
-INFO  23:59:32,737 - #19 =
-INFO  23:59:32,737 - #51 4
-INFO  23:59:32,738 - #22 ;
-INFO  23:59:32,738 - #47 const
-INFO  23:59:32,738 - #2 int
-INFO  23:59:32,738 - #54 a
-INFO  23:59:32,738 - #19 =
-INFO  23:59:32,738 - #51 4
-INFO  23:59:32,738 - #22 ;
-INFO  23:59:32,738 - #2 int
-INFO  23:59:32,738 - #54 d
-INFO  23:59:32,738 - #27 [
-INFO  23:59:32,738 - #28 ]
-INFO  23:59:32,738 - #22 ;
-INFO  23:59:32,740 - #2 int
-INFO  23:59:32,741 - #54 a
-INFO  23:59:32,741 - #23 ,
-INFO  23:59:32,741 - #54 b
-INFO  23:59:32,742 - #23 ,
-INFO  23:59:32,742 - #54 c
-INFO  23:59:32,742 - #27 [
-INFO  23:59:32,742 - #28 ]
-INFO  23:59:32,742 - #22 ;
-INFO  23:59:32,742 - #4 char
-INFO  23:59:32,742 - #54 d
-INFO  23:59:32,742 - #23 ,
-INFO  23:59:32,742 - #54 e
-INFO  23:59:32,742 - #23 ,
-INFO  23:59:32,742 - #54 f
-INFO  23:59:32,742 - #22 ;
-INFO  23:59:32,742 - #32 class
-INFO  23:59:32,742 - #54 A
-INFO  23:59:32,742 - #29 {
-INFO  23:59:32,744 - #2 int
-INFO  23:59:32,744 - #54 x
-INFO  23:59:32,744 - #22 ;
-INFO  23:59:32,744 - #30 }
-INFO  23:59:32,745 - #29 {
-INFO  23:59:32,746 - #2 int
-INFO  23:59:32,747 - #54 k
-INFO  23:59:32,747 - #25 (
-INFO  23:59:32,747 - #26 )
-INFO  23:59:32,747 - #2 int
-INFO  23:59:32,747 - #54 c
-INFO  23:59:32,748 - #23 ,
-INFO  23:59:32,748 - #54 d
-INFO  23:59:32,748 - #22 ;
-INFO  23:59:32,748 - #3 bool
-INFO  23:59:32,748 - #54 e
-INFO  23:59:32,748 - #22 ;
-INFO  23:59:32,749 - #29 {
-INFO  23:59:32,749 - #54 c
-INFO  23:59:32,749 - #19 =
-INFO  23:59:32,750 - #51 1
-INFO  23:59:32,752 - #22 ;
-INFO  23:59:32,753 - #41 return
-INFO  23:59:32,753 - #54 c
-INFO  23:59:32,753 - #6 +
-INFO  23:59:32,754 - #51 2
-INFO  23:59:32,755 - #22 ;
-INFO  23:59:32,755 - #30 }
-INFO  23:59:32,755 - #2 int
-INFO  23:59:32,756 - #54 main
-INFO  23:59:32,756 - #25 (
-INFO  23:59:32,756 - #26 )
-INFO  23:59:32,756 - #29 {
-INFO  23:59:32,756 - #54 y
-INFO  23:59:32,756 - #19 =
-INFO  23:59:32,756 - #51 2
-INFO  23:59:32,756 - #22 ;
-INFO  23:59:32,756 - #54 x
-INFO  23:59:32,757 - #19 =
-INFO  23:59:32,757 - #54 y
-INFO  23:59:32,757 - #6 +
-INFO  23:59:32,757 - #51 2
-INFO  23:59:32,757 - #22 ;
-INFO  23:59:32,757 - #54 y
-INFO  23:59:32,757 - #19 =
-INFO  23:59:32,757 - #54 k
-INFO  23:59:32,757 - #25 (
-INFO  23:59:32,757 - #26 )
-INFO  23:59:32,758 - #6 +
-INFO  23:59:32,759 - #51 3
-INFO  23:59:32,759 - #22 ;
-INFO  23:59:32,759 - #44 print
-INFO  23:59:32,759 - #25 (
-INFO  23:59:32,759 - #54 y
-INFO  23:59:32,759 - #26 )
-INFO  23:59:32,760 - #22 ;
-INFO  23:59:32,760 - #41 return
-INFO  23:59:32,760 - #51 0
-INFO  23:59:32,760 - #22 ;
-INFO  23:59:32,760 - #30 }
-INFO  23:59:32,760 - #30 }
-INFO  23:59:32,760 - #0 eof
-INFO  23:59:32,761 - #0 eof
-INFO  23:59:32,771 - Deklarisana konstanta x tipa int vrednost=2 na liniji 2
-INFO  23:59:32,771 - Deklarisana konstanta y tipa int vrednost=3 na liniji 2
-INFO  23:59:32,771 - Deklarisana konstanta a tipa char vrednost=49 na liniji 3
-ERROR 23:59:32,771 - SINTAKSNA GRESKA!: [Konstanti b koja je tipa char ne moze se dodeliti vrednost 4 koja je tipa int] na liniji 3
-ERROR 23:59:32,771 - SINTAKSNA GRESKA!: [Konstanta a je vec deklarisana u trenutnom opsegu] na liniji 4
-INFO  23:59:32,772 - Deklarisana globalna promenljiva d tipa int[] na liniji 4
-ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Globalna Promenljiva a je vec deklarisana u trenutnom opsegu] na liniji 5
-INFO  23:59:32,772 - Deklarisana globalna promenljiva b tipa int na liniji 5
-INFO  23:59:32,772 - Deklarisana globalna promenljiva c tipa int[] na liniji 5
-ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Globalna Promenljiva d je vec deklarisana u trenutnom opsegu] na liniji 6
-INFO  23:59:32,772 - Deklarisana globalna promenljiva e tipa char na liniji 6
-INFO  23:59:32,772 - Deklarisana globalna promenljiva f tipa char na liniji 6
-ERROR 23:59:32,772 - SINTAKSNA GRESKA!: [Polje klase x je vec deklarisana u trenutnom opsegu] na liniji 8
-ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva c je vec deklarisana u trenutnom opsegu] na liniji 12
-ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva d je vec deklarisana u trenutnom opsegu] na liniji 12
-ERROR 23:59:32,773 - SINTAKSNA GRESKA!: [Lokalna Promenljiva e je vec deklarisana u trenutnom opsegu] na liniji 12
-ERROR 23:59:32,775 - Parsiranje NIJE uspesno zavrseno!
+INFO  02:22:18,499 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
+INFO  02:22:18,563 - #31 program
+INFO  02:22:18,563 - #54 MJProgram
+INFO  02:22:18,563 - #47 const
+INFO  02:22:18,564 - #2 int
+INFO  02:22:18,564 - #54 x
+INFO  02:22:18,565 - #19 =
+INFO  02:22:18,565 - #51 2
+INFO  02:22:18,565 - #23 ,
+INFO  02:22:18,566 - #54 y
+INFO  02:22:18,566 - #19 =
+INFO  02:22:18,566 - #51 3
+INFO  02:22:18,566 - #22 ;
+INFO  02:22:18,566 - #47 const
+INFO  02:22:18,567 - #4 char
+INFO  02:22:18,567 - #54 a
+INFO  02:22:18,567 - #19 =
+INFO  02:22:18,568 - #52 49
+INFO  02:22:18,568 - #23 ,
+INFO  02:22:18,568 - #54 b
+INFO  02:22:18,568 - #19 =
+INFO  02:22:18,568 - #51 4
+INFO  02:22:18,568 - #22 ;
+INFO  02:22:18,568 - #47 const
+INFO  02:22:18,569 - #2 int
+INFO  02:22:18,569 - #54 a
+INFO  02:22:18,569 - #19 =
+INFO  02:22:18,569 - #51 4
+INFO  02:22:18,569 - #22 ;
+INFO  02:22:18,569 - #2 int
+INFO  02:22:18,569 - #54 d
+INFO  02:22:18,569 - #27 [
+INFO  02:22:18,569 - #28 ]
+INFO  02:22:18,569 - #22 ;
+INFO  02:22:18,570 - #2 int
+INFO  02:22:18,571 - #54 a
+INFO  02:22:18,571 - #23 ,
+INFO  02:22:18,572 - #54 b
+INFO  02:22:18,572 - #23 ,
+INFO  02:22:18,572 - #54 c
+INFO  02:22:18,572 - #27 [
+INFO  02:22:18,572 - #28 ]
+INFO  02:22:18,572 - #22 ;
+INFO  02:22:18,572 - #4 char
+INFO  02:22:18,572 - #54 d
+INFO  02:22:18,572 - #23 ,
+INFO  02:22:18,572 - #54 e
+INFO  02:22:18,572 - #23 ,
+INFO  02:22:18,572 - #54 f
+INFO  02:22:18,573 - #22 ;
+INFO  02:22:18,573 - #32 class
+INFO  02:22:18,573 - #54 A
+INFO  02:22:18,573 - #29 {
+INFO  02:22:18,574 - #2 int
+INFO  02:22:18,574 - #54 x
+INFO  02:22:18,575 - #22 ;
+INFO  02:22:18,575 - #30 }
+INFO  02:22:18,575 - #29 {
+INFO  02:22:18,576 - #2 int
+INFO  02:22:18,578 - #54 k
+INFO  02:22:18,578 - #25 (
+INFO  02:22:18,579 - #26 )
+INFO  02:22:18,580 - #2 int
+INFO  02:22:18,580 - #54 c
+INFO  02:22:18,580 - #23 ,
+INFO  02:22:18,580 - #54 d
+INFO  02:22:18,580 - #22 ;
+INFO  02:22:18,580 - #3 bool
+INFO  02:22:18,580 - #54 e
+INFO  02:22:18,581 - #22 ;
+INFO  02:22:18,581 - #29 {
+INFO  02:22:18,581 - #54 c
+INFO  02:22:18,582 - #19 =
+INFO  02:22:18,583 - #51 1
+INFO  02:22:18,584 - #22 ;
+INFO  02:22:18,586 - #41 return
+INFO  02:22:18,586 - #54 c
+INFO  02:22:18,586 - #6 +
+INFO  02:22:18,587 - #51 2
+INFO  02:22:18,587 - #22 ;
+INFO  02:22:18,588 - #30 }
+INFO  02:22:18,588 - #2 int
+INFO  02:22:18,589 - #54 main
+INFO  02:22:18,589 - #25 (
+INFO  02:22:18,589 - #26 )
+INFO  02:22:18,589 - #29 {
+INFO  02:22:18,589 - #54 y
+INFO  02:22:18,589 - #19 =
+INFO  02:22:18,589 - #51 2
+INFO  02:22:18,589 - #22 ;
+INFO  02:22:18,589 - #54 x
+INFO  02:22:18,589 - #19 =
+INFO  02:22:18,589 - #54 y
+INFO  02:22:18,589 - #6 +
+INFO  02:22:18,589 - #51 2
+INFO  02:22:18,589 - #22 ;
+INFO  02:22:18,589 - #54 y
+INFO  02:22:18,590 - #19 =
+INFO  02:22:18,590 - #54 k
+INFO  02:22:18,590 - #25 (
+INFO  02:22:18,590 - #26 )
+INFO  02:22:18,590 - #6 +
+INFO  02:22:18,591 - #51 3
+INFO  02:22:18,591 - #22 ;
+INFO  02:22:18,591 - #44 print
+INFO  02:22:18,591 - #25 (
+INFO  02:22:18,591 - #54 y
+INFO  02:22:18,591 - #26 )
+INFO  02:22:18,591 - #22 ;
+INFO  02:22:18,591 - #41 return
+INFO  02:22:18,592 - #51 0
+INFO  02:22:18,592 - #22 ;
+INFO  02:22:18,592 - #30 }
+INFO  02:22:18,592 - #30 }
+INFO  02:22:18,592 - #0 eof
+INFO  02:22:18,592 - #0 eof
+INFO  02:22:18,603 - Deklarisana konstanta x tipa int vrednost=2 na liniji 2
+INFO  02:22:18,603 - Deklarisana konstanta y tipa int vrednost=3 na liniji 2
+INFO  02:22:18,603 - Deklarisana konstanta a tipa char vrednost=49 na liniji 3
+ERROR 02:22:18,603 - SINTAKSNA GRESKA!: [Konstanti b koja je tipa char ne moze se dodeliti vrednost 4 koja je tipa int] na liniji 3
+ERROR 02:22:18,603 - SINTAKSNA GRESKA!: [Konstanta a je vec deklarisana u trenutnom opsegu] na liniji 4
+INFO  02:22:18,604 - Deklarisana lokalna promenljiva d tipa int[] na liniji 4
+ERROR 02:22:18,604 - SINTAKSNA GRESKA!: [Lokalna Promenljiva a je vec deklarisana u trenutnom opsegu] na liniji 5
+INFO  02:22:18,604 - Deklarisana lokalna promenljiva b tipa int na liniji 5
+INFO  02:22:18,604 - Deklarisana lokalna promenljiva c tipa int[] na liniji 5
+ERROR 02:22:18,604 - SINTAKSNA GRESKA!: [Lokalna Promenljiva d je vec deklarisana u trenutnom opsegu] na liniji 6
+INFO  02:22:18,605 - Deklarisana lokalna promenljiva e tipa char na liniji 6
+INFO  02:22:18,605 - Deklarisana lokalna promenljiva f tipa char na liniji 6
+ERROR 02:22:18,605 - SINTAKSNA GRESKA!: [Lokalna Promenljiva x je vec deklarisana u trenutnom opsegu] na liniji 8
+INFO  02:22:18,605 - Zapoceta metoda k na liniji 12
+INFO  02:22:18,605 - Deklarisana lokalna promenljiva c tipa int na liniji 12
+INFO  02:22:18,605 - Deklarisana lokalna promenljiva d tipa int na liniji 12
+INFO  02:22:18,607 - Deklarisana lokalna promenljiva e tipa bool na liniji 12
+ERROR 02:22:18,607 - SINTAKSNA GRESKA!: [Metoda k nema return naredbu] na liniji 12
+INFO  02:22:18,607 - Zavrsena metoda k na liniji 12
+INFO  02:22:18,607 - Zapoceta metoda main na liniji 18
+ERROR 02:22:18,607 - SINTAKSNA GRESKA!: [Metoda main nema return naredbu] na liniji 18
+INFO  02:22:18,607 - Zavrsena metoda main na liniji 18
+ERROR 02:22:18,608 - SINTAKSNA GRESKA!: [Nije deklarisana funkcija main]
+ERROR 02:22:18,608 - Parsiranje NIJE uspesno zavrseno!

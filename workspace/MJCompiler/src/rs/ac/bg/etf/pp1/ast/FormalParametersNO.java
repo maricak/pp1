@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 23:41:19
+// 2/1/2019 2:21:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoOptionalFormParsClass extends OptionalFormPars {
+public class FormalParametersNO extends FormPars {
 
-    public NoOptionalFormParsClass () {
+    public FormalParametersNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoOptionalFormParsClass extends OptionalFormPars {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoOptionalFormParsClass(\n");
+        buffer.append("FormalParametersNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoOptionalFormParsClass]");
+        buffer.append(") [FormalParametersNO]");
         return buffer.toString();
     }
 }

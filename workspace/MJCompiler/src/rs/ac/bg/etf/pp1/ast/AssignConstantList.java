@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 23:41:19
+// 2/1/2019 2:21:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,15 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class AssignConstantList extends AssignConstList {
 
     private AssignConstList AssignConstList;
-    private String constName;
-    private ConstValue ConstValue;
+    private AssignConst AssignConst;
 
-    public AssignConstantList (AssignConstList AssignConstList, String constName, ConstValue ConstValue) {
+    public AssignConstantList (AssignConstList AssignConstList, AssignConst AssignConst) {
         this.AssignConstList=AssignConstList;
         if(AssignConstList!=null) AssignConstList.setParent(this);
-        this.constName=constName;
-        this.ConstValue=ConstValue;
-        if(ConstValue!=null) ConstValue.setParent(this);
+        this.AssignConst=AssignConst;
+        if(AssignConst!=null) AssignConst.setParent(this);
     }
 
     public AssignConstList getAssignConstList() {
@@ -27,20 +25,12 @@ public class AssignConstantList extends AssignConstList {
         this.AssignConstList=AssignConstList;
     }
 
-    public String getConstName() {
-        return constName;
+    public AssignConst getAssignConst() {
+        return AssignConst;
     }
 
-    public void setConstName(String constName) {
-        this.constName=constName;
-    }
-
-    public ConstValue getConstValue() {
-        return ConstValue;
-    }
-
-    public void setConstValue(ConstValue ConstValue) {
-        this.ConstValue=ConstValue;
+    public void setAssignConst(AssignConst AssignConst) {
+        this.AssignConst=AssignConst;
     }
 
     public void accept(Visitor visitor) {
@@ -49,18 +39,18 @@ public class AssignConstantList extends AssignConstList {
 
     public void childrenAccept(Visitor visitor) {
         if(AssignConstList!=null) AssignConstList.accept(visitor);
-        if(ConstValue!=null) ConstValue.accept(visitor);
+        if(AssignConst!=null) AssignConst.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(AssignConstList!=null) AssignConstList.traverseTopDown(visitor);
-        if(ConstValue!=null) ConstValue.traverseTopDown(visitor);
+        if(AssignConst!=null) AssignConst.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(AssignConstList!=null) AssignConstList.traverseBottomUp(visitor);
-        if(ConstValue!=null) ConstValue.traverseBottomUp(visitor);
+        if(AssignConst!=null) AssignConst.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -75,11 +65,8 @@ public class AssignConstantList extends AssignConstList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        buffer.append(" "+tab+constName);
-        buffer.append("\n");
-
-        if(ConstValue!=null)
-            buffer.append(ConstValue.toString("  "+tab));
+        if(AssignConst!=null)
+            buffer.append(AssignConst.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

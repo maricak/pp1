@@ -1,17 +1,20 @@
 // generated with ast extension for cup
 // version 0.8
-// 1/1/2019 23:41:19
+// 2/1/2019 2:21:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalFormParsClass extends OptionalFormPars {
+public class FormalParameters extends FormPars {
 
     private FormPars FormPars;
+    private FormPar FormPar;
 
-    public OptionalFormParsClass (FormPars FormPars) {
+    public FormalParameters (FormPars FormPars, FormPar FormPar) {
         this.FormPars=FormPars;
         if(FormPars!=null) FormPars.setParent(this);
+        this.FormPar=FormPar;
+        if(FormPar!=null) FormPar.setParent(this);
     }
 
     public FormPars getFormPars() {
@@ -22,28 +25,39 @@ public class OptionalFormParsClass extends OptionalFormPars {
         this.FormPars=FormPars;
     }
 
+    public FormPar getFormPar() {
+        return FormPar;
+    }
+
+    public void setFormPar(FormPar FormPar) {
+        this.FormPar=FormPar;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
     public void childrenAccept(Visitor visitor) {
         if(FormPars!=null) FormPars.accept(visitor);
+        if(FormPar!=null) FormPar.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(FormPars!=null) FormPars.traverseTopDown(visitor);
+        if(FormPar!=null) FormPar.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(FormPars!=null) FormPars.traverseBottomUp(visitor);
+        if(FormPar!=null) FormPar.traverseBottomUp(visitor);
         accept(visitor);
     }
 
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalFormParsClass(\n");
+        buffer.append("FormalParameters(\n");
 
         if(FormPars!=null)
             buffer.append(FormPars.toString("  "+tab));
@@ -51,8 +65,14 @@ public class OptionalFormParsClass extends OptionalFormPars {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
+        if(FormPar!=null)
+            buffer.append(FormPar.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
         buffer.append(tab);
-        buffer.append(") [OptionalFormParsClass]");
+        buffer.append(") [FormalParameters]");
         return buffer.toString();
     }
 }
