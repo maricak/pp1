@@ -67,12 +67,12 @@ nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExt
 nonterminal InterfaceImplList, InterfaceList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
 nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, IfStatement, AssignConst;
 nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
-nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
-nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
-nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
+nonterminal ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr; 
+nonterminal OptionalActPars;
+nonterminal Assignop, Relop, Addop, Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType, ProgramStart, MethodStart;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
@@ -211,15 +211,15 @@ Type ::= (TypeInt) INT
 		| (TypeCustom) IDENTIFIER:typeName
 		;
 
-Statement ::= (StatementDesignatorClass) DesignatorStatement SEPARATOR
-			| (StatementIfClass) IfStatement 
-			| (StatementForClass) ForStatement
-			| (StatementBreakClass) BREAK SEPARATOR
-			| (StatementContinueClass) CONTINUE SEPARATOR
-			| (StatementReturnClass) RETURN OptionalExpr SEPARATOR
-			| (StatementReadClass) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
-			| (StatementPrintClass) PRINT LEFT_PARENTHESIS Expr OptionalCommaNumConst RIGHT_PARENTHESIS SEPARATOR
-			| (StatementStatementListClass) LEFT_BRACE StatementList RIGHT_BRACE
+Statement ::= (StatementDesignator) DesignatorStatement SEPARATOR
+			| (StatementIf) IfStatement 
+			| (StatementFor) ForStatement
+			| (StatementBreak) BREAK SEPARATOR
+			| (StatementContinue) CONTINUE SEPARATOR
+			| (StatementReturn) RETURN OptionalExpr SEPARATOR
+			| (StatementRead) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
+			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr OptionalCommaNumConst RIGHT_PARENTHESIS SEPARATOR
+			| (StatementBlock) LEFT_BRACE StatementList RIGHT_BRACE
 			;
 
 IfStatement ::=  (IfStatementClass) IF LEFT_PARENTHESIS Condition RIGHT_PARENTHESIS Statement OptionalElse
@@ -248,18 +248,21 @@ OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE
 						| (NoOptionalComaNumberConstClass) /* espilon */
 						;		
 			
-StatementList ::= (StatementListClass) StatementList Statement
-				| (NoStatementListClass) /* epsilon */
+StatementList ::= (Statements) StatementList Statement
+				| (StatementsNO) /* epsilon */
 				;
 
-DesignatorStatement ::= (DesignatorStatementClass) Designator DesignatorStatementOption
+DesignatorStatement ::= (DesignatorAssign) Designator Assignop Expr
+                    | (DesignatorFunctionCall) Designator  LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+                    | (DesignatorIncrement) Designator INCREMENT
+                    | (DesignatorDecrement) Designator DECREMENT
 					;
 					
-DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop Expr
-							| (DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
-							| (DesignatorStatementIncrementOptionClass) INCREMENT
-							| (DesignatorStatementDecrementOptionClass) DECREMENT
-							;												
+// DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop Expr
+// 							| (DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+// 							| (DesignatorStatementIncrementOptionClass) INCREMENT
+// 							| (DesignatorStatementDecrementOptionClass) DECREMENT
+// 							;												
 
 ActPars ::= (ActParamsClass) Expr ExprList
 		;
@@ -290,89 +293,97 @@ OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop Expr
 					;
 
 
-Expr ::= (ExpressionClass) OptionalMinus Term AddopTermList
+Expr ::= (ExprTerm) Term
+        | (ExprNegativeTerm) SUBTRACT Term
+        | (ExprAddop) Expr Addop Term
 		;
 		
-OptionalMinus ::= (OptionalSubtractClass) SUBTRACT 
-				| (NoOptionalSubtractClass) /* epsilon */
-				;
+// OptionalMinus ::= (OptionalSubtractClass) SUBTRACT 
+// 				| (NoOptionalSubtractClass) /* epsilon */
+// 				;
 
-AddopTermList ::= (AddOperationtermListClass) AddopTermList Addop Term
-				| (NoAddOperationtermListClass)/* epilon */
-				;
+// AddopTermList ::= (AddOperationtermListClass) AddopTermList Addop Term
+// 				| (NoAddOperationtermListClass)/* epilon */
+// 				;
 
-Term ::= (TermClass) Factor MulopFactorList
+Term ::= (TermFactor) Factor 
+        | (TermMulop) Term Mulop Factor
 		;
 
-MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList Mulop Factor
-				| (NoMulOperationFactorListClass) /* epilon */
-				;
+// MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList Mulop Factor
+// 				| (NoMulOperationFactorListClass) /* epilon */
+// 				;
 
-Factor ::= (FactorDesignatorClass) DesignatorFactor
-		| (FactorIntClass) INT_VALUE
-		| (FactorCharClass) CHAR_VALUE
-		| (FactorBoolClass) BOOL_VALUE
-		| (FactorNewClass) NewFactor
-		| (FactorNullClass) NULL
-		| (FactorExpressionClass) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+Factor ::= (FactorDesignator) Designator
+        | (FactorFunctionCall) Designator LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+		| (FactorConst) ConstValue	
+		| (FactorNewObj) NEW Type
+        | (FactorNewArray) NEW Type LEFT_BRACKET Expr RIGHT_BRACKET
+		| (FactorNull) NULL
+		| (FactorExpression) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
 		;
 		
-DesignatorFactor ::= (DesignatorFactorClass) Designator OptionalDesignatorCallParams
-				;
+// DesignatorFactor ::= (DesignatorFactorClass) Designator OptionalDesignatorCallParams
+// 				;
 				
-OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams
-								| (NoOptionalDesignatorCallParamsClass) /* epsilon */
-								;
+// OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams
+// 								| (NoOptionalDesignatorCallParamsClass) /* epsilon */
+// 								;
 	
-DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
-					;
+// DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+// 					;
 					
 OptionalActPars ::= (OptionalActParsClass) ActPars
 				| (NoOptionalActParsClass) /* epsilon */
 				;
 		
-NewFactor ::= (NewFactorClass) NEW Type OptionalArraySelector
+// NewFactor ::= (NewFactorClass) NEW Type OptionalArraySelector
+// 			;
+
+// OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector
+// 						| (NoOptionalArraySelectorClass) /* epsilon */
+// 						;
+
+// Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList
+//              ;
+//			
+// DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList DesignatorSelector
+// 						| (NoDesignatorSelectorListClass) /* epsilon */
+// 						;
+//						
+// DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector
+// 					| (DesignatorSelectorArrayClass) ArraySelector
+// 					;
+//	
+// PointSelector ::= (PointSelectorClass) POINT IDENTIFIER
+// 				;
+
+// ArraySelector ::= (ArraySelectorClass) LEFT_BRACKET Expr RIGHT_BRACKET
+// 				;
+
+Designator ::= (DesignatorName) IDENTIFIER:name
+            | (DesignatorPointAccess) Designator POINT IDENTIFIER:name
+            | (DesignatorArrayAccess) Designator LEFT_BRACKET Expr RIGHT_BRACKET
+            ;
+
+Assignop ::= (Assignop) ASSIGN 	
 			;
 
-OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector
-						| (NoOptionalArraySelectorClass) /* epsilon */
-						;
-
-Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList
-			;
-			
-DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList DesignatorSelector
-						| (NoDesignatorSelectorListClass) /* epsilon */
-						;
-						
-DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector
-					| (DesignatorSelectorArrayClass) ArraySelector
-					;
-	
-PointSelector ::= (PointSelectorClass) POINT IDENTIFIER
-				;
-
-ArraySelector ::= (ArraySelectorClass) LEFT_BRACKET Expr RIGHT_BRACKET
-				;
-
-Assignop ::= (AssignOperationClass) ASSIGN 	
-			;
-
-Relop ::= (RelopEqClass) EQUAL
-		| (RelopNeqClass) NOT_EQUAL
-		| (RelopGtClass) GREATER
-		| (RelopGeClass) GREATER_EQUAL
-		| (RelopLtClass) LESS
-		| (RelopLeClass) LESS_EQUAL
+Relop ::= (Equal) EQUAL
+		| (NotEqual) NOT_EQUAL
+		| (Greater) GREATER
+		| (GreaterEqual) GREATER_EQUAL
+		| (Less) LESS
+		| (LessEqual) LESS_EQUAL
 		;
 
-Addop ::= (AddopPlusClass) ADD
-		| (AddOpMinusClass) SUBTRACT
+Addop ::= (Add) ADD
+		| (Subtract) SUBTRACT
 		;
 
-Mulop ::= (MulopMullClass) MULTIPLY 
-		| (MulopDivClass) DIVIDE
-		| (MulopModClass) MODULO
+Mulop ::= (Multiplie) MULTIPLY 
+		| (Divide) DIVIDE
+		| (Modulo) MODULO
 		;
 
 

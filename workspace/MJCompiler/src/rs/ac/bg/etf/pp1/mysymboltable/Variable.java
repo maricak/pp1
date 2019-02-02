@@ -1,18 +1,19 @@
 package rs.ac.bg.etf.pp1.mysymboltable;
 
-import rs.etf.pp1.symboltable.concepts.Obj;
+
+import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class Variable {
 
 	String name;
-	Obj obj;
+	Struct struct;
 	boolean array;
 	int line;
 	
 	
-	public Variable(String name, Obj obj, boolean array, int line) {	
+	public Variable(String name, Struct struct, boolean array, int line) {	
 		this.name = name;
-		this.obj = obj;
+		this.struct = struct;
 		this.array = array;
 		this.line = line;
 	}
@@ -26,7 +27,7 @@ public class Variable {
 	public Variable(Variable other) {
 		this.name = new String(other.name);
 		this.array = other.array;
-		this.obj = other.obj;
+		this.struct = other.struct;
 		this.line = other.line;
 	}
 	
@@ -36,11 +37,11 @@ public class Variable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Obj getObj() {
-		return obj;
+	public Struct getStruct() {
+		return struct;
 	}
-	public void setObj(Obj obj) {
-		this.obj = obj;
+	public void setStruct(Struct struct) {
+		this.struct = struct;
 	}
 	public boolean isArray() {
 		return array;
@@ -60,7 +61,7 @@ public class Variable {
 
 	@Override
 	public String toString() {
-		return "Variable [name=" + (name != null ? name : "") + ", obj=" + (obj != null ? obj.getName() : "") + ", array=" + array +  ", line" + line + "]";
+		return "Variable [name=" + (name != null ? name : "") + ", struct=" + (struct != null ? struct.getKind() : "") + ", array=" + array +  ", line" + line + "]";
 	}
 	
 	

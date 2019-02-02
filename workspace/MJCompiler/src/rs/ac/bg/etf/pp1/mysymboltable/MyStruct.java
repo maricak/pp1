@@ -5,7 +5,9 @@ import rs.etf.pp1.symboltable.structure.SymbolDataStructure;
 
 public class MyStruct extends Struct {
 
-	public static final int Bool = 5;
+    public static final int Bool = 5;
+    public static final int Interface = 6;
+    public static final int Enum = 7;
 
 	public MyStruct(int kind) {
 		super(kind);
