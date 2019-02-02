@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:53
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ExtendsTypeClass extends ExtendsType {
+public class Interface extends InterfaceList {
 
     private Type Type;
 
-    public ExtendsTypeClass (Type Type) {
+    public Interface (Type Type) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
     }
@@ -43,7 +43,7 @@ public class ExtendsTypeClass extends ExtendsType {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ExtendsTypeClass(\n");
+        buffer.append("Interface(\n");
 
         if(Type!=null)
             buffer.append(Type.toString("  "+tab));
@@ -52,7 +52,7 @@ public class ExtendsTypeClass extends ExtendsType {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [ExtendsTypeClass]");
+        buffer.append(") [Interface]");
         return buffer.toString();
     }
 }

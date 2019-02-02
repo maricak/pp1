@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:53
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoOptionalExtendsTypeClass extends OptionalExtendsType {
+public class ExtendsTypeNO extends OptionalExtendsType {
 
-    public NoOptionalExtendsTypeClass () {
+    public ExtendsTypeNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoOptionalExtendsTypeClass extends OptionalExtendsType {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoOptionalExtendsTypeClass(\n");
+        buffer.append("ExtendsTypeNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoOptionalExtendsTypeClass]");
+        buffer.append(") [ExtendsTypeNO]");
         return buffer.toString();
     }
 }

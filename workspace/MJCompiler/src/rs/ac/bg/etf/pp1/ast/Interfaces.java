@@ -1,28 +1,28 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:53
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class TypeListClass extends TypeList {
+public class Interfaces extends InterfaceList {
 
-    private TypeList TypeList;
+    private InterfaceList InterfaceList;
     private Type Type;
 
-    public TypeListClass (TypeList TypeList, Type Type) {
-        this.TypeList=TypeList;
-        if(TypeList!=null) TypeList.setParent(this);
+    public Interfaces (InterfaceList InterfaceList, Type Type) {
+        this.InterfaceList=InterfaceList;
+        if(InterfaceList!=null) InterfaceList.setParent(this);
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
     }
 
-    public TypeList getTypeList() {
-        return TypeList;
+    public InterfaceList getInterfaceList() {
+        return InterfaceList;
     }
 
-    public void setTypeList(TypeList TypeList) {
-        this.TypeList=TypeList;
+    public void setInterfaceList(InterfaceList InterfaceList) {
+        this.InterfaceList=InterfaceList;
     }
 
     public Type getType() {
@@ -38,18 +38,18 @@ public class TypeListClass extends TypeList {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(TypeList!=null) TypeList.accept(visitor);
+        if(InterfaceList!=null) InterfaceList.accept(visitor);
         if(Type!=null) Type.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(TypeList!=null) TypeList.traverseTopDown(visitor);
+        if(InterfaceList!=null) InterfaceList.traverseTopDown(visitor);
         if(Type!=null) Type.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(TypeList!=null) TypeList.traverseBottomUp(visitor);
+        if(InterfaceList!=null) InterfaceList.traverseBottomUp(visitor);
         if(Type!=null) Type.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -57,10 +57,10 @@ public class TypeListClass extends TypeList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("TypeListClass(\n");
+        buffer.append("Interfaces(\n");
 
-        if(TypeList!=null)
-            buffer.append(TypeList.toString("  "+tab));
+        if(InterfaceList!=null)
+            buffer.append(InterfaceList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
@@ -72,7 +72,7 @@ public class TypeListClass extends TypeList {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [TypeListClass]");
+        buffer.append(") [Interfaces]");
         return buffer.toString();
     }
 }

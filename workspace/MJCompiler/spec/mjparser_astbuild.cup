@@ -63,7 +63,6 @@ terminal String IDENTIFIER;
 terminal ERROR;
 
 nonterminal Program Program;
-nonterminal ProgramStart ProgramStart;
 nonterminal DeclList DeclList;
 nonterminal Decl Decl;
 nonterminal ConstDecl ConstDecl;
@@ -76,13 +75,11 @@ nonterminal VarDecl VarDecl;
 nonterminal VarList VarList;
 nonterminal ClassDecl ClassDecl;
 nonterminal OptionalExtendsType OptionalExtendsType;
-nonterminal ExtendsType ExtendsType;
-nonterminal OptionalImplementsTypeList OptionalImplementsTypeList;
-nonterminal ImplementsTypeList ImplementsTypeList;
-nonterminal TypeList TypeList;
+nonterminal ClassVarDeclList ClassVarDeclList;
+nonterminal InterfaceImplList InterfaceImplList;
+nonterminal InterfaceList InterfaceList;
 nonterminal OptionalMethodDeclList OptionalMethodDeclList;
 nonterminal MethodDeclList MethodDeclList;
-nonterminal MethodStart MethodStart;
 nonterminal InterfaceDecl InterfaceDecl;
 nonterminal InterfaceMethodDeclList InterfaceMethodDeclList;
 nonterminal InterfaceMethodDecl InterfaceMethodDecl;
@@ -133,7 +130,8 @@ nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType, ProgramStart, MethodStart;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
@@ -142,106 +140,90 @@ nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 precedence left ELSE;
 
 Program ::= (Program) ProgramStart:P1 DeclList:D2 LEFT_BRACE MethodDeclList:M3 RIGHT_BRACE {: RESULT=new Program(P1, D2, M3); RESULT.setLine(P1left); :}
-		;
+        ;
 
 ProgramStart ::= (ProgramStart) PROGRAM IDENTIFIER:programName {: RESULT=new ProgramStart(programName); RESULT.setLine(programNameleft); :}
-				;
+                ;
 
 DeclList ::= (DeclarationList) DeclList:D1 Decl:D2 {: RESULT=new DeclarationList(D1, D2); RESULT.setLine(D1left); :}
-			|
-			(DeclarationListNO) {: RESULT=new DeclarationListNO(); :} /* epsilon */
-			;
+			| (DeclarationListNO) {: RESULT=new DeclarationListNO(); :} /*epsilon */
+            ;
 
 Decl ::= (Declaration) ConstDecl:C1 {: RESULT=new Declaration(C1); RESULT.setLine(C1left); :}
-				|
-				(DeclarationVar) VarDecl:V1 {: RESULT=new DeclarationVar(V1); RESULT.setLine(V1left); :}
-				|
-				(DeclarationClass) ClassDecl:C1 {: RESULT=new DeclarationClass(C1); RESULT.setLine(C1left); :}
-				|
-				(DeclarationEnum) EnumDecl:E1 {: RESULT=new DeclarationEnum(E1); RESULT.setLine(E1left); :}
-				|
-				(DeclarationInterface) InterfaceDecl:I1 {: RESULT=new DeclarationInterface(I1); RESULT.setLine(I1left); :}
-				;	
+        | (DeclarationVar) VarDecl:V1 {: RESULT=new DeclarationVar(V1); RESULT.setLine(V1left); :}
+        | (DeclarationClass) ClassDecl:C1 {: RESULT=new DeclarationClass(C1); RESULT.setLine(C1left); :}
+        | (DeclarationEnum) EnumDecl:E1 {: RESULT=new DeclarationEnum(E1); RESULT.setLine(E1left); :}
+        | (DeclarationInterface) InterfaceDecl:I1 {: RESULT=new DeclarationInterface(I1); RESULT.setLine(I1left); :}
+        ;	
 
 ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList:A1 SEPARATOR {: RESULT=new ConstDecl(constType, A1); RESULT.setLine(constTypeleft); :}
-			;
+            ; 
 			
 AssignConstList ::= (AssignConstantList) AssignConstList:A1 COMMA AssignConst:A2 {: RESULT=new AssignConstantList(A1, A2); RESULT.setLine(A1left); :}
-				|
-				(AssignConstantListEnd) AssignConst:A1 {: RESULT=new AssignConstantListEnd(A1); RESULT.setLine(A1left); :} 
-				;
+				| (AssignConstantListEnd) AssignConst:A1 {: RESULT=new AssignConstantListEnd(A1); RESULT.setLine(A1left); :}
+                ;
 	
 AssignConst ::= (AssignConst)  IDENTIFIER:constName ASSIGN ConstValue:constValue {: RESULT=new AssignConst(constName, constValue); RESULT.setLine(constNameleft); :}
-			;					
+            ;					
 
 ConstValue ::= (ConstValueInt) INT_VALUE:value {: RESULT=new ConstValueInt(value); RESULT.setLine(valueleft); :} 
-			|
-			(ConstValueChar) CHAR_VALUE:value {: RESULT=new ConstValueChar(value); RESULT.setLine(valueleft); :} 
-			|
-			(ConstValueBool) BOOL_VALUE:value {: RESULT=new ConstValueBool(value); RESULT.setLine(valueleft); :} 
-			;
+			| (ConstValueChar) CHAR_VALUE:value {: RESULT=new ConstValueChar(value); RESULT.setLine(valueleft); :} 
+			| (ConstValueBool) BOOL_VALUE:value {: RESULT=new ConstValueBool(value); RESULT.setLine(valueleft); :}
+            ;
 
 EnumDecl ::= (EnumDecl) ENUM IDENTIFIER:I1 LEFT_BRACE IDENTIFIER:I2 OptionalAssignNum:O3 IdentOptionalAssignNumList:I4 RIGHT_BRACE {: RESULT=new EnumDecl(I1, I2, O3, I4); RESULT.setLine(I1left); :}
-			;
+            ;
 
 OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum:A1 {: RESULT=new OptionalAssgnNumberClass(A1); RESULT.setLine(A1left); :}
-					|
-					(NoOptionalAssgnNumberClass) {: RESULT=new NoOptionalAssgnNumberClass(); :} /* epsilon */
-					;					
+					| (NoOptionalAssgnNumberClass) {: RESULT=new NoOptionalAssgnNumberClass(); :} /* epsilon */
+                    ;					
 					
 AssignNum ::= (AssignNum) ASSIGN INT_VALUE:I1 {: RESULT=new AssignNum(I1); RESULT.setLine(I1left); :}
-			;
+            ;
 
 
 IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList:I1 COMMA IDENTIFIER:I2 OptionalAssignNum:O3 {: RESULT=new IdentifierOptionalAssignNumberListClass(I1, I2, O3); RESULT.setLine(I1left); :}
-							|
-							(NoIdentifierOptionalAssignNumberListClass) {: RESULT=new NoIdentifierOptionalAssignNumberListClass(); :} /* epsilon */
-							;
+							| (NoIdentifierOptionalAssignNumberListClass) {: RESULT=new NoIdentifierOptionalAssignNumberListClass(); :} /* epsilon */
+                            ;
 
 VarDecl ::= (VarDecl) Type:varType VarList:V1 SEPARATOR {: RESULT=new VarDecl(varType, V1); RESULT.setLine(varTypeleft); :}
-		;
+        ;
 		
 VarList ::= (VariableList) VarList:V1 COMMA VarName:V2 {: RESULT=new VariableList(V1, V2); RESULT.setLine(V1left); :}
-			|
-			(VariableListEnd) VarName:V1 {: RESULT=new VariableListEnd(V1); RESULT.setLine(V1left); :} /* epsilon */
-			;
+			| (VariableListEnd) VarName:V1 {: RESULT=new VariableListEnd(V1); RESULT.setLine(V1left); :} /* epsilon */
+            ;
 			
 VarName ::= (VarName) IDENTIFIER:varName OptionalBrackets:brackets {: RESULT=new VarName(varName, brackets); RESULT.setLine(varNameleft); :}
-		;
+        ;
 
-ClassDecl ::= (ClassDecl) CLASS IDENTIFIER:I1 OptionalExtendsType:O2 OptionalImplementsTypeList:O3 LEFT_BRACE VarDeclList:declList OptionalMethodDeclList:O4 RIGHT_BRACE {: RESULT=new ClassDecl(I1, O2, O3, declList, O4); RESULT.setLine(I1left); :}
-			;
-			
-OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType:E1 {: RESULT=new OptionalExtendsTypeClass(E1); RESULT.setLine(E1left); :}
-					|
-					(NoOptionalExtendsTypeClass) {: RESULT=new NoOptionalExtendsTypeClass(); :} /* epsilon */
-					;
-		
-ExtendsType ::= (ExtendsTypeClass) EXTENDS Type:T1 {: RESULT=new ExtendsTypeClass(T1); RESULT.setLine(T1left); :}
-			;
-			
-OptionalImplementsTypeList ::= (OptionalImplementsTypeListClass) ImplementsTypeList:I1 {: RESULT=new OptionalImplementsTypeListClass(I1); RESULT.setLine(I1left); :}
-							|
-							(NoOptionalImplementsTypeListClass) {: RESULT=new NoOptionalImplementsTypeListClass(); :} /* epsilon */
-							;
-							
+ClassDecl ::= (ClassDecl) ClassStart:C1 OptionalExtendsType:O2 InterfaceImplList:I3 LEFT_BRACE ClassVarDeclList:C4 OptionalMethodDeclList:O5 RIGHT_BRACE {: RESULT=new ClassDecl(C1, O2, I3, C4, O5); RESULT.setLine(C1left); :}
+            ;
 
-ImplementsTypeList ::= (ImplementsTypeListClass) IMPLEMENTS Type:T1 TypeList:T2 {: RESULT=new ImplementsTypeListClass(T1, T2); RESULT.setLine(T1left); :}
-					;
-		
-TypeList ::= (TypeListClass) TypeList:T1 COMMA Type:T2 {: RESULT=new TypeListClass(T1, T2); RESULT.setLine(T1left); :}
-			|
-			(NoTypeListClass) {: RESULT=new NoTypeListClass(); :} /* epsilon */
-			;
+ClassVarDeclList ::= (ClassVarDeclList) VarDeclList:V1 {: RESULT=new ClassVarDeclList(V1); RESULT.setLine(V1left); :}
+                ;
+
+ClassStart ::= (ClassStart) CLASS IDENTIFIER:className {: RESULT=new ClassStart(className); RESULT.setLine(classNameleft); :}
+            ;
+			
+OptionalExtendsType ::= (ExtendsType) EXTENDS Type:type {: RESULT=new ExtendsType(type); RESULT.setLine(typeleft); :}
+					| (ExtendsTypeNO) {: RESULT=new ExtendsTypeNO(); :} /* epsilon */
+					;					
+
+InterfaceImplList ::= (InterfaceImplementsList) IMPLEMENTS InterfaceList:I1 {: RESULT=new InterfaceImplementsList(I1); RESULT.setLine(I1left); :}
+                    | (InterfaceImplementsListNO) {: RESULT=new InterfaceImplementsListNO(); :} /* epsilon */
+                    ;
+            
+InterfaceList ::= (Interfaces) InterfaceList:I1 COMMA Type:type {: RESULT=new Interfaces(I1, type); RESULT.setLine(I1left); :}
+                | (Interface) Type:type {: RESULT=new Interface(type); RESULT.setLine(typeleft); :}
+                | (InterfacesNO) {: RESULT=new InterfacesNO(); :} /* epsilon */
+                ;
 			
 OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new OptionalMethodDeclarationListClass(M1); RESULT.setLine(M1left); :}
-						|
-						(NoOptionalMethodDeclarationListClass) {: RESULT=new NoOptionalMethodDeclarationListClass(); :} /* epsilon */
+						| (NoOptionalMethodDeclarationListClass) {: RESULT=new NoOptionalMethodDeclarationListClass(); :} /* epsilon */
 						;
 								
 MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new MethodDeclarationListClass(M1, M2); RESULT.setLine(M1left); :}
-			|
-			(NoMethodDeclarationListClass) {: RESULT=new NoMethodDeclarationListClass(); :}/* epsilon */
+			| (NoMethodDeclarationListClass) {: RESULT=new NoMethodDeclarationListClass(); :}/* epsilon */
 			;
 
 
@@ -249,8 +231,7 @@ InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER:I1 LEFT_BRACE
 				;
 
 InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclListClass(I1, I2); RESULT.setLine(I1left); :}
-						|
-						(NoInterfaceMethodDeclListClass) {: RESULT=new NoInterfaceMethodDeclListClass(); :} /* epsilon */
+						| (NoInterfaceMethodDeclListClass) {: RESULT=new NoInterfaceMethodDeclListClass(); :} /* epsilon */
 						;
 
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS FormPars:F3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, I2, F3); RESULT.setLine(R1left); :}
@@ -263,138 +244,108 @@ MethodStart ::= (MethodStart) ReturnType:R1 IDENTIFIER:methodName {: RESULT=new 
 			;
 	
 ReturnType ::= (ReturnT) Type:T1 {: RESULT=new ReturnT(T1); RESULT.setLine(T1left); :}
-			|
-			(ReturnVoid) VOID {: RESULT=new ReturnVoid(); :}
+			| (ReturnVoid) VOID {: RESULT=new ReturnVoid(); :}
 			;
 			
 FormPars ::= (FormalParameters) FormPars:F1 COMMA FormPar:F2 {: RESULT=new FormalParameters(F1, F2); RESULT.setLine(F1left); :}				
-			|
-			(FormalParameter) FormPar:F1 {: RESULT=new FormalParameter(F1); RESULT.setLine(F1left); :}
-			|
-			(FormalParametersNO) {: RESULT=new FormalParametersNO(); :}	/* epsilon */
+			| (FormalParameter) FormPar:F1 {: RESULT=new FormalParameter(F1); RESULT.setLine(F1left); :}
+			| (FormalParametersNO) {: RESULT=new FormalParametersNO(); :}	/* epsilon */
 			;
 
 
 VarDeclList ::= (VariableDeclList) VarDeclList:V1 VarDecl:V2 {: RESULT=new VariableDeclList(V1, V2); RESULT.setLine(V1left); :}
-			|
-			(VariableDeclListNO) {: RESULT=new VariableDeclListNO(); :} /* epsilon */
+			| (VariableDeclListNO) {: RESULT=new VariableDeclListNO(); :} /* epsilon */
 			;
 				
 FormPar ::= (FormPar) Type:T1 VarName:V2 {: RESULT=new FormPar(T1, V2); RESULT.setLine(T1left); :} 
 			;
 			
 OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET {: RESULT=new Brackets(); :}
-				|
-				(BracketsNO) {: RESULT=new BracketsNO(); :} /* epsilon */
+				| (BracketsNO) {: RESULT=new BracketsNO(); :} /* epsilon */
 				;
 
-
 Type ::= (TypeInt) INT {: RESULT=new TypeInt(); :}
-		|
-		(TypeBool) BOOL {: RESULT=new TypeBool(); :}
-		|
-		(TypeChar) CHAR {: RESULT=new TypeChar(); :}
-		|
-		(TypeCustom) IDENTIFIER:typeName {: RESULT=new TypeCustom(typeName); RESULT.setLine(typeNameleft); :}
+		| (TypeBool) BOOL {: RESULT=new TypeBool(); :}
+		| (TypeChar) CHAR {: RESULT=new TypeChar(); :}
+		| (TypeCustom) IDENTIFIER:typeName {: RESULT=new TypeCustom(typeName); RESULT.setLine(typeNameleft); :}
 		;
 
 Statement ::= (StatementDesignatorClass) DesignatorStatement:D1 SEPARATOR {: RESULT=new StatementDesignatorClass(D1); RESULT.setLine(D1left); :}
-			|
-			(StatementIfClass) IfStatement:I1 {: RESULT=new StatementIfClass(I1); RESULT.setLine(I1left); :} 
-			|
-			(StatementForClass) ForStatement:F1 {: RESULT=new StatementForClass(F1); RESULT.setLine(F1left); :}
-			|
-			(StatementBreakClass) BREAK SEPARATOR {: RESULT=new StatementBreakClass(); :}
-			|
-			(StatementContinueClass) CONTINUE SEPARATOR {: RESULT=new StatementContinueClass(); :}
-			|
-			(StatementReturnClass) RETURN OptionalExpr:O1 SEPARATOR {: RESULT=new StatementReturnClass(O1); RESULT.setLine(O1left); :}
-			|
-			(StatementReadClass) READ LEFT_PARENTHESIS Designator:D1 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementReadClass(D1); RESULT.setLine(D1left); :}
-			|
-			(StatementPrintClass) PRINT LEFT_PARENTHESIS Expr:E1 OptionalCommaNumConst:O2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrintClass(E1, O2); RESULT.setLine(E1left); :}
-			|
-			(StatementStatementListClass) LEFT_BRACE StatementList:S1 RIGHT_BRACE {: RESULT=new StatementStatementListClass(S1); RESULT.setLine(S1left); :}
+			| (StatementIfClass) IfStatement:I1 {: RESULT=new StatementIfClass(I1); RESULT.setLine(I1left); :} 
+			| (StatementForClass) ForStatement:F1 {: RESULT=new StatementForClass(F1); RESULT.setLine(F1left); :}
+			| (StatementBreakClass) BREAK SEPARATOR {: RESULT=new StatementBreakClass(); :}
+			| (StatementContinueClass) CONTINUE SEPARATOR {: RESULT=new StatementContinueClass(); :}
+			| (StatementReturnClass) RETURN OptionalExpr:O1 SEPARATOR {: RESULT=new StatementReturnClass(O1); RESULT.setLine(O1left); :}
+			| (StatementReadClass) READ LEFT_PARENTHESIS Designator:D1 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementReadClass(D1); RESULT.setLine(D1left); :}
+			| (StatementPrintClass) PRINT LEFT_PARENTHESIS Expr:E1 OptionalCommaNumConst:O2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrintClass(E1, O2); RESULT.setLine(E1left); :}
+			| (StatementStatementListClass) LEFT_BRACE StatementList:S1 RIGHT_BRACE {: RESULT=new StatementStatementListClass(S1); RESULT.setLine(S1left); :}
 			;
 
 IfStatement ::=  (IfStatementClass) IF LEFT_PARENTHESIS Condition:C1 RIGHT_PARENTHESIS Statement:S2 OptionalElse:O3 {: RESULT=new IfStatementClass(C1, S2, O3); RESULT.setLine(C1left); :}
 			;
 		
 OptionalElse ::= (OptionalElseClass) ELSE Statement:S1 {: RESULT=new OptionalElseClass(S1); RESULT.setLine(S1left); :}
-				|
-				(NoOptionalElseClass) {: RESULT=new NoOptionalElseClass(); :} /* epsilon */
+				| (NoOptionalElseClass) {: RESULT=new NoOptionalElseClass(); :} /* epsilon */
 				;
 			
 ForStatement ::= (ForStatementClass) FOR LEFT_PARENTHESIS OptionalDesignatorStatement:O1 SEPARATOR OptionalCondition:O2 SEPARATOR OptionalDesignatorStatement:O3 RIGHT_PARENTHESIS Statement:S4 {: RESULT=new ForStatementClass(O1, O2, O3, S4); RESULT.setLine(O1left); :}
 			;
 			
 OptionalCondition ::= (OptionalConditionClass) Condition:C1 {: RESULT=new OptionalConditionClass(C1); RESULT.setLine(C1left); :} 
-					|
-					(NoOptionalConditionClass) {: RESULT=new NoOptionalConditionClass(); :} /* epsilon */
+					| (NoOptionalConditionClass) {: RESULT=new NoOptionalConditionClass(); :} /* epsilon */
 					;
 			
 OptionalDesignatorStatement ::= (OptionalDesignatorStatementClass) DesignatorStatement:D1 {: RESULT=new OptionalDesignatorStatementClass(D1); RESULT.setLine(D1left); :}
-							|
-							(NoOptionalDesignatorStatementClass) {: RESULT=new NoOptionalDesignatorStatementClass(); :} /* epsilon */
+							| (NoOptionalDesignatorStatementClass) {: RESULT=new NoOptionalDesignatorStatementClass(); :} /* epsilon */
 							;
 						
 OptionalExpr ::= (OptionalExprClass) Expr:E1 {: RESULT=new OptionalExprClass(E1); RESULT.setLine(E1left); :}
-				|
-				(NoOptionalExprClass) {: RESULT=new NoOptionalExprClass(); :} /* epsilon */
+				| (NoOptionalExprClass) {: RESULT=new NoOptionalExprClass(); :} /* epsilon */
 				;
 	
 OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE:I1 {: RESULT=new OptionalComaNumberConstClass(I1); RESULT.setLine(I1left); :}
-						|
-						(NoOptionalComaNumberConstClass) {: RESULT=new NoOptionalComaNumberConstClass(); :} /* espilon */
+						| (NoOptionalComaNumberConstClass) {: RESULT=new NoOptionalComaNumberConstClass(); :} /* espilon */
 						;		
 			
 StatementList ::= (StatementListClass) StatementList:S1 Statement:S2 {: RESULT=new StatementListClass(S1, S2); RESULT.setLine(S1left); :}
-				|
-				(NoStatementListClass) {: RESULT=new NoStatementListClass(); :} /* epsilon */
+				| (NoStatementListClass) {: RESULT=new NoStatementListClass(); :} /* epsilon */
 				;
 
 DesignatorStatement ::= (DesignatorStatementClass) Designator:D1 DesignatorStatementOption:D2 {: RESULT=new DesignatorStatementClass(D1, D2); RESULT.setLine(D1left); :}
 					;
 					
 DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop:A1 Expr:E2 {: RESULT=new DesignatorStatementAssignOptionClass(A1, E2); RESULT.setLine(A1left); :}
-							|
-							(DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars:O1 RIGHT_PARENTHESIS {: RESULT=new DesignatorStatementParamsOptionClass(O1); RESULT.setLine(O1left); :}
-							|
-							(DesignatorStatementIncrementOptionClass) INCREMENT {: RESULT=new DesignatorStatementIncrementOptionClass(); :}
-							|
-							(DesignatorStatementDecrementOptionClass) DECREMENT {: RESULT=new DesignatorStatementDecrementOptionClass(); :}
+							| (DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars:O1 RIGHT_PARENTHESIS {: RESULT=new DesignatorStatementParamsOptionClass(O1); RESULT.setLine(O1left); :}
+							| (DesignatorStatementIncrementOptionClass) INCREMENT {: RESULT=new DesignatorStatementIncrementOptionClass(); :}
+							| (DesignatorStatementDecrementOptionClass) DECREMENT {: RESULT=new DesignatorStatementDecrementOptionClass(); :}
 							;												
 
 ActPars ::= (ActParamsClass) Expr:E1 ExprList:E2 {: RESULT=new ActParamsClass(E1, E2); RESULT.setLine(E1left); :}
 		;
 		
 ExprList ::= (ExpressionListClass) ExprList:E1 COMMA Expr:E2 {: RESULT=new ExpressionListClass(E1, E2); RESULT.setLine(E1left); :}
-			|
-			(NoExpressionListClass) {: RESULT=new NoExpressionListClass(); :} /* epsilon */
+			| (NoExpressionListClass) {: RESULT=new NoExpressionListClass(); :} /* epsilon */
 			;
 
 Condition ::= (ConditionClass) CondTerm:C1 OrCondFactList:O2 {: RESULT=new ConditionClass(C1, O2); RESULT.setLine(C1left); :}
 			;
 			
 OrCondFactList ::= (OrConditionFactListClass) OrCondFactList:O1 OR CondFact:C2 {: RESULT=new OrConditionFactListClass(O1, C2); RESULT.setLine(O1left); :}
-				|
-				(NoOrConditionFactListClass) {: RESULT=new NoOrConditionFactListClass(); :} /* epsilon */
+				| (NoOrConditionFactListClass) {: RESULT=new NoOrConditionFactListClass(); :} /* epsilon */
 				;				
 
 CondTerm ::= (ConditionTermClass) CondFact:C1 AndCondFactList:A2 {: RESULT=new ConditionTermClass(C1, A2); RESULT.setLine(C1left); :}
 			;
 			
 AndCondFactList ::= (AndConditionFactListClass) AndCondFactList:A1 AND CondFact:C2 {: RESULT=new AndConditionFactListClass(A1, C2); RESULT.setLine(A1left); :}
-				|
-				(NoAndConditionFactListClass) {: RESULT=new NoAndConditionFactListClass(); :} /* epsilon */
+				| (NoAndConditionFactListClass) {: RESULT=new NoAndConditionFactListClass(); :} /* epsilon */
 				;	
 
 CondFact ::= (ConditionFactClass) Expr:E1 OptionalRelopExpr:O2 {: RESULT=new ConditionFactClass(E1, O2); RESULT.setLine(E1left); :}
 		;
 		
 OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop:R1 Expr:E2 {: RESULT=new OptionalRelopExprClassClass(R1, E2); RESULT.setLine(R1left); :}
-					|
-					(NoOptionalRelopExprClassClass) {: RESULT=new NoOptionalRelopExprClassClass(); :} /* epsilon */
+					| (NoOptionalRelopExprClassClass) {: RESULT=new NoOptionalRelopExprClassClass(); :} /* epsilon */
 					;
 
 
@@ -402,73 +353,59 @@ Expr ::= (ExpressionClass) OptionalMinus:O1 Term:T2 AddopTermList:A3 {: RESULT=n
 		;
 		
 OptionalMinus ::= (OptionalSubtractClass) SUBTRACT {: RESULT=new OptionalSubtractClass(); :} 
-				|
-				(NoOptionalSubtractClass) {: RESULT=new NoOptionalSubtractClass(); :} /* epsilon */
+				| (NoOptionalSubtractClass) {: RESULT=new NoOptionalSubtractClass(); :} /* epsilon */
 				;
 
 AddopTermList ::= (AddOperationtermListClass) AddopTermList:A1 Addop:A2 Term:T3 {: RESULT=new AddOperationtermListClass(A1, A2, T3); RESULT.setLine(A1left); :}
-				|
-				(NoAddOperationtermListClass) {: RESULT=new NoAddOperationtermListClass(); :}/* epilon */
+				| (NoAddOperationtermListClass) {: RESULT=new NoAddOperationtermListClass(); :}/* epilon */
 				;
 
 Term ::= (TermClass) Factor:F1 MulopFactorList:M2 {: RESULT=new TermClass(F1, M2); RESULT.setLine(F1left); :}
 		;
 
 MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList:M1 Mulop:M2 Factor:F3 {: RESULT=new MulOperationFactorListClass(M1, M2, F3); RESULT.setLine(M1left); :}
-				|
-				(NoMulOperationFactorListClass) {: RESULT=new NoMulOperationFactorListClass(); :} /* epilon */
+				| (NoMulOperationFactorListClass) {: RESULT=new NoMulOperationFactorListClass(); :} /* epilon */
 				;
 
 Factor ::= (FactorDesignatorClass) DesignatorFactor:D1 {: RESULT=new FactorDesignatorClass(D1); RESULT.setLine(D1left); :}
-		|
-		(FactorIntClass) INT_VALUE:I1 {: RESULT=new FactorIntClass(I1); RESULT.setLine(I1left); :}
-		|
-		(FactorCharClass) CHAR_VALUE:C1 {: RESULT=new FactorCharClass(C1); RESULT.setLine(C1left); :}
-		|
-		(FactorBoolClass) BOOL_VALUE:B1 {: RESULT=new FactorBoolClass(B1); RESULT.setLine(B1left); :}
-		|
-		(FactorNewClass) NewFactor:N1 {: RESULT=new FactorNewClass(N1); RESULT.setLine(N1left); :}
-		|
-		(FactorNullClass) NULL {: RESULT=new FactorNullClass(); :}
-		|
-		(FactorExpressionClass) LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new FactorExpressionClass(E1); RESULT.setLine(E1left); :}
+		| (FactorIntClass) INT_VALUE:I1 {: RESULT=new FactorIntClass(I1); RESULT.setLine(I1left); :}
+		| (FactorCharClass) CHAR_VALUE:C1 {: RESULT=new FactorCharClass(C1); RESULT.setLine(C1left); :}
+		| (FactorBoolClass) BOOL_VALUE:B1 {: RESULT=new FactorBoolClass(B1); RESULT.setLine(B1left); :}
+		| (FactorNewClass) NewFactor:N1 {: RESULT=new FactorNewClass(N1); RESULT.setLine(N1left); :}
+		| (FactorNullClass) NULL {: RESULT=new FactorNullClass(); :}
+		| (FactorExpressionClass) LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new FactorExpressionClass(E1); RESULT.setLine(E1left); :}
 		;
 		
 DesignatorFactor ::= (DesignatorFactorClass) Designator:D1 OptionalDesignatorCallParams:O2 {: RESULT=new DesignatorFactorClass(D1, O2); RESULT.setLine(D1left); :}
 				;
 				
 OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams:D1 {: RESULT=new OptionalDesignatorCallParamsClass(D1); RESULT.setLine(D1left); :}
-								|
-								(NoOptionalDesignatorCallParamsClass) {: RESULT=new NoOptionalDesignatorCallParamsClass(); :} /* epsilon */
+								| (NoOptionalDesignatorCallParamsClass) {: RESULT=new NoOptionalDesignatorCallParamsClass(); :} /* epsilon */
 								;
 	
 DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars:O1 RIGHT_PARENTHESIS {: RESULT=new DesignatorCallParamsClass(O1); RESULT.setLine(O1left); :}
 					;
 					
 OptionalActPars ::= (OptionalActParsClass) ActPars:A1 {: RESULT=new OptionalActParsClass(A1); RESULT.setLine(A1left); :}
-				|
-				(NoOptionalActParsClass) {: RESULT=new NoOptionalActParsClass(); :} /* epsilon */
+				| (NoOptionalActParsClass) {: RESULT=new NoOptionalActParsClass(); :} /* epsilon */
 				;
 		
 NewFactor ::= (NewFactorClass) NEW Type:T1 OptionalArraySelector:O2 {: RESULT=new NewFactorClass(T1, O2); RESULT.setLine(T1left); :}
 			;
 
 OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector:A1 {: RESULT=new OptionalArraySelectorClass(A1); RESULT.setLine(A1left); :}
-						|
-						(NoOptionalArraySelectorClass) {: RESULT=new NoOptionalArraySelectorClass(); :} /* epsilon */
+						| (NoOptionalArraySelectorClass) {: RESULT=new NoOptionalArraySelectorClass(); :} /* epsilon */
 						;
 
 Designator ::= (DesignatorClass) IDENTIFIER:I1 DesignatorSelectorList:D2 {: RESULT=new DesignatorClass(I1, D2); RESULT.setLine(I1left); :}
 			;
 			
 DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList:D1 DesignatorSelector:D2 {: RESULT=new DesignatorSelectorListClass(D1, D2); RESULT.setLine(D1left); :}
-						|
-						(NoDesignatorSelectorListClass) {: RESULT=new NoDesignatorSelectorListClass(); :} /* epsilon */
+						| (NoDesignatorSelectorListClass) {: RESULT=new NoDesignatorSelectorListClass(); :} /* epsilon */
 						;
 						
 DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector:P1 {: RESULT=new DesignatorSelectorPointClass(P1); RESULT.setLine(P1left); :}
-					|
-					(DesignatorSelectorArrayClass) ArraySelector:A1 {: RESULT=new DesignatorSelectorArrayClass(A1); RESULT.setLine(A1left); :}
+					| (DesignatorSelectorArrayClass) ArraySelector:A1 {: RESULT=new DesignatorSelectorArrayClass(A1); RESULT.setLine(A1left); :}
 					;
 	
 PointSelector ::= (PointSelectorClass) POINT IDENTIFIER:I1 {: RESULT=new PointSelectorClass(I1); RESULT.setLine(I1left); :}
@@ -481,28 +418,20 @@ Assignop ::= (AssignOperationClass) ASSIGN {: RESULT=new AssignOperationClass();
 			;
 
 Relop ::= (RelopEqClass) EQUAL {: RESULT=new RelopEqClass(); :}
-		|
-		(RelopNeqClass) NOT_EQUAL {: RESULT=new RelopNeqClass(); :}
-		|
-		(RelopGtClass) GREATER {: RESULT=new RelopGtClass(); :}
-		|
-		(RelopGeClass) GREATER_EQUAL {: RESULT=new RelopGeClass(); :}
-		|
-		(RelopLtClass) LESS {: RESULT=new RelopLtClass(); :}
-		|
-		(RelopLeClass) LESS_EQUAL {: RESULT=new RelopLeClass(); :}
+		| (RelopNeqClass) NOT_EQUAL {: RESULT=new RelopNeqClass(); :}
+		| (RelopGtClass) GREATER {: RESULT=new RelopGtClass(); :}
+		| (RelopGeClass) GREATER_EQUAL {: RESULT=new RelopGeClass(); :}
+		| (RelopLtClass) LESS {: RESULT=new RelopLtClass(); :}
+		| (RelopLeClass) LESS_EQUAL {: RESULT=new RelopLeClass(); :}
 		;
 
 Addop ::= (AddopPlusClass) ADD {: RESULT=new AddopPlusClass(); :}
-		|
-		(AddOpMinusClass) SUBTRACT {: RESULT=new AddOpMinusClass(); :}
+		| (AddOpMinusClass) SUBTRACT {: RESULT=new AddOpMinusClass(); :}
 		;
 
 Mulop ::= (MulopMullClass) MULTIPLY {: RESULT=new MulopMullClass(); :} 
-		|
-		(MulopDivClass) DIVIDE {: RESULT=new MulopDivClass(); :}
-		|
-		(MulopModClass) MODULO {: RESULT=new MulopModClass(); :}
+		| (MulopDivClass) DIVIDE {: RESULT=new MulopDivClass(); :}
+		| (MulopModClass) MODULO {: RESULT=new MulopModClass(); :}
 		;
 
 

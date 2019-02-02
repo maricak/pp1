@@ -62,16 +62,17 @@ terminal Integer BOOL_VALUE;
 terminal String IDENTIFIER;
 terminal ERROR;
 
-nonterminal Program, ProgramStart, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
-nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExtendsType, ExtendsType, OptionalImplementsTypeList;
-nonterminal ImplementsTypeList, TypeList, OptionalMethodDeclList, MethodDeclList, MethodStart, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
+nonterminal Program, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
+nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExtendsType, ClassVarDeclList;
+nonterminal InterfaceImplList, InterfaceList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
 nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, IfStatement, AssignConst;
 nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, OptionalCommaNumConst, StatementList, DesignatorStatement;
 nonterminal DesignatorStatementOption, ActPars, ExprList, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr, Expr, OptionalMinus; 
 nonterminal AddopTermList, Term, MulopFactorList, Factor, DesignatorFactor, OptionalDesignatorCallParams, DesignatorCallParams, OptionalActPars, NewFactor;
 nonterminal OptionalArraySelector, Designator, DesignatorSelectorList, DesignatorSelector, PointSelector, ArraySelector, Assignop, Relop, Addop, Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Type, ReturnType, ProgramStart, MethodStart;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
@@ -80,106 +81,90 @@ nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 precedence left ELSE;
 
 Program ::= (Program) ProgramStart DeclList LEFT_BRACE MethodDeclList RIGHT_BRACE
-		;
+        ;
 
 ProgramStart ::= (ProgramStart) PROGRAM IDENTIFIER:programName
-				;
+                ;
 
 DeclList ::= (DeclarationList) DeclList Decl
-			|
-			(DeclarationListNO) /* epsilon */
-			;
+			| (DeclarationListNO) /*epsilon */
+            ;
 
 Decl ::= (Declaration) ConstDecl
-				|
-				(DeclarationVar) VarDecl
-				|
-				(DeclarationClass) ClassDecl
-				|
-				(DeclarationEnum) EnumDecl
-				|
-				(DeclarationInterface) InterfaceDecl
-				;	
+        | (DeclarationVar) VarDecl
+        | (DeclarationClass) ClassDecl
+        | (DeclarationEnum) EnumDecl
+        | (DeclarationInterface) InterfaceDecl
+        ;	
 
 ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList SEPARATOR
-			;
+            ; 
 			
 AssignConstList ::= (AssignConstantList) AssignConstList COMMA AssignConst
-				|
-				(AssignConstantListEnd) AssignConst 
-				;
+				| (AssignConstantListEnd) AssignConst
+                ;
 	
 AssignConst ::= (AssignConst)  IDENTIFIER:constName ASSIGN ConstValue:constValue
-			;					
+            ;					
 
 ConstValue ::= (ConstValueInt) INT_VALUE:value 
-			|
-			(ConstValueChar) CHAR_VALUE:value 
-			|
-			(ConstValueBool) BOOL_VALUE:value 
-			;
+			| (ConstValueChar) CHAR_VALUE:value 
+			| (ConstValueBool) BOOL_VALUE:value
+            ;
 
 EnumDecl ::= (EnumDecl) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
-			;
+            ;
 
 OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum
-					|
-					(NoOptionalAssgnNumberClass) /* epsilon */
-					;					
+					| (NoOptionalAssgnNumberClass) /* epsilon */
+                    ;					
 					
 AssignNum ::= (AssignNum) ASSIGN INT_VALUE
-			;
+            ;
 
 
 IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList COMMA IDENTIFIER OptionalAssignNum
-							|
-							(NoIdentifierOptionalAssignNumberListClass) /* epsilon */
-							;
+							| (NoIdentifierOptionalAssignNumberListClass) /* epsilon */
+                            ;
 
 VarDecl ::= (VarDecl) Type:varType VarList SEPARATOR
-		;
+        ;
 		
 VarList ::= (VariableList) VarList COMMA VarName
-			|
-			(VariableListEnd) VarName /* epsilon */
-			;
+			| (VariableListEnd) VarName /* epsilon */
+            ;
 			
 VarName ::= (VarName) IDENTIFIER:varName OptionalBrackets:brackets
-		;
+        ;
 
-ClassDecl ::= (ClassDecl) CLASS IDENTIFIER OptionalExtendsType OptionalImplementsTypeList LEFT_BRACE VarDeclList:declList OptionalMethodDeclList RIGHT_BRACE
-			;
-			
-OptionalExtendsType ::= (OptionalExtendsTypeClass) ExtendsType
-					|
-					(NoOptionalExtendsTypeClass) /* epsilon */
-					;
-		
-ExtendsType ::= (ExtendsTypeClass) EXTENDS Type
-			;
-			
-OptionalImplementsTypeList ::= (OptionalImplementsTypeListClass) ImplementsTypeList
-							|
-							(NoOptionalImplementsTypeListClass) /* epsilon */
-							;
-							
+ClassDecl ::= (ClassDecl) ClassStart OptionalExtendsType InterfaceImplList LEFT_BRACE ClassVarDeclList OptionalMethodDeclList RIGHT_BRACE
+            ;
 
-ImplementsTypeList ::= (ImplementsTypeListClass) IMPLEMENTS Type TypeList
-					;
-		
-TypeList ::= (TypeListClass) TypeList COMMA Type
-			|
-			(NoTypeListClass) /* epsilon */
-			;
+ClassVarDeclList ::= (ClassVarDeclList) VarDeclList
+                ;
+
+ClassStart ::= (ClassStart) CLASS IDENTIFIER:className
+            ;
+			
+OptionalExtendsType ::= (ExtendsType) EXTENDS Type:type
+					| (ExtendsTypeNO) /* epsilon */
+					;					
+
+InterfaceImplList ::= (InterfaceImplementsList) IMPLEMENTS InterfaceList
+                    | (InterfaceImplementsListNO) /* epsilon */
+                    ;
+            
+InterfaceList ::= (Interfaces) InterfaceList COMMA Type:type
+                | (Interface) Type:type
+                | (InterfacesNO) /* epsilon */
+                ;
 			
 OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList RIGHT_BRACE
-						|
-						(NoOptionalMethodDeclarationListClass) /* epsilon */
+						| (NoOptionalMethodDeclarationListClass) /* epsilon */
 						;
 								
 MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
-			|
-			(NoMethodDeclarationListClass)/* epsilon */
+			| (NoMethodDeclarationListClass)/* epsilon */
 			;
 
 
@@ -187,8 +172,7 @@ InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE In
 				;
 
 InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList InterfaceMethodDecl
-						|
-						(NoInterfaceMethodDeclListClass) /* epsilon */
+						| (NoInterfaceMethodDeclListClass) /* epsilon */
 						;
 
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS SEPARATOR
@@ -201,138 +185,108 @@ MethodStart ::= (MethodStart) ReturnType IDENTIFIER:methodName
 			;
 	
 ReturnType ::= (ReturnT) Type
-			|
-			(ReturnVoid) VOID
+			| (ReturnVoid) VOID
 			;
 			
 FormPars ::= (FormalParameters) FormPars COMMA FormPar				
-			|
-			(FormalParameter) FormPar
-			|
-			(FormalParametersNO)	/* epsilon */
+			| (FormalParameter) FormPar
+			| (FormalParametersNO)	/* epsilon */
 			;
 
 
 VarDeclList ::= (VariableDeclList) VarDeclList VarDecl
-			|
-			(VariableDeclListNO) /* epsilon */
+			| (VariableDeclListNO) /* epsilon */
 			;
 				
 FormPar ::= (FormPar) Type VarName 
 			;
 			
 OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET
-				|
-				(BracketsNO) /* epsilon */
+				| (BracketsNO) /* epsilon */
 				;
 
-
 Type ::= (TypeInt) INT
-		|
-		(TypeBool) BOOL
-		|
-		(TypeChar) CHAR
-		|
-		(TypeCustom) IDENTIFIER:typeName
+		| (TypeBool) BOOL
+		| (TypeChar) CHAR
+		| (TypeCustom) IDENTIFIER:typeName
 		;
 
 Statement ::= (StatementDesignatorClass) DesignatorStatement SEPARATOR
-			|
-			(StatementIfClass) IfStatement 
-			|
-			(StatementForClass) ForStatement
-			|
-			(StatementBreakClass) BREAK SEPARATOR
-			|
-			(StatementContinueClass) CONTINUE SEPARATOR
-			|
-			(StatementReturnClass) RETURN OptionalExpr SEPARATOR
-			|
-			(StatementReadClass) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
-			|
-			(StatementPrintClass) PRINT LEFT_PARENTHESIS Expr OptionalCommaNumConst RIGHT_PARENTHESIS SEPARATOR
-			|
-			(StatementStatementListClass) LEFT_BRACE StatementList RIGHT_BRACE
+			| (StatementIfClass) IfStatement 
+			| (StatementForClass) ForStatement
+			| (StatementBreakClass) BREAK SEPARATOR
+			| (StatementContinueClass) CONTINUE SEPARATOR
+			| (StatementReturnClass) RETURN OptionalExpr SEPARATOR
+			| (StatementReadClass) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
+			| (StatementPrintClass) PRINT LEFT_PARENTHESIS Expr OptionalCommaNumConst RIGHT_PARENTHESIS SEPARATOR
+			| (StatementStatementListClass) LEFT_BRACE StatementList RIGHT_BRACE
 			;
 
 IfStatement ::=  (IfStatementClass) IF LEFT_PARENTHESIS Condition RIGHT_PARENTHESIS Statement OptionalElse
 			;
 		
 OptionalElse ::= (OptionalElseClass) ELSE Statement
-				|
-				(NoOptionalElseClass) /* epsilon */
+				| (NoOptionalElseClass) /* epsilon */
 				;
 			
 ForStatement ::= (ForStatementClass) FOR LEFT_PARENTHESIS OptionalDesignatorStatement SEPARATOR OptionalCondition SEPARATOR OptionalDesignatorStatement RIGHT_PARENTHESIS Statement
 			;
 			
 OptionalCondition ::= (OptionalConditionClass) Condition 
-					|
-					(NoOptionalConditionClass) /* epsilon */
+					| (NoOptionalConditionClass) /* epsilon */
 					;
 			
 OptionalDesignatorStatement ::= (OptionalDesignatorStatementClass) DesignatorStatement
-							|
-							(NoOptionalDesignatorStatementClass) /* epsilon */
+							| (NoOptionalDesignatorStatementClass) /* epsilon */
 							;
 						
 OptionalExpr ::= (OptionalExprClass) Expr
-				|
-				(NoOptionalExprClass) /* epsilon */
+				| (NoOptionalExprClass) /* epsilon */
 				;
 	
 OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE
-						|
-						(NoOptionalComaNumberConstClass) /* espilon */
+						| (NoOptionalComaNumberConstClass) /* espilon */
 						;		
 			
 StatementList ::= (StatementListClass) StatementList Statement
-				|
-				(NoStatementListClass) /* epsilon */
+				| (NoStatementListClass) /* epsilon */
 				;
 
 DesignatorStatement ::= (DesignatorStatementClass) Designator DesignatorStatementOption
 					;
 					
 DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop Expr
-							|
-							(DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
-							|
-							(DesignatorStatementIncrementOptionClass) INCREMENT
-							|
-							(DesignatorStatementDecrementOptionClass) DECREMENT
+							| (DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
+							| (DesignatorStatementIncrementOptionClass) INCREMENT
+							| (DesignatorStatementDecrementOptionClass) DECREMENT
 							;												
 
 ActPars ::= (ActParamsClass) Expr ExprList
 		;
 		
 ExprList ::= (ExpressionListClass) ExprList COMMA Expr
-			|
-			(NoExpressionListClass) /* epsilon */
+			| (NoExpressionListClass) /* epsilon */
 			;
 
 Condition ::= (ConditionClass) CondTerm OrCondFactList
 			;
 			
 OrCondFactList ::= (OrConditionFactListClass) OrCondFactList OR CondFact
-				|
-				(NoOrConditionFactListClass) /* epsilon */
+				| (NoOrConditionFactListClass) /* epsilon */
 				;				
 
 CondTerm ::= (ConditionTermClass) CondFact AndCondFactList
 			;
 			
 AndCondFactList ::= (AndConditionFactListClass) AndCondFactList AND CondFact
-				|
-				(NoAndConditionFactListClass) /* epsilon */
+				| (NoAndConditionFactListClass) /* epsilon */
 				;	
 
 CondFact ::= (ConditionFactClass) Expr OptionalRelopExpr
 		;
 		
 OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop Expr
-					|
-					(NoOptionalRelopExprClassClass) /* epsilon */
+					| (NoOptionalRelopExprClassClass) /* epsilon */
 					;
 
 
@@ -340,73 +294,59 @@ Expr ::= (ExpressionClass) OptionalMinus Term AddopTermList
 		;
 		
 OptionalMinus ::= (OptionalSubtractClass) SUBTRACT 
-				|
-				(NoOptionalSubtractClass) /* epsilon */
+				| (NoOptionalSubtractClass) /* epsilon */
 				;
 
 AddopTermList ::= (AddOperationtermListClass) AddopTermList Addop Term
-				|
-				(NoAddOperationtermListClass)/* epilon */
+				| (NoAddOperationtermListClass)/* epilon */
 				;
 
 Term ::= (TermClass) Factor MulopFactorList
 		;
 
 MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList Mulop Factor
-				|
-				(NoMulOperationFactorListClass) /* epilon */
+				| (NoMulOperationFactorListClass) /* epilon */
 				;
 
 Factor ::= (FactorDesignatorClass) DesignatorFactor
-		|
-		(FactorIntClass) INT_VALUE
-		|
-		(FactorCharClass) CHAR_VALUE
-		|
-		(FactorBoolClass) BOOL_VALUE
-		|
-		(FactorNewClass) NewFactor
-		|
-		(FactorNullClass) NULL
-		|
-		(FactorExpressionClass) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+		| (FactorIntClass) INT_VALUE
+		| (FactorCharClass) CHAR_VALUE
+		| (FactorBoolClass) BOOL_VALUE
+		| (FactorNewClass) NewFactor
+		| (FactorNullClass) NULL
+		| (FactorExpressionClass) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
 		;
 		
 DesignatorFactor ::= (DesignatorFactorClass) Designator OptionalDesignatorCallParams
 				;
 				
 OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams
-								|
-								(NoOptionalDesignatorCallParamsClass) /* epsilon */
+								| (NoOptionalDesignatorCallParamsClass) /* epsilon */
 								;
 	
 DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
 					;
 					
 OptionalActPars ::= (OptionalActParsClass) ActPars
-				|
-				(NoOptionalActParsClass) /* epsilon */
+				| (NoOptionalActParsClass) /* epsilon */
 				;
 		
 NewFactor ::= (NewFactorClass) NEW Type OptionalArraySelector
 			;
 
 OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector
-						|
-						(NoOptionalArraySelectorClass) /* epsilon */
+						| (NoOptionalArraySelectorClass) /* epsilon */
 						;
 
 Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList
 			;
 			
 DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList DesignatorSelector
-						|
-						(NoDesignatorSelectorListClass) /* epsilon */
+						| (NoDesignatorSelectorListClass) /* epsilon */
 						;
 						
 DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector
-					|
-					(DesignatorSelectorArrayClass) ArraySelector
+					| (DesignatorSelectorArrayClass) ArraySelector
 					;
 	
 PointSelector ::= (PointSelectorClass) POINT IDENTIFIER
@@ -419,28 +359,20 @@ Assignop ::= (AssignOperationClass) ASSIGN
 			;
 
 Relop ::= (RelopEqClass) EQUAL
-		|
-		(RelopNeqClass) NOT_EQUAL
-		|
-		(RelopGtClass) GREATER
-		|
-		(RelopGeClass) GREATER_EQUAL
-		|
-		(RelopLtClass) LESS
-		|
-		(RelopLeClass) LESS_EQUAL
+		| (RelopNeqClass) NOT_EQUAL
+		| (RelopGtClass) GREATER
+		| (RelopGeClass) GREATER_EQUAL
+		| (RelopLtClass) LESS
+		| (RelopLeClass) LESS_EQUAL
 		;
 
 Addop ::= (AddopPlusClass) ADD
-		|
-		(AddOpMinusClass) SUBTRACT
+		| (AddOpMinusClass) SUBTRACT
 		;
 
 Mulop ::= (MulopMullClass) MULTIPLY 
-		|
-		(MulopDivClass) DIVIDE
-		|
-		(MulopModClass) MODULO
+		| (MulopDivClass) DIVIDE
+		| (MulopModClass) MODULO
 		;
 
 

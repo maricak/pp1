@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:54
+// 2/1/2019 19:23:59
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -14,25 +14,23 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Statement Statement) { }
     public void visit(OptionalRelopExpr OptionalRelopExpr) { }
     public void visit(ExprList ExprList) { }
-    public void visit(ImplementsTypeList ImplementsTypeList) { }
-    public void visit(ExtendsType ExtendsType) { }
     public void visit(Relop Relop) { }
     public void visit(OptionalMethodDeclList OptionalMethodDeclList) { }
     public void visit(DeclList DeclList) { }
     public void visit(Expr Expr) { }
     public void visit(OptionalDesignatorStatement OptionalDesignatorStatement) { }
     public void visit(MulopFactorList MulopFactorList) { }
+    public void visit(InterfaceList InterfaceList) { }
     public void visit(AndCondFactList AndCondFactList) { }
     public void visit(AddopTermList AddopTermList) { }
     public void visit(DesignatorSelectorList DesignatorSelectorList) { }
     public void visit(DesignatorSelector DesignatorSelector) { }
     public void visit(OrCondFactList OrCondFactList) { }
-    public void visit(OptionalImplementsTypeList OptionalImplementsTypeList) { }
+    public void visit(InterfaceImplList InterfaceImplList) { }
     public void visit(AssignConstList AssignConstList) { }
     public void visit(NewFactor NewFactor) { }
     public void visit(OptionalActPars OptionalActPars) { }
     public void visit(DesignatorFactor DesignatorFactor) { }
-    public void visit(TypeList TypeList) { }
     public void visit(OptionalExtendsType OptionalExtendsType) { }
     public void visit(PointSelector PointSelector) { }
     public void visit(OptionalArraySelector OptionalArraySelector) { }
@@ -176,14 +174,15 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MethodDeclarationListClass MethodDeclarationListClass) { visit(); }
     public void visit(NoOptionalMethodDeclarationListClass NoOptionalMethodDeclarationListClass) { visit(); }
     public void visit(OptionalMethodDeclarationListClass OptionalMethodDeclarationListClass) { visit(); }
-    public void visit(NoTypeListClass NoTypeListClass) { visit(); }
-    public void visit(TypeListClass TypeListClass) { visit(); }
-    public void visit(ImplementsTypeListClass ImplementsTypeListClass) { visit(); }
-    public void visit(NoOptionalImplementsTypeListClass NoOptionalImplementsTypeListClass) { visit(); }
-    public void visit(OptionalImplementsTypeListClass OptionalImplementsTypeListClass) { visit(); }
-    public void visit(ExtendsTypeClass ExtendsTypeClass) { visit(); }
-    public void visit(NoOptionalExtendsTypeClass NoOptionalExtendsTypeClass) { visit(); }
-    public void visit(OptionalExtendsTypeClass OptionalExtendsTypeClass) { visit(); }
+    public void visit(InterfacesNO InterfacesNO) { visit(); }
+    public void visit(Interface Interface) { visit(); }
+    public void visit(Interfaces Interfaces) { visit(); }
+    public void visit(InterfaceImplementsListNO InterfaceImplementsListNO) { visit(); }
+    public void visit(InterfaceImplementsList InterfaceImplementsList) { visit(); }
+    public void visit(ExtendsTypeNO ExtendsTypeNO) { visit(); }
+    public void visit(ExtendsType ExtendsType) { visit(); }
+    public void visit(ClassStart ClassStart) { visit(); }
+    public void visit(ClassVarDeclList ClassVarDeclList) { visit(); }
     public void visit(ClassDecl ClassDecl) { visit(); }
     public void visit(VarName VarName) { visit(); }
     public void visit(VariableListEnd VariableListEnd) { visit(); }

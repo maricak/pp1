@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:53
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,30 +9,31 @@ public class ClassDecl implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private String I1;
+    private ClassStart ClassStart;
     private OptionalExtendsType OptionalExtendsType;
-    private OptionalImplementsTypeList OptionalImplementsTypeList;
-    private VarDeclList VarDeclList;
+    private InterfaceImplList InterfaceImplList;
+    private ClassVarDeclList ClassVarDeclList;
     private OptionalMethodDeclList OptionalMethodDeclList;
 
-    public ClassDecl (String I1, OptionalExtendsType OptionalExtendsType, OptionalImplementsTypeList OptionalImplementsTypeList, VarDeclList VarDeclList, OptionalMethodDeclList OptionalMethodDeclList) {
-        this.I1=I1;
+    public ClassDecl (ClassStart ClassStart, OptionalExtendsType OptionalExtendsType, InterfaceImplList InterfaceImplList, ClassVarDeclList ClassVarDeclList, OptionalMethodDeclList OptionalMethodDeclList) {
+        this.ClassStart=ClassStart;
+        if(ClassStart!=null) ClassStart.setParent(this);
         this.OptionalExtendsType=OptionalExtendsType;
         if(OptionalExtendsType!=null) OptionalExtendsType.setParent(this);
-        this.OptionalImplementsTypeList=OptionalImplementsTypeList;
-        if(OptionalImplementsTypeList!=null) OptionalImplementsTypeList.setParent(this);
-        this.VarDeclList=VarDeclList;
-        if(VarDeclList!=null) VarDeclList.setParent(this);
+        this.InterfaceImplList=InterfaceImplList;
+        if(InterfaceImplList!=null) InterfaceImplList.setParent(this);
+        this.ClassVarDeclList=ClassVarDeclList;
+        if(ClassVarDeclList!=null) ClassVarDeclList.setParent(this);
         this.OptionalMethodDeclList=OptionalMethodDeclList;
         if(OptionalMethodDeclList!=null) OptionalMethodDeclList.setParent(this);
     }
 
-    public String getI1() {
-        return I1;
+    public ClassStart getClassStart() {
+        return ClassStart;
     }
 
-    public void setI1(String I1) {
-        this.I1=I1;
+    public void setClassStart(ClassStart ClassStart) {
+        this.ClassStart=ClassStart;
     }
 
     public OptionalExtendsType getOptionalExtendsType() {
@@ -43,20 +44,20 @@ public class ClassDecl implements SyntaxNode {
         this.OptionalExtendsType=OptionalExtendsType;
     }
 
-    public OptionalImplementsTypeList getOptionalImplementsTypeList() {
-        return OptionalImplementsTypeList;
+    public InterfaceImplList getInterfaceImplList() {
+        return InterfaceImplList;
     }
 
-    public void setOptionalImplementsTypeList(OptionalImplementsTypeList OptionalImplementsTypeList) {
-        this.OptionalImplementsTypeList=OptionalImplementsTypeList;
+    public void setInterfaceImplList(InterfaceImplList InterfaceImplList) {
+        this.InterfaceImplList=InterfaceImplList;
     }
 
-    public VarDeclList getVarDeclList() {
-        return VarDeclList;
+    public ClassVarDeclList getClassVarDeclList() {
+        return ClassVarDeclList;
     }
 
-    public void setVarDeclList(VarDeclList VarDeclList) {
-        this.VarDeclList=VarDeclList;
+    public void setClassVarDeclList(ClassVarDeclList ClassVarDeclList) {
+        this.ClassVarDeclList=ClassVarDeclList;
     }
 
     public OptionalMethodDeclList getOptionalMethodDeclList() {
@@ -88,24 +89,27 @@ public class ClassDecl implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(ClassStart!=null) ClassStart.accept(visitor);
         if(OptionalExtendsType!=null) OptionalExtendsType.accept(visitor);
-        if(OptionalImplementsTypeList!=null) OptionalImplementsTypeList.accept(visitor);
-        if(VarDeclList!=null) VarDeclList.accept(visitor);
+        if(InterfaceImplList!=null) InterfaceImplList.accept(visitor);
+        if(ClassVarDeclList!=null) ClassVarDeclList.accept(visitor);
         if(OptionalMethodDeclList!=null) OptionalMethodDeclList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(ClassStart!=null) ClassStart.traverseTopDown(visitor);
         if(OptionalExtendsType!=null) OptionalExtendsType.traverseTopDown(visitor);
-        if(OptionalImplementsTypeList!=null) OptionalImplementsTypeList.traverseTopDown(visitor);
-        if(VarDeclList!=null) VarDeclList.traverseTopDown(visitor);
+        if(InterfaceImplList!=null) InterfaceImplList.traverseTopDown(visitor);
+        if(ClassVarDeclList!=null) ClassVarDeclList.traverseTopDown(visitor);
         if(OptionalMethodDeclList!=null) OptionalMethodDeclList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(ClassStart!=null) ClassStart.traverseBottomUp(visitor);
         if(OptionalExtendsType!=null) OptionalExtendsType.traverseBottomUp(visitor);
-        if(OptionalImplementsTypeList!=null) OptionalImplementsTypeList.traverseBottomUp(visitor);
-        if(VarDeclList!=null) VarDeclList.traverseBottomUp(visitor);
+        if(InterfaceImplList!=null) InterfaceImplList.traverseBottomUp(visitor);
+        if(ClassVarDeclList!=null) ClassVarDeclList.traverseBottomUp(visitor);
         if(OptionalMethodDeclList!=null) OptionalMethodDeclList.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -115,7 +119,10 @@ public class ClassDecl implements SyntaxNode {
         buffer.append(tab);
         buffer.append("ClassDecl(\n");
 
-        buffer.append(" "+tab+I1);
+        if(ClassStart!=null)
+            buffer.append(ClassStart.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
         buffer.append("\n");
 
         if(OptionalExtendsType!=null)
@@ -124,14 +131,14 @@ public class ClassDecl implements SyntaxNode {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalImplementsTypeList!=null)
-            buffer.append(OptionalImplementsTypeList.toString("  "+tab));
+        if(InterfaceImplList!=null)
+            buffer.append(InterfaceImplList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(VarDeclList!=null)
-            buffer.append(VarDeclList.toString("  "+tab));
+        if(ClassVarDeclList!=null)
+            buffer.append(ClassVarDeclList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

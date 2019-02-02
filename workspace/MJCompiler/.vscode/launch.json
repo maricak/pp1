@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "LexerGenerator",
+            "request": "launch",
+            "mainClass": "JFlex.Main",
+            "projectName": "MJCompiler",
+            "args": "-d src\\rs\\ac\\bg\\etf\\pp1 spec\\mjlexer.flex",
+            "classPaths": [
+                "lib\\JFlex.jar"
+            ]
+        },
+        {
+            "cwd": "${workspaceFolder}\\src",
+            "type": "java",
+            "name": "ParserGenerator",
+            "request": "launch",
+            "mainClass": "java_cup.Main",
+            "projectName": "MJCompiler",
+            "args": "-destdir rs\\ac\\bg\\etf\\pp1 -parser MJParser -ast rs.ac.bg.etf.pp1.ast -buildtree ..\\spec\\mjparser.cup",
+            // "preLaunchTask": "deleteAst",
+            // "postDebugTask": "echo"
+            //"args" : "-v"
+        },
+        {
+            "type": "java",
+            "name": "MJLexerTest",
+            "request": "launch",
+            "mainClass": "rs.ac.bg.etf.pp1.MJLexerTest",
+            "projectName": "MJCompiler"
+        },
+        {            
+            "type": "java",
+            "name": "MJParserTest",
+            "request": "launch",
+            "mainClass": "rs.ac.bg.etf.pp1.MJParserTest",
+            "projectName": "MJCompiler"
+        },
+        {
+            "type": "java",
+            "name": "Run",
+            "request": "launch",
+            "mainClass": "rs.etf.pp1.mj.runtime.Run",
+            "projectName": "MJCompiler"
+        },
+        {
+            "type": "java",
+            "name": "Disasm",
+            "request": "launch",
+            "mainClass": "rs.etf.pp1.mj.runtime.disasm",
+            "projectName": "MJCompiler"
+        }
+    ]
+}

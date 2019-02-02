@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:53
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoOptionalImplementsTypeListClass extends OptionalImplementsTypeList {
+public class InterfaceImplementsListNO extends InterfaceImplList {
 
-    public NoOptionalImplementsTypeListClass () {
+    public InterfaceImplementsListNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoOptionalImplementsTypeListClass extends OptionalImplementsTypeLis
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoOptionalImplementsTypeListClass(\n");
+        buffer.append("InterfaceImplementsListNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoOptionalImplementsTypeListClass]");
+        buffer.append(") [InterfaceImplementsListNO]");
         return buffer.toString();
     }
 }

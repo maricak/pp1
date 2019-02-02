@@ -1,37 +1,58 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 2:21:54
+// 2/1/2019 19:23:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class ExtendsType implements SyntaxNode {
+public class ExtendsType extends OptionalExtendsType {
 
-    private SyntaxNode parent;
+    private Type Type;
 
-    private int line;
-
-    public SyntaxNode getParent() {
-        return parent;
+    public ExtendsType (Type Type) {
+        this.Type=Type;
+        if(Type!=null) Type.setParent(this);
     }
 
-    public void setParent(SyntaxNode parent) {
-        this.parent=parent;
+    public Type getType() {
+        return Type;
     }
 
-    public int getLine() {
-        return line;
+    public void setType(Type Type) {
+        this.Type=Type;
     }
 
-    public void setLine(int line) {
-        this.line=line;
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
-    public abstract void accept(Visitor visitor);
-    public abstract void childrenAccept(Visitor visitor);
-    public abstract void traverseTopDown(Visitor visitor);
-    public abstract void traverseBottomUp(Visitor visitor);
+    public void childrenAccept(Visitor visitor) {
+        if(Type!=null) Type.accept(visitor);
+    }
 
-    public String toString() { return toString(""); }
-    public abstract String toString(String tab);
+    public void traverseTopDown(Visitor visitor) {
+        accept(visitor);
+        if(Type!=null) Type.traverseTopDown(visitor);
+    }
+
+    public void traverseBottomUp(Visitor visitor) {
+        if(Type!=null) Type.traverseBottomUp(visitor);
+        accept(visitor);
+    }
+
+    public String toString(String tab) {
+        StringBuffer buffer=new StringBuffer();
+        buffer.append(tab);
+        buffer.append("ExtendsType(\n");
+
+        if(Type!=null)
+            buffer.append(Type.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(tab);
+        buffer.append(") [ExtendsType]");
+        return buffer.toString();
+    }
 }
