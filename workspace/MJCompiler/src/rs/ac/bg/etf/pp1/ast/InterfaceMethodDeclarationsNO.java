@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 15:5:32
+// 3/1/2019 16:21:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoInterfaceMethodDeclListClass extends InterfaceMethodDeclList {
+public class InterfaceMethodDeclarationsNO extends InterfaceMethodDeclList {
 
-    public NoInterfaceMethodDeclListClass () {
+    public InterfaceMethodDeclarationsNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoInterfaceMethodDeclListClass extends InterfaceMethodDeclList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoInterfaceMethodDeclListClass(\n");
+        buffer.append("InterfaceMethodDeclarationsNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoInterfaceMethodDeclListClass]");
+        buffer.append(") [InterfaceMethodDeclarationsNO]");
         return buffer.toString();
     }
 }

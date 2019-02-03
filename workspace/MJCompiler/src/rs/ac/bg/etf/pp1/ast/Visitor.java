@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 15:5:33
+// 3/1/2019 16:21:17
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -12,7 +12,6 @@ public interface Visitor {
     public void visit(Mulop Mulop);
     public void visit(OptionalAssignNum OptionalAssignNum);
     public void visit(InterfaceMethodDeclList InterfaceMethodDeclList);
-    public void visit(InterfaceDecl InterfaceDecl);
     public void visit(Relop Relop);
     public void visit(PrintNumParameter PrintNumParameter);
     public void visit(VarName VarName);
@@ -26,7 +25,6 @@ public interface Visitor {
     public void visit(VarList VarList);
     public void visit(DeclList DeclList);
     public void visit(Designator Designator);
-    public void visit(InterfaceMethodDecl InterfaceMethodDecl);
     public void visit(Term Term);
     public void visit(Condition Condition);
     public void visit(AndCondFactList AndCondFactList);
@@ -141,14 +139,14 @@ public interface Visitor {
     public void visit(ReturnT ReturnT);
     public void visit(MethodStart MethodStart);
     public void visit(MethodDecl MethodDecl);
-    public void visit(InterfaceMethodDeclarationClass InterfaceMethodDeclarationClass);
-    public void visit(NoInterfaceMethodDeclListClass NoInterfaceMethodDeclListClass);
-    public void visit(InterfaceMethodDeclListClass InterfaceMethodDeclListClass);
-    public void visit(InterfaceDeclarationClass InterfaceDeclarationClass);
-    public void visit(NoMethodDeclarationListClass NoMethodDeclarationListClass);
-    public void visit(MethodDeclarationListClass MethodDeclarationListClass);
-    public void visit(OptionalMethodDeclarationListNO OptionalMethodDeclarationListNO);
-    public void visit(OptionalMethodDeclarationList OptionalMethodDeclarationList);
+    public void visit(InterfaceMethodDecl InterfaceMethodDecl);
+    public void visit(InterfaceMethodDeclarationsNO InterfaceMethodDeclarationsNO);
+    public void visit(InterfaceMethodDeclarations InterfaceMethodDeclarations);
+    public void visit(InterfaceDecl InterfaceDecl);
+    public void visit(MethodDeclarationsNO MethodDeclarationsNO);
+    public void visit(MethodDeclarations MethodDeclarations);
+    public void visit(MethodDeclarationListNO MethodDeclarationListNO);
+    public void visit(MethodDeclarationList MethodDeclarationList);
     public void visit(InterfacesNO InterfacesNO);
     public void visit(Interface Interface);
     public void visit(Interfaces Interfaces);

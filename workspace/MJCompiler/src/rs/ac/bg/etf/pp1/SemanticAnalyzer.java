@@ -1,14 +1,14 @@
 package rs.ac.bg.etf.pp1;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
 import rs.ac.bg.etf.pp1.ast.*;
+import rs.etf.pp1.symboltable.*;
+import rs.etf.pp1.symboltable.concepts.*;
 import rs.ac.bg.etf.pp1.mysymboltable.*;
-import rs.etf.pp1.symboltable.Tab;
-import rs.etf.pp1.symboltable.concepts.Obj;
-import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class SemanticAnalyzer extends VisitorAdaptor {
 
@@ -252,7 +252,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     public void visit(FormPar formPar) {
         Variable variable = formPar.getVarName().variable;
         if (variable == null) {
-            //report_error("OPORAVAK Greska u formalnim parametrima", formalPar);
+            // report_error("OPORAVAK Greska u formalnim parametrima", formalPar);
             return;
         }
         variable.setStruct(formPar.getType().struct);
@@ -283,7 +283,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // endregion
 
-    // region standard functions
+    // region standardne funkcije
     public void visit(StandardFunctionChr standardFunctionChr) {
         Struct struct = standardFunctionChr.getExpr().struct;
         if (struct.getKind() != Struct.Int) {
@@ -389,6 +389,18 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
     // endregion
 
+    // poziv funkcije metode
+    private Stack<LinkedList<Struct>> functionCallArguments = new Stack<>();
+
+    public void visit(ActParameter actParameter) {
+        functionCallArguments.peek().add(actParameter.getExpr().struct);
+    }
+
+    public void visit(ActParameters actParameters) {
+        functionCallArguments.peek().add(actParameters.getExpr().struct);
+    }
+    // endregion
+
     // region designator statement
     public void visit(DesignatorAssign designatorAssign) {
         // System.err.println(designatorAssign);
@@ -420,9 +432,45 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         // System.out.println(designatorStandardFunction);
     }
 
+    public void visit(DesignatorFunctionCall designatorFunctionCall) {
+        Obj method = designatorFunctionCall.getDesignator().obj;
+        LinkedList<Struct> arguments = functionCallArguments.pop();
+        if (method.getKind() != Obj.Meth) {
+            report_error(method.getName() + " nije ime metode ni funkcije", designatorFunctionCall);
+            return;
+        } else {
+            LinkedList<Obj> parameters = new LinkedList<>(method.getLocalSymbols());
+            int numberOfParameters = method.getLevel();
+            if (parameters.peekFirst() != null && parameters.peekFirst().getName().equals("this")) {
+                parameters.removeFirst();
+                numberOfParameters--;
+            }
+            if (arguments.size() != numberOfParameters) {
+                report_error("Netacan broj argumenata za poziv " + method.getName(), designatorFunctionCall);
+            } else {
+                boolean incompatible = false;
+                for (int i = 0; i < numberOfParameters; i++) {
+                    Struct argument = arguments.remove();
+                    Struct parameter = parameters.remove().getType();
+                    if (!argument.assignableTo(parameter)) {
+                        report_error((i + 1) + ". argument ne moze da se dodeli odgovarajucem parametru",
+                                designatorFunctionCall);
+                        incompatible = true;
+                    }
+                }
+                if (!incompatible) {
+                    report_info("Poziv metode " + method.getName(), designatorFunctionCall);
+                }
+            }
+        }
+    }
+
     public void visit(DesignatorIncrement designatorIncrement) {
         if (isLeftValue(designatorIncrement.getDesignator())) {
-            if (designatorIncrement.getDesignator().obj.getKind() != MyStruct.Int) {
+            Struct struct = designatorIncrement.getDesignator().obj.getType();
+            if(struct.getKind() == Struct.Array && struct.getElemType().getKind() != MyStruct.Int) {
+                report_error("Samo se ceo broj moze inkrementirati", designatorIncrement);
+            } else if(struct.getKind() != MyStruct.Int) {
                 report_error("Samo se ceo broj moze inkrementirati", designatorIncrement);
             }
         } else {
@@ -433,14 +481,16 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     public void visit(DesignatorDecrement designatorDecrement) {
         if (isLeftValue(designatorDecrement.getDesignator())) {
-            if (designatorDecrement.getDesignator().obj.getKind() != MyStruct.Int) {
+            Struct struct = designatorDecrement.getDesignator().obj.getType();
+            if(struct.getKind() == Struct.Array && struct.getElemType().getKind() != MyStruct.Int) {
+                report_error("Samo se ceo broj moze dekrementirati", designatorDecrement);
+            } else if(struct.getKind() != MyStruct.Int) {
                 report_error("Samo se ceo broj moze dekrementirati", designatorDecrement);
             }
         } else {
             report_error("Kod dekrementiranja leva strana mora biti promenljiva, polje klase ili element niza",
-                    designatorDecrement);
+            designatorDecrement);
         }
-
     }
     // endregion
 
@@ -501,6 +551,41 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     }
 
+    public void visit(FactorFunctionCall factorFunctionCall) {
+        Obj method = factorFunctionCall.getDesignator().obj;
+        LinkedList<Struct> arguments = functionCallArguments.pop();
+        if (method.getKind() != Obj.Meth) {
+            report_error(method.getName() + " nije ime metode ni funkcije", factorFunctionCall);
+            factorFunctionCall.struct = MyTable.noType;
+            return;
+        } else {
+            factorFunctionCall.struct = method.getType();
+            LinkedList<Obj> parameters = new LinkedList<>(method.getLocalSymbols());
+            int numberOfParameters = method.getLevel();
+            if (parameters.peekFirst() != null && parameters.peekFirst().getName().equals("this")) {
+                parameters.removeFirst();
+                numberOfParameters--;
+            }
+            if (arguments.size() != numberOfParameters) {
+                report_error("Netacan broj argumenata za poziv " + method.getName(), factorFunctionCall);
+            } else {
+                boolean incompatible = false;
+                for (int i = 0; i < numberOfParameters; i++) {
+                    Struct argument = arguments.remove();
+                    Struct parameter = parameters.remove().getType();
+                    if (!argument.assignableTo(parameter)) {
+                        report_error((i + 1) + ". argument ne moze da se dodeli odgovarajucem parametru",
+                                factorFunctionCall);
+                        incompatible = true;
+                    }
+                }
+                if (!incompatible) {
+                    report_info("Poziv metode " + method.getName(), factorFunctionCall);
+                }
+            }
+        }
+    }
+
     public void visit(FactorConst factorConst) {
         factorConst.struct = factorConst.getConstValue().constant.getObj().getType();
     }
@@ -534,6 +619,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // region designator
     public void visit(DesignatorName designatorName) {
+        if (designatorName.getParent() instanceof FactorFunctionCall
+                || designatorName.getParent() instanceof DesignatorFunctionCall) {
+            functionCallArguments.push(new LinkedList<>());
+        }
+
         Obj obj = MyTable.find(designatorName.getName());
         if (obj == MyTable.noObj) {
             report_error("Ime " + designatorName.getName() + " nije deklarisano", designatorName);
@@ -544,6 +634,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(DesignatorPointAccess designatorPointAccess) {
+        if (designatorPointAccess.getParent() instanceof FactorFunctionCall
+                || designatorPointAccess.getParent() instanceof DesignatorFunctionCall) {
+            functionCallArguments.push(new LinkedList<>());
+        }
+
         if (designatorPointAccess.getDesignator().obj != MyTable.noObj) {
             Struct struct = designatorPointAccess.getDesignator().obj.getType();
             if (struct.getKind() != MyStruct.Class && struct.getKind() != MyStruct.Enum) {
@@ -552,7 +647,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             } else {
                 Obj elem = struct.getMembers().searchKey(designatorPointAccess.getName());
                 if (elem == null) {
-                    report_error("Ne postoji ime" + designatorPointAccess.getName(), designatorPointAccess);
+                    report_error("Ne postoji ime " + designatorPointAccess.getName(), designatorPointAccess);
                     designatorPointAccess.obj = MyTable.noObj;
                 } else {
                     designatorPointAccess.obj = elem;
@@ -597,6 +692,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         }
         return false;
     }
+
     // endregion
 
 }

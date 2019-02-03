@@ -29,5 +29,13 @@ public class MyStruct extends Struct {
     @Override
     public boolean isRefType() {
 		return super.isRefType() || myKind == Interface;
-	}
+    }
+    
+    @Override
+    public boolean assignableTo(Struct dest) {
+        return super.assignableTo(dest);
+        // || provera za interfejse i klase
+    }
+
+    
 }

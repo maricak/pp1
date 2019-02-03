@@ -1,16 +1,16 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 15:5:32
+// 3/1/2019 16:21:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class InterfaceMethodDeclListClass extends InterfaceMethodDeclList {
+public class InterfaceMethodDeclarations extends InterfaceMethodDeclList {
 
     private InterfaceMethodDeclList InterfaceMethodDeclList;
     private InterfaceMethodDecl InterfaceMethodDecl;
 
-    public InterfaceMethodDeclListClass (InterfaceMethodDeclList InterfaceMethodDeclList, InterfaceMethodDecl InterfaceMethodDecl) {
+    public InterfaceMethodDeclarations (InterfaceMethodDeclList InterfaceMethodDeclList, InterfaceMethodDecl InterfaceMethodDecl) {
         this.InterfaceMethodDeclList=InterfaceMethodDeclList;
         if(InterfaceMethodDeclList!=null) InterfaceMethodDeclList.setParent(this);
         this.InterfaceMethodDecl=InterfaceMethodDecl;
@@ -57,7 +57,7 @@ public class InterfaceMethodDeclListClass extends InterfaceMethodDeclList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("InterfaceMethodDeclListClass(\n");
+        buffer.append("InterfaceMethodDeclarations(\n");
 
         if(InterfaceMethodDeclList!=null)
             buffer.append(InterfaceMethodDeclList.toString("  "+tab));
@@ -72,7 +72,7 @@ public class InterfaceMethodDeclListClass extends InterfaceMethodDeclList {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [InterfaceMethodDeclListClass]");
+        buffer.append(") [InterfaceMethodDeclarations]");
         return buffer.toString();
     }
 }

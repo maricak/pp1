@@ -176,22 +176,22 @@ InterfaceList ::= (Interfaces) InterfaceList COMMA Type
                 | (InterfacesNO) /* epsilon */
                 ;
 			
-OptionalMethodDeclList ::= (OptionalMethodDeclarationList) LEFT_BRACE MethodDeclList RIGHT_BRACE
-						 | (OptionalMethodDeclarationListNO) /* epsilon */
+OptionalMethodDeclList ::= (MethodDeclarationList) LEFT_BRACE MethodDeclList RIGHT_BRACE
+						 | (MethodDeclarationListNO) /* epsilon */
 						 ;
 								
-MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
-			     | (NoMethodDeclarationListClass)/* epsilon */
+MethodDeclList ::= (MethodDeclarations) MethodDeclList MethodDecl
+			     | (MethodDeclarationsNO)/* epsilon */
 			     ;
 
-InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList RIGHT_BRACE
+InterfaceDecl ::= (InterfaceDecl) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList RIGHT_BRACE
 				;
 
-InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList InterfaceMethodDecl
-						  | (NoInterfaceMethodDeclListClass) /* epsilon */
+InterfaceMethodDeclList ::= (InterfaceMethodDeclarations) InterfaceMethodDeclList InterfaceMethodDecl
+						  | (InterfaceMethodDeclarationsNO) /* epsilon */
 						  ;
 
-InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS SEPARATOR
+InterfaceMethodDecl ::= (InterfaceMethodDecl) ReturnType IDENTIFIER LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS SEPARATOR
 					  ;
 
 MethodDecl ::= (MethodDecl) MethodStart LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList LEFT_BRACE StatementList RIGHT_BRACE

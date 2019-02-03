@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 15:5:32
+// 3/1/2019 16:21:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalMethodDeclarationListNO extends OptionalMethodDeclList {
+public class MethodDeclarationListNO extends OptionalMethodDeclList {
 
-    public OptionalMethodDeclarationListNO () {
+    public MethodDeclarationListNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class OptionalMethodDeclarationListNO extends OptionalMethodDeclList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalMethodDeclarationListNO(\n");
+        buffer.append("MethodDeclarationListNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalMethodDeclarationListNO]");
+        buffer.append(") [MethodDeclarationListNO]");
         return buffer.toString();
     }
 }

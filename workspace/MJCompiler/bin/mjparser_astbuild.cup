@@ -203,7 +203,6 @@ ClassVarDeclList ::= (ClassVarDeclList) VarDeclList:V1 {: RESULT=new ClassVarDec
                    ;
 
 Extends ::= (ExtendsType) EXTENDS Type:T1 {: RESULT=new ExtendsType(T1); RESULT.setLine(T1left); :}
-          //| (ExtendsERR) EXTENDS error {: parser.report_error("OPORAVAK Greska kod prosirivanja klase tip", new Object()); :}
           | (ExtendsERR) error {: parser.report_error("OPORAVAK Greska kod prosirivanja klase", new Object()); :} {: RESULT=new ExtendsERR(); :}
           | (ExtendsTypeNO) {: RESULT=new ExtendsTypeNO(); :} /* epsilon */
           ;					
@@ -217,22 +216,22 @@ InterfaceList ::= (Interfaces) InterfaceList:I1 COMMA Type:T2 {: RESULT=new Inte
                 | (InterfacesNO) {: RESULT=new InterfacesNO(); :} /* epsilon */
                 ;
 			
-OptionalMethodDeclList ::= (OptionalMethodDeclarationList) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new OptionalMethodDeclarationList(M1); RESULT.setLine(M1left); :}
-						 | (OptionalMethodDeclarationListNO) {: RESULT=new OptionalMethodDeclarationListNO(); :} /* epsilon */
+OptionalMethodDeclList ::= (MethodDeclarationList) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new MethodDeclarationList(M1); RESULT.setLine(M1left); :}
+						 | (MethodDeclarationListNO) {: RESULT=new MethodDeclarationListNO(); :} /* epsilon */
 						 ;
 								
-MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new MethodDeclarationListClass(M1, M2); RESULT.setLine(M1left); :}
-			     | (NoMethodDeclarationListClass) {: RESULT=new NoMethodDeclarationListClass(); :}/* epsilon */
+MethodDeclList ::= (MethodDeclarations) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new MethodDeclarations(M1, M2); RESULT.setLine(M1left); :}
+			     | (MethodDeclarationsNO) {: RESULT=new MethodDeclarationsNO(); :}/* epsilon */
 			     ;
 
-InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER:I1 LEFT_BRACE InterfaceMethodDeclList:I2 RIGHT_BRACE {: RESULT=new InterfaceDeclarationClass(I1, I2); RESULT.setLine(I1left); :}
+InterfaceDecl ::= (InterfaceDecl) INTERFACE IDENTIFIER:I1 LEFT_BRACE InterfaceMethodDeclList:I2 RIGHT_BRACE {: RESULT=new InterfaceDecl(I1, I2); RESULT.setLine(I1left); :}
 				;
 
-InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclListClass(I1, I2); RESULT.setLine(I1left); :}
-						  | (NoInterfaceMethodDeclListClass) {: RESULT=new NoInterfaceMethodDeclListClass(); :} /* epsilon */
+InterfaceMethodDeclList ::= (InterfaceMethodDeclarations) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclarations(I1, I2); RESULT.setLine(I1left); :}
+						  | (InterfaceMethodDeclarationsNO) {: RESULT=new InterfaceMethodDeclarationsNO(); :} /* epsilon */
 						  ;
 
-InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS FormPars:F3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDeclarationClass(R1, I2, F3); RESULT.setLine(R1left); :}
+InterfaceMethodDecl ::= (InterfaceMethodDecl) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS FormPars:F3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDecl(R1, I2, F3); RESULT.setLine(R1left); :}
 					  ;
 
 MethodDecl ::= (MethodDecl) MethodStart:M1 LEFT_PARENTHESIS FormPars:F2 RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList:V3 LEFT_BRACE StatementList:S4 RIGHT_BRACE {: RESULT=new MethodDecl(M1, F2, V3, S4); RESULT.setLine(M1left); :}
