@@ -9,15 +9,25 @@ public class MyStruct extends Struct {
     public static final int Interface = 6;
     public static final int Enum = 7;
 
+    private int myKind;
+
 	public MyStruct(int kind) {
-		super(kind);
+        super(kind);
+        myKind = kind;
 	}
 
 	public MyStruct(int kind, Struct elemType) {
-		super(kind, elemType);
+        super(kind, elemType);
+        myKind = kind;        
 	}
 
 	public MyStruct(int kind, SymbolDataStructure members) {
-		super(kind, members);
+        super(kind, members);
+        myKind = kind;
+    }
+    
+    @Override
+    public boolean isRefType() {
+		return super.isRefType() || myKind == Interface;
 	}
 }

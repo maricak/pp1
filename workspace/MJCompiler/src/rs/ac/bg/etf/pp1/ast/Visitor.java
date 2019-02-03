@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 22:39:38
+// 3/1/2019 1:43:24
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -14,6 +14,7 @@ public interface Visitor {
     public void visit(InterfaceMethodDeclList InterfaceMethodDeclList);
     public void visit(InterfaceDecl InterfaceDecl);
     public void visit(Relop Relop);
+    public void visit(PrintNumParameter PrintNumParameter);
     public void visit(InterfaceImplList InterfaceImplList);
     public void visit(OptionalBrackets OptionalBrackets);
     public void visit(StatementList StatementList);
@@ -29,11 +30,10 @@ public interface Visitor {
     public void visit(Condition Condition);
     public void visit(AndCondFactList AndCondFactList);
     public void visit(ConstValue ConstValue);
+    public void visit(StandardFunction StandardFunction);
     public void visit(InterfaceList InterfaceList);
-    public void visit(ExprList ExprList);
     public void visit(VarDeclList VarDeclList);
     public void visit(Expr Expr);
-    public void visit(OptionalActPars OptionalActPars);
     public void visit(ForStatement ForStatement);
     public void visit(ActPars ActPars);
     public void visit(OptionalRelopExpr OptionalRelopExpr);
@@ -51,7 +51,6 @@ public interface Visitor {
     public void visit(OptionalExtendsType OptionalExtendsType);
     public void visit(FormPars FormPars);
     public void visit(OptionalElse OptionalElse);
-    public void visit(OptionalCommaNumConst OptionalCommaNumConst);
     public void visit(OptionalMethodDeclList OptionalMethodDeclList);
     public void visit(Modulo Modulo);
     public void visit(Divide Divide);
@@ -68,14 +67,13 @@ public interface Visitor {
     public void visit(DesignatorArrayAccess DesignatorArrayAccess);
     public void visit(DesignatorPointAccess DesignatorPointAccess);
     public void visit(DesignatorName DesignatorName);
-    public void visit(NoOptionalActParsClass NoOptionalActParsClass);
-    public void visit(OptionalActParsClass OptionalActParsClass);
     public void visit(FactorExpression FactorExpression);
     public void visit(FactorNull FactorNull);
     public void visit(FactorNewArray FactorNewArray);
     public void visit(FactorNewObj FactorNewObj);
     public void visit(FactorConst FactorConst);
     public void visit(FactorFunctionCall FactorFunctionCall);
+    public void visit(FactorStandardFunction FactorStandardFunction);
     public void visit(FactorDesignator FactorDesignator);
     public void visit(TermMulop TermMulop);
     public void visit(TermFactor TermFactor);
@@ -91,17 +89,18 @@ public interface Visitor {
     public void visit(NoOrConditionFactListClass NoOrConditionFactListClass);
     public void visit(OrConditionFactListClass OrConditionFactListClass);
     public void visit(ConditionClass ConditionClass);
-    public void visit(NoExpressionListClass NoExpressionListClass);
-    public void visit(ExpressionListClass ExpressionListClass);
-    public void visit(ActParamsClass ActParamsClass);
+    public void visit(ActParametersNO ActParametersNO);
+    public void visit(ActParameters ActParameters);
+    public void visit(ActParameter ActParameter);
     public void visit(DesignatorDecrement DesignatorDecrement);
     public void visit(DesignatorIncrement DesignatorIncrement);
     public void visit(DesignatorFunctionCall DesignatorFunctionCall);
+    public void visit(DesignatorStandardFunction DesignatorStandardFunction);
     public void visit(DesignatorAssign DesignatorAssign);
     public void visit(StatementsNO StatementsNO);
     public void visit(Statements Statements);
-    public void visit(NoOptionalComaNumberConstClass NoOptionalComaNumberConstClass);
-    public void visit(OptionalComaNumberConstClass OptionalComaNumberConstClass);
+    public void visit(PrintNumberParameterNO PrintNumberParameterNO);
+    public void visit(PrintNumberParameter PrintNumberParameter);
     public void visit(NoOptionalExprClass NoOptionalExprClass);
     public void visit(OptionalExprClass OptionalExprClass);
     public void visit(NoOptionalDesignatorStatementClass NoOptionalDesignatorStatementClass);
@@ -115,12 +114,16 @@ public interface Visitor {
     public void visit(StatementBlock StatementBlock);
     public void visit(StatementPrint StatementPrint);
     public void visit(StatementRead StatementRead);
+    public void visit(StatementReturnExpr StatementReturnExpr);
     public void visit(StatementReturn StatementReturn);
     public void visit(StatementContinue StatementContinue);
     public void visit(StatementBreak StatementBreak);
     public void visit(StatementFor StatementFor);
     public void visit(StatementIf StatementIf);
     public void visit(StatementDesignator StatementDesignator);
+    public void visit(StandardFunctionLen StandardFunctionLen);
+    public void visit(StandardFunctionOrd StandardFunctionOrd);
+    public void visit(StandardFunctionChr StandardFunctionChr);
     public void visit(TypeCustom TypeCustom);
     public void visit(TypeChar TypeChar);
     public void visit(TypeBool TypeBool);

@@ -96,29 +96,26 @@ nonterminal ForStatement ForStatement;
 nonterminal OptionalCondition OptionalCondition;
 nonterminal OptionalDesignatorStatement OptionalDesignatorStatement;
 nonterminal OptionalExpr OptionalExpr;
-nonterminal OptionalCommaNumConst OptionalCommaNumConst;
+nonterminal PrintNumParameter PrintNumParameter;
 nonterminal StatementList StatementList;
 nonterminal DesignatorStatement DesignatorStatement;
 nonterminal ActPars ActPars;
-nonterminal ExprList ExprList;
 nonterminal Condition Condition;
 nonterminal OrCondFactList OrCondFactList;
 nonterminal CondTerm CondTerm;
 nonterminal AndCondFactList AndCondFactList;
 nonterminal CondFact CondFact;
 nonterminal OptionalRelopExpr OptionalRelopExpr; 
-nonterminal OptionalActPars OptionalActPars;
 nonterminal Assignop Assignop;
 nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
+nonterminal StandardFunctions StandardFunctions;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
-
-
 
 precedence left ELSE;
 
@@ -253,14 +250,20 @@ Type ::= (TypeInt) INT {: RESULT=new TypeInt(); :}
 		| (TypeCustom) IDENTIFIER:typeName {: RESULT=new TypeCustom(typeName); RESULT.setLine(typeNameleft); :}
 		;
 
+StandardFunctions ::= (StandardFunctionChr) CHR LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new StandardFunctionChr(E1); RESULT.setLine(E1left); :}
+                    | (StandardFunctionOrd) ORD LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new StandardFunctionOrd(E1); RESULT.setLine(E1left); :}
+                    | (StandardFunctionLen) LEN LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new StandardFunctionLen(E1); RESULT.setLine(E1left); :}
+                    ;
+
 Statement ::= (StatementDesignator) DesignatorStatement:D1 SEPARATOR {: RESULT=new StatementDesignator(D1); RESULT.setLine(D1left); :}
 			| (StatementIf) IfStatement:I1 {: RESULT=new StatementIf(I1); RESULT.setLine(I1left); :} 
 			| (StatementFor) ForStatement:F1 {: RESULT=new StatementFor(F1); RESULT.setLine(F1left); :}
 			| (StatementBreak) BREAK SEPARATOR {: RESULT=new StatementBreak(); :}
 			| (StatementContinue) CONTINUE SEPARATOR {: RESULT=new StatementContinue(); :}
-			| (StatementReturn) RETURN OptionalExpr:O1 SEPARATOR {: RESULT=new StatementReturn(O1); RESULT.setLine(O1left); :}
+			| (StatementReturn) RETURN SEPARATOR {: RESULT=new StatementReturn(); :}
+			| (StatementReturnExpr) RETURN Expr:E1 SEPARATOR {: RESULT=new StatementReturnExpr(E1); RESULT.setLine(E1left); :}
 			| (StatementRead) READ LEFT_PARENTHESIS Designator:D1 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementRead(D1); RESULT.setLine(D1left); :}
-			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr:E1 OptionalCommaNumConst:O2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrint(E1, O2); RESULT.setLine(E1left); :}
+			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr:E1 PrintNumParameter:P2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}
 			| (StatementBlock) LEFT_BRACE StatementList:S1 RIGHT_BRACE {: RESULT=new StatementBlock(S1); RESULT.setLine(S1left); :}
 			;
 
@@ -286,33 +289,25 @@ OptionalExpr ::= (OptionalExprClass) Expr:E1 {: RESULT=new OptionalExprClass(E1)
 				| (NoOptionalExprClass) {: RESULT=new NoOptionalExprClass(); :} /* epsilon */
 				;
 	
-OptionalCommaNumConst ::= (OptionalComaNumberConstClass) COMMA INT_VALUE:I1 {: RESULT=new OptionalComaNumberConstClass(I1); RESULT.setLine(I1left); :}
-						| (NoOptionalComaNumberConstClass) {: RESULT=new NoOptionalComaNumberConstClass(); :} /* espilon */
-						;		
+PrintNumParameter ::= (PrintNumberParameter) COMMA INT_VALUE:I1 {: RESULT=new PrintNumberParameter(I1); RESULT.setLine(I1left); :}
+                | (PrintNumberParameterNO) {: RESULT=new PrintNumberParameterNO(); :} /* espilon */
+                ;		
 			
 StatementList ::= (Statements) StatementList:S1 Statement:S2 {: RESULT=new Statements(S1, S2); RESULT.setLine(S1left); :}
 				| (StatementsNO) {: RESULT=new StatementsNO(); :} /* epsilon */
 				;
 
 DesignatorStatement ::= (DesignatorAssign) Designator:D1 Assignop:A2 Expr:E3 {: RESULT=new DesignatorAssign(D1, A2, E3); RESULT.setLine(D1left); :}
-                    | (DesignatorFunctionCall) Designator:D1  LEFT_PARENTHESIS OptionalActPars:O2 RIGHT_PARENTHESIS {: RESULT=new DesignatorFunctionCall(D1, O2); RESULT.setLine(D1left); :}
+                    | (DesignatorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS {: RESULT=new DesignatorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
                     | (DesignatorIncrement) Designator:D1 INCREMENT {: RESULT=new DesignatorIncrement(D1); RESULT.setLine(D1left); :}
                     | (DesignatorDecrement) Designator:D1 DECREMENT {: RESULT=new DesignatorDecrement(D1); RESULT.setLine(D1left); :}
-					;
-					
-// DesignatorStatementOption ::= (DesignatorStatementAssignOptionClass) Assignop Expr
-// 							| (DesignatorStatementParamsOptionClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
-// 							| (DesignatorStatementIncrementOptionClass) INCREMENT
-// 							| (DesignatorStatementDecrementOptionClass) DECREMENT
-// 							;												
+					;		
 
-ActPars ::= (ActParamsClass) Expr:E1 ExprList:E2 {: RESULT=new ActParamsClass(E1, E2); RESULT.setLine(E1left); :}
+ActPars ::= (ActParameter) Expr:E1 {: RESULT=new ActParameter(E1); RESULT.setLine(E1left); :}
+        | (ActParameters) ActPars:A1 COMMA Expr:E2 {: RESULT=new ActParameters(A1, E2); RESULT.setLine(A1left); :}
+        | (ActParametersNO) {: RESULT=new ActParametersNO(); :} /* epsilon */
 		;
 		
-ExprList ::= (ExpressionListClass) ExprList:E1 COMMA Expr:E2 {: RESULT=new ExpressionListClass(E1, E2); RESULT.setLine(E1left); :}
-			| (NoExpressionListClass) {: RESULT=new NoExpressionListClass(); :} /* epsilon */
-			;
-
 Condition ::= (ConditionClass) CondTerm:C1 OrCondFactList:O2 {: RESULT=new ConditionClass(C1, O2); RESULT.setLine(C1left); :}
 			;
 			
@@ -334,75 +329,24 @@ OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop:R1 Expr:E2 {: RESULT=n
 					| (NoOptionalRelopExprClassClass) {: RESULT=new NoOptionalRelopExprClassClass(); :} /* epsilon */
 					;
 
-
 Expr ::= (ExprTerm) Term:T1 {: RESULT=new ExprTerm(T1); RESULT.setLine(T1left); :}
         | (ExprNegativeTerm) SUBTRACT Term:T1 {: RESULT=new ExprNegativeTerm(T1); RESULT.setLine(T1left); :}
         | (ExprAddop) Expr:E1 Addop:A2 Term:T3 {: RESULT=new ExprAddop(E1, A2, T3); RESULT.setLine(E1left); :}
-		;
-		
-// OptionalMinus ::= (OptionalSubtractClass) SUBTRACT 
-// 				| (NoOptionalSubtractClass) /* epsilon */
-// 				;
-
-// AddopTermList ::= (AddOperationtermListClass) AddopTermList Addop Term
-// 				| (NoAddOperationtermListClass)/* epilon */
-// 				;
+		;		
 
 Term ::= (TermFactor) Factor:F1 {: RESULT=new TermFactor(F1); RESULT.setLine(F1left); :} 
         | (TermMulop) Term:T1 Mulop:M2 Factor:F3 {: RESULT=new TermMulop(T1, M2, F3); RESULT.setLine(T1left); :}
-		;
-
-// MulopFactorList ::= (MulOperationFactorListClass) MulopFactorList Mulop Factor
-// 				| (NoMulOperationFactorListClass) /* epilon */
-// 				;
+		;			
 
 Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); RESULT.setLine(D1left); :}
-        | (FactorFunctionCall) Designator:D1 LEFT_PARENTHESIS OptionalActPars:O2 RIGHT_PARENTHESIS {: RESULT=new FactorFunctionCall(D1, O2); RESULT.setLine(D1left); :}
+        | (FactorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS {: RESULT=new FactorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
 		| (FactorConst) ConstValue:C1 {: RESULT=new FactorConst(C1); RESULT.setLine(C1left); :}	
 		| (FactorNewObj) NEW Type:T1 {: RESULT=new FactorNewObj(T1); RESULT.setLine(T1left); :}
         | (FactorNewArray) NEW Type:T1 LEFT_BRACKET Expr:E2 RIGHT_BRACKET {: RESULT=new FactorNewArray(T1, E2); RESULT.setLine(T1left); :}
 		| (FactorNull) NULL {: RESULT=new FactorNull(); :}
 		| (FactorExpression) LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new FactorExpression(E1); RESULT.setLine(E1left); :}
-		;
-		
-// DesignatorFactor ::= (DesignatorFactorClass) Designator OptionalDesignatorCallParams
-// 				;
-				
-// OptionalDesignatorCallParams ::= (OptionalDesignatorCallParamsClass) DesignatorCallParams
-// 								| (NoOptionalDesignatorCallParamsClass) /* epsilon */
-// 								;
-	
-// DesignatorCallParams ::= (DesignatorCallParamsClass) LEFT_PARENTHESIS OptionalActPars RIGHT_PARENTHESIS
-// 					;
+		;		
 					
-OptionalActPars ::= (OptionalActParsClass) ActPars:A1 {: RESULT=new OptionalActParsClass(A1); RESULT.setLine(A1left); :}
-				| (NoOptionalActParsClass) {: RESULT=new NoOptionalActParsClass(); :} /* epsilon */
-				;
-		
-// NewFactor ::= (NewFactorClass) NEW Type OptionalArraySelector
-// 			;
-
-// OptionalArraySelector ::= (OptionalArraySelectorClass) ArraySelector
-// 						| (NoOptionalArraySelectorClass) /* epsilon */
-// 						;
-
-// Designator ::= (DesignatorClass) IDENTIFIER DesignatorSelectorList
-//              ;
-//			
-// DesignatorSelectorList ::= (DesignatorSelectorListClass) DesignatorSelectorList DesignatorSelector
-// 						| (NoDesignatorSelectorListClass) /* epsilon */
-// 						;
-//						
-// DesignatorSelector ::= (DesignatorSelectorPointClass) PointSelector
-// 					| (DesignatorSelectorArrayClass) ArraySelector
-// 					;
-//	
-// PointSelector ::= (PointSelectorClass) POINT IDENTIFIER
-// 				;
-
-// ArraySelector ::= (ArraySelectorClass) LEFT_BRACKET Expr RIGHT_BRACKET
-// 				;
-
 Designator ::= (DesignatorName) IDENTIFIER:name {: RESULT=new DesignatorName(name); RESULT.setLine(nameleft); :}
             | (DesignatorPointAccess) Designator:D1 POINT IDENTIFIER:name {: RESULT=new DesignatorPointAccess(D1, name); RESULT.setLine(D1left); :}
             | (DesignatorArrayAccess) Designator:D1 LEFT_BRACKET Expr:E2 RIGHT_BRACKET {: RESULT=new DesignatorArrayAccess(D1, E2); RESULT.setLine(D1left); :}

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/1/2019 22:39:37
+// 3/1/2019 1:43:23
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class StatementPrint extends Statement {
 
     private Expr Expr;
-    private OptionalCommaNumConst OptionalCommaNumConst;
+    private PrintNumParameter PrintNumParameter;
 
-    public StatementPrint (Expr Expr, OptionalCommaNumConst OptionalCommaNumConst) {
+    public StatementPrint (Expr Expr, PrintNumParameter PrintNumParameter) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-        this.OptionalCommaNumConst=OptionalCommaNumConst;
-        if(OptionalCommaNumConst!=null) OptionalCommaNumConst.setParent(this);
+        this.PrintNumParameter=PrintNumParameter;
+        if(PrintNumParameter!=null) PrintNumParameter.setParent(this);
     }
 
     public Expr getExpr() {
@@ -25,12 +25,12 @@ public class StatementPrint extends Statement {
         this.Expr=Expr;
     }
 
-    public OptionalCommaNumConst getOptionalCommaNumConst() {
-        return OptionalCommaNumConst;
+    public PrintNumParameter getPrintNumParameter() {
+        return PrintNumParameter;
     }
 
-    public void setOptionalCommaNumConst(OptionalCommaNumConst OptionalCommaNumConst) {
-        this.OptionalCommaNumConst=OptionalCommaNumConst;
+    public void setPrintNumParameter(PrintNumParameter PrintNumParameter) {
+        this.PrintNumParameter=PrintNumParameter;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class StatementPrint extends Statement {
 
     public void childrenAccept(Visitor visitor) {
         if(Expr!=null) Expr.accept(visitor);
-        if(OptionalCommaNumConst!=null) OptionalCommaNumConst.accept(visitor);
+        if(PrintNumParameter!=null) PrintNumParameter.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
-        if(OptionalCommaNumConst!=null) OptionalCommaNumConst.traverseTopDown(visitor);
+        if(PrintNumParameter!=null) PrintNumParameter.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Expr!=null) Expr.traverseBottomUp(visitor);
-        if(OptionalCommaNumConst!=null) OptionalCommaNumConst.traverseBottomUp(visitor);
+        if(PrintNumParameter!=null) PrintNumParameter.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class StatementPrint extends Statement {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalCommaNumConst!=null)
-            buffer.append(OptionalCommaNumConst.toString("  "+tab));
+        if(PrintNumParameter!=null)
+            buffer.append(PrintNumParameter.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

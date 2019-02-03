@@ -7,7 +7,8 @@ import org.apache.log4j.Logger;
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.ac.bg.etf.pp1.mysymboltable.*;
 import rs.etf.pp1.symboltable.Tab;
-import rs.etf.pp1.symboltable.concepts.*;
+import rs.etf.pp1.symboltable.concepts.Obj;
+import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class SemanticAnalyzer extends VisitorAdaptor {
 
@@ -111,12 +112,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // region deklaracije promenljivih
     private LinkedList<Variable> variables = new LinkedList<>();
 
-    // MOZE U METODU VISIT VARDECL I JESTE TAMO OVO NE raDI
-    // deklaracije globalnih promenljivih
-    public void visit(DeclarationVar declarationVar) {
-        report_info("Nisam ovde", null);
-    }
-
     public void visit(VarDecl varDecl) {
         if (currentClass != null && currentMethod == null) {
             for (Variable variable : variables) {
@@ -126,7 +121,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 } else {
                     report_info("Deklarisana polje klase promenljiva " + variable.getName(), variable.getLine());
                     if (variable.isArray()) {
-                        MyTable.insert(Obj.Fld, variable.getName(), new MyStruct(Struct.Array, variable.getStruct()));
+                        MyTable.insert(Obj.Fld, variable.getName(), new MyStruct(MyStruct.Array, variable.getStruct()));
                     } else {
                         MyTable.insert(Obj.Fld, variable.getName(), variable.getStruct());
                     }
@@ -140,7 +135,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 } else {
                     report_info("Deklarisana promenljiva " + variable.getName(), variable.getLine());
                     if (variable.isArray()) {
-                        MyTable.insert(Obj.Var, variable.getName(), new MyStruct(Struct.Array, variable.getStruct()));
+                        MyTable.insert(Obj.Var, variable.getName(), new MyStruct(MyStruct.Array, variable.getStruct()));
                     } else {
                         MyTable.insert(Obj.Var, variable.getName(), variable.getStruct());
                     }
@@ -172,10 +167,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     public void visit(ClassStart classStart) {
         if (MyTable.existsInCurrentScope(classStart.getClassName())) {
             report_error("Ime " + classStart.getClassName() + " vec postoji u trenutnom opsegu", classStart);
-            currentClass = new MyStruct(Struct.None);
+            currentClass = new MyStruct(MyStruct.None);
         } else {
             report_info("Zapoceta klasa " + classStart.getClassName(), classStart);
-            currentClass = new MyStruct(Struct.Class);
+            currentClass = new MyStruct(MyStruct.Class);
             MyTable.insert(Obj.Type, classStart.getClassName(), currentClass);
             classStart.struct = currentClass;
         }
@@ -185,19 +180,17 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     public void visit(ClassVarDeclList classVarDeclList) {
         if (currentClass != null) {
             MyTable.chainLocalSymbols(currentClass);
-            System.out.println("klasa kraj polja");
         }
     }
 
     // kraj klase
     public void visit(ClassDecl classDecl) {
-        System.out.println("klasa kraj opsega");
         currentClass = null;
         MyTable.closeScope();
     }
     // endregion
 
-    // region deklaracije metoda i return tip
+    // region deklaracije metoda
     private Obj currentMethod = null;
     private int numberOfParameters = 0;
     private boolean isReturned = false;
@@ -262,7 +255,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             report_info("Formalni parametar " + variable.getName(), variable.getLine());
             if (variable.isArray()) {
                 newFormalParameter = MyTable.insert(Obj.Var, variable.getName(),
-                        new MyStruct(Struct.Array, variable.getStruct()));
+                        new MyStruct(MyStruct.Array, variable.getStruct()));
             } else {
                 newFormalParameter = MyTable.insert(Obj.Var, variable.getName(), variable.getStruct());
             }
@@ -271,18 +264,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         }
     }
 
-    // return tip
-    // public void visit(ReturnType returnType) {
-    // if(currentMethod == MyTable.noObj) {
-    // report_error("Return ne sme da postoji van funkcije ili metode", returnType);
-    // } else {
-    // isReturned = true;
-    // if(!currentMethod.getType().compatibleWith(returnType.obj.getType())) {
-    // report_error("Povratni tip metode " + currentMethod.getName() + " se neslaze
-    // sa tipom u naredbi return", returnType);
-    // }
-    // }
-    // }
     public void visit(ReturnT returnT) {
         returnT.struct = returnT.getType().struct;
     }
@@ -291,6 +272,29 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         returnVoid.struct = Tab.noType;
     }
 
+    // endregion
+
+    // region standard functions
+    public void visit(StandardFunctionChr standardFunctionChr) {
+        Struct struct = standardFunctionChr.getExpr().struct;
+        if (struct.getKind() != Struct.Int) {
+            report_error("Argument mora biti tipa int", standardFunctionChr);
+        }
+    }
+
+    public void visit(StandardFunctionOrd standardFunctionOrd) {
+        Struct struct = standardFunctionOrd.getExpr().struct;
+        if (struct.getKind() != Struct.Char) {
+            report_error("Argument mora biti tipa char", standardFunctionOrd);
+        }
+    }
+
+    public void visit(StandardFunctionLen standardFunctionLen) {
+        Struct struct = standardFunctionLen.getExpr().struct;
+        if (struct.getKind() != Struct.Array) {
+            report_error("Argument mora biti niz", standardFunctionLen);
+        }
+    }
     // endregion
 
     // region tipovi
@@ -322,10 +326,102 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
     // endregion
 
+    // region statement
+
+    public void visit(StatementReturn statementReturn) {
+        if (currentMethod == null) {
+            report_error("Return ne sme da postoji van funkcije ili metode", statementReturn);
+        } else {
+            isReturned = true;
+            if (currentMethod.getType().getKind() != Struct.None) {
+                report_error("Void metoda " + currentMethod.getName() + " ne sme imati return", statementReturn);
+            }
+        }
+    }
+
+    public void visit(StatementReturnExpr statementReturnExpr) {
+        if (currentMethod == null) {
+            report_error("Return ne sme da postoji van funkcije ili metode", statementReturnExpr);
+        } else {
+            isReturned = true;
+            // provera osnovne klase i interfejsa
+            if (!currentMethod.getType().compatibleWith(statementReturnExpr.getExpr().struct)) {
+                report_error("Povratni tip metode " + currentMethod.getName()
+                        + " nije kompatibilan sa tipom povratne vrednosti", statementReturnExpr);
+            }
+        }
+    }
+
+    public void visit(StatementRead statementRead) {
+        if (isLeftValue(statementRead.getDesignator())) {
+            Struct struct = statementRead.getDesignator().obj.getType();
+            if (struct.getKind() != Struct.Int && struct.getKind() != Struct.Char
+                    && struct.getKind() != MyStruct.Bool) {
+                report_error("Argument mora biti tipa int, char ili bool", statementRead);
+            }
+        } else {
+            report_error("Argument funkcije read mora biti promenljiva, polje klase ili element niza", statementRead);
+        }
+    }
+
+    public void visit(StatementPrint statementPrint) {
+        Struct struct = statementPrint.getExpr().struct;
+        if (struct.getKind() != Struct.Int && struct.getKind() != Struct.Char && struct.getKind() != MyStruct.Bool) {
+            report_error("Argument funkcije print mora biti tipa int, char ili bool", statementPrint);
+        }
+    }
+    // endregion
+
+    // region designator statement
+    public void visit(DesignatorAssign designatorAssign) {
+        if (isLeftValue(designatorAssign.getDesignator())) {
+            Struct left = designatorAssign.getDesignator().obj.getType();
+            Struct right = designatorAssign.getExpr().struct;
+            if (left.equals(right)) {
+                return;
+            }
+            if (left.isRefType() && right == MyTable.nullType) {
+                return;
+            }
+            // proveriti interfejs i izvedene klase
+            report_error("Tipovi u dodeli nisu kompatiblini", designatorAssign);
+        } else {
+            report_error("Kod dodele vrednosti leva strana mora biti promenljiva, polje klase ili element niza",
+                    designatorAssign);
+        }
+    }
+
+    public void visit(DesignatorStandardFunction designatorStandardFunction) {
+        System.out.println(designatorStandardFunction);
+    }
+   
+    public void visit(DesignatorIncrement designatorIncrement) {
+        if (isLeftValue(designatorIncrement.getDesignator())) {
+            if (designatorIncrement.getDesignator().obj.getKind() != MyStruct.Int) {
+                report_error("Samo se ceo broj moze inkrementirati", designatorIncrement);
+            }
+        } else {
+            report_error("Kod inkrementiranja leva strana mora biti promenljiva, polje klase ili element niza",
+                    designatorIncrement);
+        }
+    }
+
+    public void visit(DesignatorDecrement designatorDecrement) {
+        if (isLeftValue(designatorDecrement.getDesignator())) {
+            if (designatorDecrement.getDesignator().obj.getKind() != MyStruct.Int) {
+                report_error("Samo se ceo broj moze dekrementirati", designatorDecrement);
+            }
+        } else {
+            report_error("Kod dekrementiranja leva strana mora biti promenljiva, polje klase ili element niza",
+                    designatorDecrement);
+        }
+
+    }
+    // endregion
+
     // region expr
     public void visit(ExprTerm exprTerm) {
         exprTerm.struct = exprTerm.getTerm().struct;
-        report_info("Expression -> term", exprTerm);
     }
 
     public void visit(ExprNegativeTerm exprNegativeTerm) {
@@ -334,7 +430,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             exprNegativeTerm.struct = MyTable.noType;
         } else {
             exprNegativeTerm.struct = exprNegativeTerm.getTerm().struct;
-            report_info("Expression -> negative term", exprNegativeTerm);
         }
     }
 
@@ -342,7 +437,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         if (exprAddop.getExpr().struct.compatibleWith(exprAddop.getTerm().struct)
                 && exprAddop.getExpr().struct == MyTable.intType) {
             exprAddop.struct = exprAddop.getTerm().struct;
-            report_info("Expression -> sabiranje", exprAddop);
         } else {
             report_error("Operacija radi samo nad celim brojevima", exprAddop);
         }
@@ -353,13 +447,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // region term
     public void visit(TermFactor termFactor) {
         termFactor.struct = termFactor.getFactor().struct;
-        report_info("term -> factor", termFactor);
     }
 
     public void visit(TermMulop termMulop) {
         if (termMulop.getFactor().struct == MyTable.intType && termMulop.getTerm().struct == MyTable.intType) {
             termMulop.struct = termMulop.getFactor().struct;
-            report_info("term -> mnozenje", termMulop);
         } else {
             report_error("Operacija radi samo nad celim brojevima", termMulop);
             termMulop.struct = MyTable.noType;
@@ -368,19 +460,26 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // endregion
 
     // region factor
+    public void visit(FactorDesignator factorDesignator) {
+        factorDesignator.struct = factorDesignator.getDesignator().obj.getType();
+    }
+
+    public void visit(FactorStandardFunction factorStandardFunction) {
+        // ??
+        System.out.println(factorStandardFunction);
+
+    }
 
     public void visit(FactorConst factorConst) {
         factorConst.struct = factorConst.getConstValue().constant.getObj().getType();
-        report_info("factor -> constanta", factorConst);
     }
 
     public void visit(FactorNewObj factorNewObj) {
-        if (factorNewObj.getType().struct.getKind() != Struct.Class) {
+        if (factorNewObj.getType().struct.getKind() != MyStruct.Class) {
             report_error("Sa new moze da se napravi samo objekat klasnog tipa", factorNewObj);
             factorNewObj.struct = MyTable.noType;
         } else {
             factorNewObj.struct = factorNewObj.getType().struct;
-            report_info("factor -> new obj", factorNewObj);
         }
     }
 
@@ -390,20 +489,83 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             factorNewArray.struct = MyTable.noType;
         } else {
             factorNewArray.struct = factorNewArray.getType().struct;
-            report_info("factor -> new array", factorNewArray);
         }
     }
 
     public void visit(FactorNull factorNull) {
         factorNull.struct = MyTable.nullType;
-        report_info("factor -> null", factorNull);
     }
 
     public void visit(FactorExpression factorExpression) {
         factorExpression.struct = factorExpression.getExpr().struct;
-        report_info("factor -> expr u zagradama", factorExpression);
     }
     // endregion
 
-    
+    // region designator
+    public void visit(DesignatorName designatorName) {
+        Obj obj = MyTable.find(designatorName.getName());
+        if (obj == MyTable.noObj) {
+            report_error("Ime " + designatorName.getName() + " nije deklarisano", designatorName);
+            designatorName.obj = MyTable.noObj;
+        } else {
+            designatorName.obj = obj;
+        }
+    }
+
+    public void visit(DesignatorPointAccess designatorPointAccess) {
+        if (designatorPointAccess.getDesignator().obj != MyTable.noObj) {
+            Struct struct = designatorPointAccess.getDesignator().obj.getType();
+            if (struct.getKind() != MyStruct.Class && struct.getKind() != MyStruct.Enum) {
+                report_error("Moze se pristupati samo poljima klasnih tipova i enumeratora", designatorPointAccess);
+                designatorPointAccess.obj = MyTable.noObj;
+            } else {
+                Obj elem = struct.getMembers().searchKey(designatorPointAccess.getName());
+                if (elem == null) {
+                    report_error("Ne postoji ime" + designatorPointAccess.getName(), designatorPointAccess);
+                    designatorPointAccess.obj = MyTable.noObj;
+                } else {
+                    designatorPointAccess.obj = elem;
+                }
+            }
+        } else {
+            designatorPointAccess.obj = MyTable.noObj;
+        }
+    }
+
+    public void visit(DesignatorArrayAccess designatorArrayAccess) {
+        Obj obj = designatorArrayAccess.getDesignator().obj;
+        if (obj != MyTable.noObj) {
+            String arrayName = designatorArrayAccess.getDesignator().obj.getName();
+            if (obj.getType().getKind() != MyStruct.Array) {
+                report_error("Promenljiva " + arrayName + " nije niz", designatorArrayAccess);
+            } else if (designatorArrayAccess.getExpr().struct.getKind() != MyStruct.Int) {
+                report_error("Za indeksiranje niza mora da se koristi int", designatorArrayAccess);
+            } else {
+                designatorArrayAccess.obj = new Obj(Obj.Elem, arrayName, obj.getType().getElemType());
+            }
+        } else {
+            designatorArrayAccess.obj = MyTable.noObj;
+        }
+    }
+
+    public boolean isLeftValue(Designator designator) {
+        if (designator.obj == MyTable.noObj) {
+            return false;
+        }
+        if (designator.obj.getKind() == Obj.Fld) {
+            if (designator.obj.getType().getKind() == MyStruct.Array) {
+                return false;
+            }
+            return true;
+        }
+        if (designator.obj.getKind() == Obj.Elem) {
+            return true;
+        }
+        if (designator.obj.getKind() == Obj.Var && designator.obj.getType().getKind() != MyStruct.None) {
+            return true;
+        }
+        return false;
+    }
+    // endregion
+
 }
