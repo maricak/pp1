@@ -73,4 +73,3 @@ int niz[];
 		print(inkrement(niz[2], IncrementType.DOUBLE_VALUE));
 	}
 }
-

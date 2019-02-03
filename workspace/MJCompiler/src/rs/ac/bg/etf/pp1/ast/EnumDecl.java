@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 21:1:15
+// 4/1/2019 0:28:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,50 +9,30 @@ public class EnumDecl implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private String I1;
-    private String I2;
-    private OptionalAssignNum OptionalAssignNum;
-    private IdentOptionalAssignNumList IdentOptionalAssignNumList;
+    private EnumStart EnumStart;
+    private EnumAssignList EnumAssignList;
 
-    public EnumDecl (String I1, String I2, OptionalAssignNum OptionalAssignNum, IdentOptionalAssignNumList IdentOptionalAssignNumList) {
-        this.I1=I1;
-        this.I2=I2;
-        this.OptionalAssignNum=OptionalAssignNum;
-        if(OptionalAssignNum!=null) OptionalAssignNum.setParent(this);
-        this.IdentOptionalAssignNumList=IdentOptionalAssignNumList;
-        if(IdentOptionalAssignNumList!=null) IdentOptionalAssignNumList.setParent(this);
+    public EnumDecl (EnumStart EnumStart, EnumAssignList EnumAssignList) {
+        this.EnumStart=EnumStart;
+        if(EnumStart!=null) EnumStart.setParent(this);
+        this.EnumAssignList=EnumAssignList;
+        if(EnumAssignList!=null) EnumAssignList.setParent(this);
     }
 
-    public String getI1() {
-        return I1;
+    public EnumStart getEnumStart() {
+        return EnumStart;
     }
 
-    public void setI1(String I1) {
-        this.I1=I1;
+    public void setEnumStart(EnumStart EnumStart) {
+        this.EnumStart=EnumStart;
     }
 
-    public String getI2() {
-        return I2;
+    public EnumAssignList getEnumAssignList() {
+        return EnumAssignList;
     }
 
-    public void setI2(String I2) {
-        this.I2=I2;
-    }
-
-    public OptionalAssignNum getOptionalAssignNum() {
-        return OptionalAssignNum;
-    }
-
-    public void setOptionalAssignNum(OptionalAssignNum OptionalAssignNum) {
-        this.OptionalAssignNum=OptionalAssignNum;
-    }
-
-    public IdentOptionalAssignNumList getIdentOptionalAssignNumList() {
-        return IdentOptionalAssignNumList;
-    }
-
-    public void setIdentOptionalAssignNumList(IdentOptionalAssignNumList IdentOptionalAssignNumList) {
-        this.IdentOptionalAssignNumList=IdentOptionalAssignNumList;
+    public void setEnumAssignList(EnumAssignList EnumAssignList) {
+        this.EnumAssignList=EnumAssignList;
     }
 
     public SyntaxNode getParent() {
@@ -76,19 +56,19 @@ public class EnumDecl implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(OptionalAssignNum!=null) OptionalAssignNum.accept(visitor);
-        if(IdentOptionalAssignNumList!=null) IdentOptionalAssignNumList.accept(visitor);
+        if(EnumStart!=null) EnumStart.accept(visitor);
+        if(EnumAssignList!=null) EnumAssignList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(OptionalAssignNum!=null) OptionalAssignNum.traverseTopDown(visitor);
-        if(IdentOptionalAssignNumList!=null) IdentOptionalAssignNumList.traverseTopDown(visitor);
+        if(EnumStart!=null) EnumStart.traverseTopDown(visitor);
+        if(EnumAssignList!=null) EnumAssignList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(OptionalAssignNum!=null) OptionalAssignNum.traverseBottomUp(visitor);
-        if(IdentOptionalAssignNumList!=null) IdentOptionalAssignNumList.traverseBottomUp(visitor);
+        if(EnumStart!=null) EnumStart.traverseBottomUp(visitor);
+        if(EnumAssignList!=null) EnumAssignList.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -97,20 +77,14 @@ public class EnumDecl implements SyntaxNode {
         buffer.append(tab);
         buffer.append("EnumDecl(\n");
 
-        buffer.append(" "+tab+I1);
-        buffer.append("\n");
-
-        buffer.append(" "+tab+I2);
-        buffer.append("\n");
-
-        if(OptionalAssignNum!=null)
-            buffer.append(OptionalAssignNum.toString("  "+tab));
+        if(EnumStart!=null)
+            buffer.append(EnumStart.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(IdentOptionalAssignNumList!=null)
-            buffer.append(IdentOptionalAssignNumList.toString("  "+tab));
+        if(EnumAssignList!=null)
+            buffer.append(EnumAssignList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

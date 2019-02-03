@@ -1,6 +1,5 @@
 package rs.ac.bg.etf.pp1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -79,7 +78,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         for (Constant constant : constants) {
             if (MyTable.existsInCurrentScope(constant.getName())) {
                 report_error("Ime " + constant.getName() + " vec postoji u trenutnom opsegu", constantDecl);
-            } else if (!constant.getObj().getType().equals(constantDecl.getType().struct)) {
+                // } else if
+                // (!constant.getObj().getType().equals(constantDecl.getType().struct)) {
+            } else if (!MyTable.equivalent(constant.getObj().getType(), constantDecl.getType().struct)) {
                 report_error("Neslaganje u tipu konstante i tipu dodeljene vrednosti", constant.getLine());
             } else {
                 report_info("Deklarisana konstanta " + constant.getName() + " sa vrednosu " + constant.getValue(),
@@ -88,12 +89,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             }
         }
         constants.clear();
+
     }
 
-    public void visit(AssignConstant assignConstant) {
-        constants.add(new Constant(assignConstant.getConstValue().constant.getObj(),
-                assignConstant.getConstValue().constant.getValue(), assignConstant.getConstName(),
-                assignConstant.getLine()));
+    public void visit(ConstantAssign constantAssign) {
+        constants.add(new Constant(constantAssign.getConstValue().constant.getObj(),
+                constantAssign.getConstValue().constant.getValue(), constantAssign.getConstName(),
+                constantAssign.getLine()));
     }
 
     public void visit(ConstValueInt constValueInt) {
@@ -200,6 +202,63 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         currentClass = null;
         MyTable.closeScope();
     }
+    // endregion
+
+    // region deklaracija enuma
+    // pocetak enuma
+    public void visit(EnumStart enumStart) {
+        if (MyTable.existsInCurrentScope(enumStart.getEnumName())) {
+            report_error("Ime " + enumStart.getEnumName() + " vec postoji u trenutnom opsegu", enumStart);
+        } else {
+            report_info("Zapocet enum " + enumStart.getEnumName(), enumStart);
+            enumStart.obj = MyTable.insert(Obj.Type, enumStart.getEnumName(), new Struct(Struct.Enum));
+        }
+        MyTable.openScope();
+    }
+
+    private LinkedList<Constant> enums = new LinkedList<>();
+
+    public void visit(EnumName enumName) {
+        Constant newEnum = new Constant(enumName.getEnumName(), enumName.getLine());
+        if (enums.stream().filter(e -> e.getName().equals(newEnum.getName())).findFirst().orElse(null) != null) {
+            report_error("Enum " + newEnum.getName() + " vec postoji", enumName);
+        } else {
+            Constant previous = enums.peekLast();
+            if (previous == null) {
+                newEnum.setValue(0);
+            } else {
+                newEnum.setValue(previous.getValue() + 1);
+            }
+            report_info("Dodat enum: " + newEnum.getName() + " sa vrednoscu: " + newEnum.getValue(), enumName);
+            enums.addLast(newEnum);
+        }
+    }
+
+    public void visit(EnumNameAssign enumNameAssign) {
+        Constant newEnum = new Constant(enumNameAssign.getValue(), enumNameAssign.getEnumName(),
+                enumNameAssign.getLine());
+        if (enums.stream().filter(e -> e.getName().equals(newEnum.getName())).findFirst().orElse(null) != null) {
+            report_error("Enum " + newEnum.getName() + " vec postoji", enumNameAssign);
+        } else if (enums.stream().filter(e -> e.getValue() == newEnum.getValue()).findFirst().orElse(null) != null) {
+            report_error("Vrednost " + newEnum.getValue() + " je vec dodeljena", enumNameAssign);
+        } else {
+            report_info("Dodat enum: " + newEnum.getName() + " sa vrednoscu: " + newEnum.getValue(), enumNameAssign);
+            enums.addLast(newEnum);
+        }
+    }
+
+    // kraj enuma
+    public void visit(EnumDecl enumDecl) {
+        for (Constant enumeration : enums) {
+            MyTable.insert(Obj.Con, enumeration.getName(), MyTable.intType);
+        }
+        enums.clear();
+        if (enumDecl.getEnumStart().obj != null) {
+            MyTable.chainLocalSymbols(enumDecl.getEnumStart().obj.getType());
+        }
+        MyTable.closeScope();
+    }
+
     // endregion
 
     // region deklaracije metoda
@@ -351,13 +410,29 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // endregion
 
     // region statement
-    public void visit(Statement statement) {
-        System.err.println("statement" + statement);
+    public void visit(DesignatorStatement designatorStatement) {
     }
 
-    public void visit(DesignatorStatement designatorStatement) {
-        System.err.println("statement -> designatorStatemenet");
-        System.out.println(designatorStatement);
+    private int loop = 0;
+
+    public void visit(StatementFor statementFor) {
+        loop--;
+    }
+
+    public void visit(ForStart forStart) {
+        loop++;
+    }
+
+    public void visit(StatementBreak statementBreak) {
+        if (loop <= 0) {
+            report_error("Break moze da se koristi samo unutar petlje", statementBreak);
+        }
+    }
+
+    public void visit(StatementContinue statementContinue) {
+        if (loop <= 0) {
+            report_error("Continue moze da se koristi samo unutar petlje", statementContinue);
+        }
     }
 
     public void visit(StatementReturn statementReturn) {
@@ -377,7 +452,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         } else {
             isReturned = true;
             // provera osnovne klase i interfejsa
-            if (!currentMethod.getType().compatibleWith(statementReturnExpr.getExpr().struct)) {
+            // if
+            // (!currentMethod.getType().compatibleWith(statementReturnExpr.getExpr().struct))
+            // {
+            if (!MyTable.equivalent(currentMethod.getType(), statementReturnExpr.getExpr().struct)) {
                 report_error("Povratni tip metode " + currentMethod.getName()
                         + " nije kompatibilan sa tipom povratne vrednosti", statementReturnExpr);
             }
@@ -405,7 +483,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // region designator statement
     public void visit(DesignatorAssign designatorAssign) {
-        // System.err.println(designatorAssign);
         if (designatorAssign.getExpr() instanceof ExprERR) {
             report_error("OPORAVAK Greska kod dodele vrednosti", designatorAssign);
             return;
@@ -413,11 +490,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         if (isLeftValue(designatorAssign.getDesignator())) {
             Struct left = designatorAssign.getDesignator().obj.getType();
             Struct right = designatorAssign.getExpr().struct;
-            if (left.equals(right)) {
-                report_info("Dodela", designatorAssign);
-                return;
-            }
-            if (left.isRefType() && right == MyTable.nullType) {
+            if (MyTable.assignable(left, right)) {
                 report_info("Dodela", designatorAssign);
                 return;
             }
@@ -440,7 +513,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             LinkedList<Obj> parameters = new LinkedList<>(method.getLocalSymbols());
             int numberOfParameters = method.getLevel();
             if (numberOfParameters != parameters.size()) {
-                System.err.println("GRESKA PARAMTERI");
+                report_error("Netacan broj argumenata za poziv " + method.getName(), designatorFunctionCall);
             }
             if (parameters.peekFirst() != null && parameters.peekFirst().getName().equals("this")) {
                 parameters.removeFirst();
@@ -454,7 +527,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 for (int i = 0; i < numberOfParameters; i++) {
                     Struct argument = arguments.remove();
                     Struct parameter = parameters.remove().getType();
-                    if (!argument.assignableTo(parameter)) {
+                    if (!MyTable.assignable(parameter, argument)) {
                         report_error((i + 1) + ". argument ne moze da se dodeli odgovarajucem parametru",
                                 designatorFunctionCall);
                         incompatible = true;
@@ -569,7 +642,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     public void visit(CondFactCompare condFactCompare) {
         Struct struct1 = condFactCompare.getExpr().struct;
         Struct struct2 = condFactCompare.getExpr1().struct;
-        if (!struct1.compatibleWith(struct2)) {
+        if (!MyTable.compatible(struct1, struct2)) {
             report_error("Operandi nisu kompatibilni", condFactCompare);
         } else if ((struct1.isRefType() || struct2.isRefType()) && !(condFactCompare.getRelop() instanceof Equal)
                 && !(condFactCompare.getRelop() instanceof NotEqual)) {
@@ -605,7 +678,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(ExprERR exprErr) {
-        report_error("Greska u izrazu", exprErr);
+        report_error("Greska u izrazu", exprErr.getParent());
         exprErr.struct = MyTable.noType;
     }
 
@@ -658,7 +731,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 for (int i = 0; i < numberOfParameters; i++) {
                     Struct argument = arguments.remove();
                     Struct parameter = parameters.remove().getType();
-                    if (!argument.assignableTo(parameter)) {
+                    if (!MyTable.assignable(parameter, argument)) {
                         report_error((i + 1) + ". argument ne moze da se dodeli odgovarajucem parametru",
                                 factorFunctionCall);
                         incompatible = true;
@@ -718,7 +791,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 || designatorName.getParent() instanceof DesignatorFunctionCall) {
             functionCallArguments.push(new LinkedList<>());
         }
-        // System.err.println("Ime " + designatorName.getName());
         Obj obj = MyTable.find(designatorName.getName());
         if (obj == MyTable.noObj) {
             report_error("Ime " + designatorName.getName() + " nije deklarisano", designatorName);
@@ -746,7 +818,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     report_error("Ne postoji ime " + designatorPointAccess.getName(), designatorPointAccess);
                     designatorPointAccess.obj = MyTable.noObj;
                 } else {
-                    designatorPointAccess.obj = elem;
+                    if(struct.getKind() == Struct.Class) {
+                        designatorPointAccess.obj = elem;
+                    } else {
+                        designatorPointAccess.obj = designatorPointAccess.getDesignator().obj;
+                    }
                 }
             }
         } else {

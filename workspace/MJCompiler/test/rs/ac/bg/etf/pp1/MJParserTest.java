@@ -90,7 +90,6 @@ public class MJParserTest {
 			MyTable.init(); // Universe scope
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
-			//log.info(((Program)prog).toString("")); log.info("===================================");
 	        //log.info("Print calls = " + semanticCheck.printCallCount);
 			MyTable.dump();
 	        

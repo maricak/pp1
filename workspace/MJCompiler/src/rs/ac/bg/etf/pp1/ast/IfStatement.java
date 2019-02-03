@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 21:1:16
+// 4/1/2019 0:28:16
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -11,15 +11,12 @@ public class IfStatement implements SyntaxNode {
     private int line;
     private Condition Condition;
     private Statement Statement;
-    private OptionalElse OptionalElse;
 
-    public IfStatement (Condition Condition, Statement Statement, OptionalElse OptionalElse) {
+    public IfStatement (Condition Condition, Statement Statement) {
         this.Condition=Condition;
         if(Condition!=null) Condition.setParent(this);
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
-        this.OptionalElse=OptionalElse;
-        if(OptionalElse!=null) OptionalElse.setParent(this);
     }
 
     public Condition getCondition() {
@@ -36,14 +33,6 @@ public class IfStatement implements SyntaxNode {
 
     public void setStatement(Statement Statement) {
         this.Statement=Statement;
-    }
-
-    public OptionalElse getOptionalElse() {
-        return OptionalElse;
-    }
-
-    public void setOptionalElse(OptionalElse OptionalElse) {
-        this.OptionalElse=OptionalElse;
     }
 
     public SyntaxNode getParent() {
@@ -69,20 +58,17 @@ public class IfStatement implements SyntaxNode {
     public void childrenAccept(Visitor visitor) {
         if(Condition!=null) Condition.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
-        if(OptionalElse!=null) OptionalElse.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Condition!=null) Condition.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
-        if(OptionalElse!=null) OptionalElse.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Condition!=null) Condition.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
-        if(OptionalElse!=null) OptionalElse.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -99,12 +85,6 @@ public class IfStatement implements SyntaxNode {
 
         if(Statement!=null)
             buffer.append(Statement.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(OptionalElse!=null)
-            buffer.append(OptionalElse.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

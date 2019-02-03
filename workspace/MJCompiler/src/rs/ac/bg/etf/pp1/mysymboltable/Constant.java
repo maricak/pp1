@@ -27,7 +27,11 @@ public class Constant {
 		this.value = value;
 		this.name = name;
 		this.line = line;
-	}	
+    }	
+    public Constant(String name, int line) {
+        this.name = name;
+        this.line = line;
+    }
 	
 	public String getName() {
 		return name;
@@ -54,7 +58,9 @@ public class Constant {
 
 	public void setLine(int line) {
 		this.line = line;
-	}	
+    }	
+    
+    
 	
 	
 }

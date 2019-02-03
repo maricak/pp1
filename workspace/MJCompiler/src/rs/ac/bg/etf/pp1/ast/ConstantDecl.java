@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 21:1:15
+// 4/1/2019 0:28:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class ConstantDecl extends ConstDecl {
 
     private Type Type;
-    private AssignConstList AssignConstList;
+    private ConstAssignList ConstAssignList;
 
-    public ConstantDecl (Type Type, AssignConstList AssignConstList) {
+    public ConstantDecl (Type Type, ConstAssignList ConstAssignList) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
-        this.AssignConstList=AssignConstList;
-        if(AssignConstList!=null) AssignConstList.setParent(this);
+        this.ConstAssignList=ConstAssignList;
+        if(ConstAssignList!=null) ConstAssignList.setParent(this);
     }
 
     public Type getType() {
@@ -25,12 +25,12 @@ public class ConstantDecl extends ConstDecl {
         this.Type=Type;
     }
 
-    public AssignConstList getAssignConstList() {
-        return AssignConstList;
+    public ConstAssignList getConstAssignList() {
+        return ConstAssignList;
     }
 
-    public void setAssignConstList(AssignConstList AssignConstList) {
-        this.AssignConstList=AssignConstList;
+    public void setConstAssignList(ConstAssignList ConstAssignList) {
+        this.ConstAssignList=ConstAssignList;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class ConstantDecl extends ConstDecl {
 
     public void childrenAccept(Visitor visitor) {
         if(Type!=null) Type.accept(visitor);
-        if(AssignConstList!=null) AssignConstList.accept(visitor);
+        if(ConstAssignList!=null) ConstAssignList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Type!=null) Type.traverseTopDown(visitor);
-        if(AssignConstList!=null) AssignConstList.traverseTopDown(visitor);
+        if(ConstAssignList!=null) ConstAssignList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Type!=null) Type.traverseBottomUp(visitor);
-        if(AssignConstList!=null) AssignConstList.traverseBottomUp(visitor);
+        if(ConstAssignList!=null) ConstAssignList.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class ConstantDecl extends ConstDecl {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(AssignConstList!=null)
-            buffer.append(AssignConstList.toString("  "+tab));
+        if(ConstAssignList!=null)
+            buffer.append(ConstAssignList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

@@ -1,37 +1,58 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 21:1:16
+// 4/1/2019 0:28:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class OptionalCondition implements SyntaxNode {
+public class OptionalCondition extends OptionalCond {
 
-    private SyntaxNode parent;
+    private Condition Condition;
 
-    private int line;
-
-    public SyntaxNode getParent() {
-        return parent;
+    public OptionalCondition (Condition Condition) {
+        this.Condition=Condition;
+        if(Condition!=null) Condition.setParent(this);
     }
 
-    public void setParent(SyntaxNode parent) {
-        this.parent=parent;
+    public Condition getCondition() {
+        return Condition;
     }
 
-    public int getLine() {
-        return line;
+    public void setCondition(Condition Condition) {
+        this.Condition=Condition;
     }
 
-    public void setLine(int line) {
-        this.line=line;
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
-    public abstract void accept(Visitor visitor);
-    public abstract void childrenAccept(Visitor visitor);
-    public abstract void traverseTopDown(Visitor visitor);
-    public abstract void traverseBottomUp(Visitor visitor);
+    public void childrenAccept(Visitor visitor) {
+        if(Condition!=null) Condition.accept(visitor);
+    }
 
-    public String toString() { return toString(""); }
-    public abstract String toString(String tab);
+    public void traverseTopDown(Visitor visitor) {
+        accept(visitor);
+        if(Condition!=null) Condition.traverseTopDown(visitor);
+    }
+
+    public void traverseBottomUp(Visitor visitor) {
+        if(Condition!=null) Condition.traverseBottomUp(visitor);
+        accept(visitor);
+    }
+
+    public String toString(String tab) {
+        StringBuffer buffer=new StringBuffer();
+        buffer.append(tab);
+        buffer.append("OptionalCondition(\n");
+
+        if(Condition!=null)
+            buffer.append(Condition.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(tab);
+        buffer.append(") [OptionalCondition]");
+        return buffer.toString();
+    }
 }

@@ -61,4 +61,42 @@ public class MyTable extends Tab {
 			return true;
         return false;
     }    
+
+    public static boolean equivalent(Struct s1, Struct s2) {
+        if(s1.getKind() == Struct.Array && s2.getKind() ==Struct.Array) {
+            return equivalent(s1.getElemType(), s2.getElemType());
+        }
+        return s1 == s2;
+    }
+    public static boolean refType(Struct s) {
+        return s.getKind() == Struct.Array || s.getKind() == Struct.Class || s.getKind() == Struct.Interface;
+    }
+    public static boolean compatible(Struct s1, Struct s2) {
+        if(equivalent(s1, s2)) {
+            return true;
+        }
+        if(refType(s1) && s2 == Tab.nullType) {
+            return true;
+        }
+        if(refType(s2) && s1 == Tab.nullType) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean assignable(Struct dst, Struct src) {
+        if(equivalent(dst, src)) {
+            return true;
+        }
+        if(refType(dst) && src == Tab.nullType) {
+            return true;
+        }
+        if(src.getKind() == Struct.Class && src.getElemType() != null && src.getElemType() == dst) {
+            return true;
+        }
+        if(dst.getKind() == Struct.Interface && 
+            src.getImplementedInterfaces().stream().filter(s -> s == dst).findFirst().orElse(null) != null) {
+                return true;
+            }
+        return false;
+    }
 }
