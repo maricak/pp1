@@ -70,27 +70,28 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
     // endregion
 
-    // region deklaracije simbolickih konstanti
+    // region deklaracije konstanti
     private LinkedList<Constant> constants = new LinkedList<>();
 
-    public void visit(ConstDecl constDecl) {
+    public void visit(ConstantDecl constantDecl) {
         for (Constant constant : constants) {
             if (MyTable.existsInCurrentScope(constant.getName())) {
-                report_error("Ime " + constant.getName() + " vec postoji u trenutnom opsegu", constDecl);
-            } else if (!constant.getObj().getType().equals(constDecl.getType().struct)) {
+                report_error("Ime " + constant.getName() + " vec postoji u trenutnom opsegu", constantDecl);
+            } else if (!constant.getObj().getType().equals(constantDecl.getType().struct)) {
                 report_error("Neslaganje u tipu konstante i tipu dodeljene vrednosti", constant.getLine());
             } else {
                 report_info("Deklarisana konstanta " + constant.getName() + " sa vrednosu " + constant.getValue(),
-                        constDecl);
+                        constantDecl);
                 MyTable.insertConstant(Obj.Con, constant.getName(), constant.getObj().getType(), constant.getValue());
             }
         }
         constants.clear();
     }
 
-    public void visit(AssignConst assignConst) {
-        constants.add(new Constant(assignConst.getConstValue().constant.getObj(),
-                assignConst.getConstValue().constant.getValue(), assignConst.getConstName(), assignConst.getLine()));
+    public void visit(AssignConstant assignConstant) {
+        constants.add(new Constant(assignConstant.getConstValue().constant.getObj(),
+                assignConstant.getConstValue().constant.getValue(), assignConstant.getConstName(),
+                assignConstant.getLine()));
     }
 
     public void visit(ConstValueInt constValueInt) {
@@ -112,10 +113,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // region deklaracije promenljivih
     private LinkedList<Variable> variables = new LinkedList<>();
 
-    public void visit(VarDecl varDecl) {
+    public void visit(VariableDecl variableDecl) {
         if (currentClass != null && currentMethod == null) {
             for (Variable variable : variables) {
-                variable.setStruct(varDecl.getType().struct);
+                variable.setStruct(variableDecl.getType().struct);
                 if (MyTable.existsInCurrentScope(variable.getName())) {
                     report_error("Ime " + variable.getName() + " vec postoji u trenutnom opsegu", variable.getLine());
                 } else {
@@ -129,7 +130,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             }
         } else {
             for (Variable variable : variables) {
-                variable.setStruct(varDecl.getType().struct);
+                variable.setStruct(variableDecl.getType().struct);
                 if (MyTable.existsInCurrentScope(variable.getName())) {
                     report_error("Ime " + variable.getName() + " vec postoji u trenutnom opsegu", variable.getLine());
                 } else {
@@ -146,16 +147,20 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(VariableList variableList) {
-        variables.add(new Variable(variableList.getVarName().variable));
+        if (variableList.getVarName().variable != null) {
+            variables.add(new Variable(variableList.getVarName().variable));
+        }
     }
 
     public void visit(VariableListEnd variableListEnd) {
-        variables.add(new Variable(variableListEnd.getVarName().variable));
+        if (variableListEnd.getVarName().variable != null) {
+            variables.add(new Variable(variableListEnd.getVarName().variable));
+        }
     }
 
-    public void visit(VarName varName) {
-        varName.variable = new Variable(varName.getVarName(), varName.getOptionalBrackets() instanceof Brackets,
-                varName.getLine());
+    public void visit(VariableName variableName) {
+        variableName.variable = new Variable(variableName.getVarName(),
+                variableName.getOptionalBrackets() instanceof Brackets, variableName.getLine());
     }
 
     // endregion
@@ -246,6 +251,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // formalni parametri
     public void visit(FormPar formPar) {
         Variable variable = formPar.getVarName().variable;
+        if (variable == null) {
+            //report_error("OPORAVAK Greska u formalnim parametrima", formalPar);
+            return;
+        }
         variable.setStruct(formPar.getType().struct);
 
         if (MyTable.existsInCurrentScope(variable.getName())) {
@@ -327,6 +336,14 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // endregion
 
     // region statement
+    public void visit(Statement statement) {
+        System.err.println("statement" + statement);
+    }
+
+    public void visit(DesignatorStatement designatorStatement) {
+        System.err.println("statement -> designatorStatemenet");
+        System.out.println(designatorStatement);
+    }
 
     public void visit(StatementReturn statementReturn) {
         if (currentMethod == null) {
@@ -374,13 +391,21 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // region designator statement
     public void visit(DesignatorAssign designatorAssign) {
+        // System.err.println(designatorAssign);
+        if (designatorAssign.getExpr() instanceof ExprERR) {
+            report_error("OPORAVAK Greska kod dodele vrednosti", designatorAssign);
+            return;
+        }
         if (isLeftValue(designatorAssign.getDesignator())) {
             Struct left = designatorAssign.getDesignator().obj.getType();
             Struct right = designatorAssign.getExpr().struct;
             if (left.equals(right)) {
+                report_info("Dodela", designatorAssign);
                 return;
             }
             if (left.isRefType() && right == MyTable.nullType) {
+                report_info("Dodela", designatorAssign);
+
                 return;
             }
             // proveriti interfejs i izvedene klase
@@ -392,9 +417,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(DesignatorStandardFunction designatorStandardFunction) {
-        System.out.println(designatorStandardFunction);
+        // System.out.println(designatorStandardFunction);
     }
-   
+
     public void visit(DesignatorIncrement designatorIncrement) {
         if (isLeftValue(designatorIncrement.getDesignator())) {
             if (designatorIncrement.getDesignator().obj.getKind() != MyStruct.Int) {
@@ -439,7 +464,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             exprAddop.struct = exprAddop.getTerm().struct;
         } else {
             report_error("Operacija radi samo nad celim brojevima", exprAddop);
+            exprAddop.struct = MyTable.noType;
         }
+    }
+
+    public void visit(ExprERR exprErr) {
+        report_error("Greska u izrazu", exprErr);
+        exprErr.struct = MyTable.noType;
     }
 
     // endregion

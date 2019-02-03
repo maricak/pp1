@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:24
+// 3/1/2019 15:5:33
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class OptionalExpr implements SyntaxNode {
+public abstract class Implements implements SyntaxNode {
 
     private SyntaxNode parent;
 

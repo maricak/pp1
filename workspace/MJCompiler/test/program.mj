@@ -1,28 +1,29 @@
 program MJProgram
 	const int x=2, y=3;
-	const char a = '1', b=4;
-	const int a= 4; int d[];
-	int a, b, c[];
+	const char a* = '1', b='a';
+	const int a= 4s; 
+	int d[] =;
+	int a, b-, c[];
 	char d, e, f;
-	class A {
-		int x;
+	class A extends d--d implements a {
+		int x-;
 	}
 {
 	
-	int k () int ceeeeeee, deeeeeeeeee; bool eeeeeeeeeee; {
+	void k (int i, char k-) int ceeeeeee-, deeeeeeeeee; bool eeeeeeeeeee; {
        
 		//ceeeeeee =  deeeeeeeeee = 2;
 		chr(a);
-		return ceeeeeee+2;
+		//return ;
 	}
 	
 	void main() int la; {
-		y = 2;
 		x = y + 2;
+		y = d;
         ord(2);
-		la = ord(a) + 3;
+		//la = ord(a) + 3;
 		print(y);
         la = k(2);
-		return;
+		//return;
 	}
 }

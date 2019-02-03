@@ -10,23 +10,33 @@ parser code {:
 
 	boolean errorDetected = false;
 	
+    int line = -1;
+    String type = "";
+
 	Logger log = Logger.getLogger(getClass());   
 
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
-      done_parsing();
-      report_error(message, info);
+        done_parsing();
+        report_error(message, info);
     }      
   	public void syntax_error(Symbol cur_token) {
-        report_error("\nSintaksna greska: ", cur_token);
+        line = cur_token.left;
+        report_error("Sintaksna greska: ", cur_token);
     }	
 	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        report_fatal_error("\nFatalna greska, parsiranje ne moze da se nastavi: ", cur_token);
+        report_fatal_error("Fatalna greska, parsiranje ne moze da se nastavi: ", cur_token);
     }      
     public void report_error(String message, Object info) {
 		errorDetected = true;
-    	StringBuilder msg = new StringBuilder(message);
-    	if (info instanceof Symbol)
+    	StringBuilder msg = new StringBuilder("[GRESKA! ");
+        msg.append(message);
+        if (info instanceof Symbol)
             msg.append("'").append(((Symbol)info).value).append("' na liniji ").append(((Symbol)info).left);
+        else if(info == null) {
+            msg.append(" " + type + " ");
+            msg.append("na liniji " + line);
+        }
+        msg.append("]");
         log.error(msg.toString());
     }  
     public void report_info(String message, Object info) {
@@ -60,17 +70,16 @@ terminal Integer INT_VALUE;
 terminal Integer CHAR_VALUE;
 terminal Integer BOOL_VALUE;
 terminal String IDENTIFIER;
-terminal ERROR;
 
 nonterminal Program, DeclList, Decl, ConstDecl, AssignConstList, EnumDecl, OptionalAssignNum, AssignNum;
-nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, OptionalExtendsType, ClassVarDeclList;
-nonterminal InterfaceImplList, InterfaceList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
+nonterminal IdentOptionalAssignNumList, VarDecl, VarList, ClassDecl, Extends, ClassVarDeclList;
+nonterminal Implements, InterfaceList, OptionalMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
 nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, IfStatement, AssignConst;
-nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, OptionalExpr, PrintNumParameter, StatementList, DesignatorStatement;
+nonterminal OptionalElse, ForStatement, OptionalCondition, OptionalDesignatorStatement, PrintNumParameter, StatementList, DesignatorStatement;
 nonterminal ActPars, Condition, OrCondFactList, CondTerm, AndCondFactList, CondFact, OptionalRelopExpr; 
-nonterminal Assignop, Relop, Addop, Mulop, StandardFunctions;
+nonterminal Assignop, Relop, Addop, Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, StandardFunction;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
@@ -78,39 +87,43 @@ nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 precedence left ELSE;
 
 Program ::= (Program) ProgramStart DeclList LEFT_BRACE MethodDeclList RIGHT_BRACE
-        ;
+          ;
 
-ProgramStart ::= (ProgramStart) PROGRAM IDENTIFIER:programName
-                ;
+ProgramStart ::= (ProgramStart) {: parser.type = "globalne promenljive"; :} PROGRAM IDENTIFIER:programName                 
+               ;
 
 DeclList ::= (DeclarationList) DeclList Decl
-			| (DeclarationListNO) /*epsilon */
-            ;
+		   | (DeclarationListNO) /*epsilon */
+           ;
 
-Decl ::= (Declaration) ConstDecl
-        | (DeclarationVar) VarDecl
-        | (DeclarationClass) ClassDecl
-        | (DeclarationEnum) EnumDecl
-        | (DeclarationInterface) InterfaceDecl
-        ;	
+Decl ::= (DeclarationConst) ConstDecl
+       | (DeclarationVar) VarDecl
+       | (DeclarationClass) ClassDecl
+       | (DeclarationEnum) EnumDecl
+       | (DeclarationInterface) InterfaceDecl
+       ;	
 
-ConstDecl ::= (ConstDecl) CONST Type:constType AssignConstList SEPARATOR
+ConstDecl ::= (ConstantDecl) CONST Type AssignConstList SEPARATOR
+            | (ConstantDeclERR) CONST error SEPARATOR 
+              {: parser.report_error("OPORAVAK Sintasna greska prilikom definisanja konstante", null); :}
             ; 
 			
 AssignConstList ::= (AssignConstantList) AssignConstList COMMA AssignConst
-				| (AssignConstantListEnd) AssignConst
-                ;
+				  | (AssignConstantListEnd) AssignConst
+                  ;
 	
-AssignConst ::= (AssignConst)  IDENTIFIER:constName ASSIGN ConstValue:constValue
-            ;					
+AssignConst ::= (AssignConstant)  IDENTIFIER:constName ASSIGN ConstValue:constValue
+              | (AssignConstantERR) error 
+                {: parser.report_error("OPORAVAK Sintasna greska prilikom definisanja konstante", null); :}
+              ;					
 
 ConstValue ::= (ConstValueInt) INT_VALUE:value 
-			| (ConstValueChar) CHAR_VALUE:value 
-			| (ConstValueBool) BOOL_VALUE:value
-            ;
+			 | (ConstValueChar) CHAR_VALUE:value 
+			 | (ConstValueBool) BOOL_VALUE:value
+             ;
 
 EnumDecl ::= (EnumDecl) ENUM IDENTIFIER LEFT_BRACE IDENTIFIER OptionalAssignNum IdentOptionalAssignNumList RIGHT_BRACE
-            ;
+           ;
 
 OptionalAssignNum ::= (OptionalAssgnNumberClass) AssignNum
 					| (NoOptionalAssgnNumberClass) /* epsilon */
@@ -121,99 +134,105 @@ AssignNum ::= (AssignNum) ASSIGN INT_VALUE
 
 
 IdentOptionalAssignNumList ::= (IdentifierOptionalAssignNumberListClass) IdentOptionalAssignNumList COMMA IDENTIFIER OptionalAssignNum
-							| (NoIdentifierOptionalAssignNumberListClass) /* epsilon */
-                            ;
+							 | (NoIdentifierOptionalAssignNumberListClass) /* epsilon */
+                             ;
 
-VarDecl ::= (VarDecl) Type:varType VarList SEPARATOR
-        ;
+VarDecl ::= (VariableDecl) Type VarList SEPARATOR
+          | (VariableDeclERR) error SEPARATOR 
+            {: parser.report_error("OPORAVAK Sintasna greska prilikom deklarisanja", null); :}
+          ;
 		
 VarList ::= (VariableList) VarList COMMA VarName
-			| (VariableListEnd) VarName /* epsilon */
-            ;
+          | (VariableListEnd) VarName 
+          ;
 			
-VarName ::= (VarName) IDENTIFIER:varName OptionalBrackets:brackets
-        ;
+VarName ::= (VariableName) IDENTIFIER:varName OptionalBrackets:brackets      
+          | (VariableNameERR) error 
+            {: parser.report_error("OPORAVAK Sintasna greska prilikom deklarisanja", null); :}
+          | (VariableNameEmptyERR) /* epsilon */ 
+            {: parser.report_error("OPORAVAK Sintasna greska prilikom deklarisanja", null); :}
+		  ;
 
-ClassDecl ::= (ClassDecl) ClassStart OptionalExtendsType InterfaceImplList LEFT_BRACE ClassVarDeclList OptionalMethodDeclList RIGHT_BRACE
+ClassDecl ::= (ClassDecl) ClassStart Extends Implements LEFT_BRACE ClassVarDeclList OptionalMethodDeclList RIGHT_BRACE
             ;
 
+ClassStart ::= (ClassStart) {: parser.type = "polja klase"; :} CLASS IDENTIFIER:className               
+             ;
+			
 ClassVarDeclList ::= (ClassVarDeclList) VarDeclList
-                ;
+                   ;
 
-ClassStart ::= (ClassStart) CLASS IDENTIFIER:className
-            ;
-			
-OptionalExtendsType ::= (ExtendsType) EXTENDS Type:type
-					| (ExtendsTypeNO) /* epsilon */
-					;					
+Extends ::= (ExtendsType) EXTENDS Type
+          //| (ExtendsERR) EXTENDS error {: parser.report_error("OPORAVAK Greska kod prosirivanja klase tip", new Object()); :}
+          | (ExtendsERR) error {: parser.report_error("OPORAVAK Greska kod prosirivanja klase", new Object()); :}
+          | (ExtendsTypeNO) /* epsilon */
+          ;					
 
-InterfaceImplList ::= (InterfaceImplementsList) IMPLEMENTS InterfaceList
-                    | (InterfaceImplementsListNO) /* epsilon */
-                    ;
+Implements ::= (ImplementsList) IMPLEMENTS InterfaceList
+             | (ImplementsListNO) /* epsilon */
+             ;
             
-InterfaceList ::= (Interfaces) InterfaceList COMMA Type:type
-                | (Interface) Type:type
+InterfaceList ::= (Interfaces) InterfaceList COMMA Type
+                | (Interface) Type
                 | (InterfacesNO) /* epsilon */
                 ;
 			
-OptionalMethodDeclList ::= (OptionalMethodDeclarationListClass) LEFT_BRACE MethodDeclList RIGHT_BRACE
-						| (NoOptionalMethodDeclarationListClass) /* epsilon */
-						;
+OptionalMethodDeclList ::= (OptionalMethodDeclarationList) LEFT_BRACE MethodDeclList RIGHT_BRACE
+						 | (OptionalMethodDeclarationListNO) /* epsilon */
+						 ;
 								
 MethodDeclList ::= (MethodDeclarationListClass) MethodDeclList MethodDecl
-			| (NoMethodDeclarationListClass)/* epsilon */
-			;
-
+			     | (NoMethodDeclarationListClass)/* epsilon */
+			     ;
 
 InterfaceDecl ::= (InterfaceDeclarationClass) INTERFACE IDENTIFIER LEFT_BRACE InterfaceMethodDeclList RIGHT_BRACE
 				;
 
 InterfaceMethodDeclList ::= (InterfaceMethodDeclListClass) InterfaceMethodDeclList InterfaceMethodDecl
-						| (NoInterfaceMethodDeclListClass) /* epsilon */
-						;
+						  | (NoInterfaceMethodDeclListClass) /* epsilon */
+						  ;
 
 InterfaceMethodDecl ::= (InterfaceMethodDeclarationClass) ReturnType IDENTIFIER LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS SEPARATOR
-					;
+					  ;
 
-MethodDecl ::= (MethodDecl) MethodStart LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
-			;
+MethodDecl ::= (MethodDecl) MethodStart LEFT_PARENTHESIS FormPars RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList LEFT_BRACE StatementList RIGHT_BRACE
+             ;
 
-MethodStart ::= (MethodStart) ReturnType IDENTIFIER:methodName
-			;
+MethodStart ::= (MethodStart) {: parser.type = "formalnog parametra"; :} ReturnType IDENTIFIER:methodName                
+			  ;
 	
 ReturnType ::= (ReturnT) Type
-			| (ReturnVoid) VOID
-			;
+			 | (ReturnVoid) VOID
+			 ;
 			
-FormPars ::= (FormalParameters) FormPars COMMA FormPar				
-			| (FormalParameter) FormPar
-			| (FormalParametersNO)	/* epsilon */
-			;
+FormPars ::= (FormalParameters) FormPars COMMA FormPar           
+		   | (FormalParameter) FormPar
+		   | (FormalParametersNO)	/* epsilon */
+		   ;
 
+FormPar ::= (FormPar) Type VarName 
+		  ;
 
 VarDeclList ::= (VariableDeclList) VarDeclList VarDecl
-			| (VariableDeclListNO) /* epsilon */
-			;
-				
-FormPar ::= (FormPar) Type VarName 
-			;
+			  | (VariableDeclListNO) /* epsilon */
+			  ;	
 			
 OptionalBrackets ::= (Brackets) LEFT_BRACKET RIGHT_BRACKET
-				| (BracketsNO) /* epsilon */
-				;
+				   | (BracketsNO) /* epsilon */
+				   ;
 
 Type ::= (TypeInt) INT
-		| (TypeBool) BOOL
-		| (TypeChar) CHAR
-		| (TypeCustom) IDENTIFIER:typeName
-		;
+	   | (TypeBool) BOOL
+	   | (TypeChar) CHAR
+       | (TypeCustom) IDENTIFIER:typeName
+	   ;
 
-StandardFunctions ::= (StandardFunctionChr) CHR LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
-                    | (StandardFunctionOrd) ORD LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
-                    | (StandardFunctionLen) LEN LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
-                    ;
+StandardFunction ::= (StandardFunctionChr) CHR LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+                   | (StandardFunctionOrd) ORD LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+                   | (StandardFunctionLen) LEN LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+                   ;
 
-Statement ::= (StatementDesignator) DesignatorStatement SEPARATOR
+Statement ::= (StatementDesignator) DesignatorStatement
 			| (StatementIf) IfStatement 
 			| (StatementFor) ForStatement
 			| (StatementBreak) BREAK SEPARATOR
@@ -225,93 +244,95 @@ Statement ::= (StatementDesignator) DesignatorStatement SEPARATOR
 			| (StatementBlock) LEFT_BRACE StatementList RIGHT_BRACE
 			;
 
-IfStatement ::=  (IfStatementClass) IF LEFT_PARENTHESIS Condition RIGHT_PARENTHESIS Statement OptionalElse
-			;
+IfStatement ::= (IfStatement) IF LEFT_PARENTHESIS Condition RIGHT_PARENTHESIS Statement OptionalElse
+            //| (IfStatementERR) IF LEFT_PARENTHESIS error RIGHT_PARENTHESIS Statement OptionalElse:e {:parser.report_error("Sintaksna greska unutar if konstrukcije", lleft); :}
+            //| (IfStatementEmptyERR) IF LEFT_PARENTHESIS /* epsilon */ RIGHT_PARENTHESIS Statement OptionalElse:e {:parser.report_error("Sintaksna greska unutar if konstrukcije", lleft); :}
+			  ;
 		
 OptionalElse ::= (OptionalElseClass) ELSE Statement
-				| (NoOptionalElseClass) /* epsilon */
-				;
+			   | (NoOptionalElseClass) /* epsilon */
+			   ;
 			
 ForStatement ::= (ForStatementClass) FOR LEFT_PARENTHESIS OptionalDesignatorStatement SEPARATOR OptionalCondition SEPARATOR OptionalDesignatorStatement RIGHT_PARENTHESIS Statement
-			;
+			   ;
 			
 OptionalCondition ::= (OptionalConditionClass) Condition 
 					| (NoOptionalConditionClass) /* epsilon */
 					;
 			
 OptionalDesignatorStatement ::= (OptionalDesignatorStatementClass) DesignatorStatement
-							| (NoOptionalDesignatorStatementClass) /* epsilon */
-							;
-						
-OptionalExpr ::= (OptionalExprClass) Expr
-				| (NoOptionalExprClass) /* epsilon */
-				;
+							  | (NoOptionalDesignatorStatementClass) /* epsilon */
+							  ;
 	
 PrintNumParameter ::= (PrintNumberParameter) COMMA INT_VALUE
-                | (PrintNumberParameterNO) /* espilon */
-                ;		
+                    | (PrintNumberParameterNO) /* espilon */
+                    ;		
 			
 StatementList ::= (Statements) StatementList Statement
 				| (StatementsNO) /* epsilon */
 				;
 
-DesignatorStatement ::= (DesignatorAssign) Designator Assignop Expr
-                    | (DesignatorFunctionCall) Designator LEFT_PARENTHESIS ActPars RIGHT_PARENTHESIS
-                    | (DesignatorIncrement) Designator INCREMENT
-                    | (DesignatorDecrement) Designator DECREMENT
-					;		
+DesignatorStatement ::= (DesignatorAssign) Designator Assignop Expr SEPARATOR
+                      | (DesignatorStandardFunction) StandardFunction SEPARATOR
+                      | (DesignatorFunctionCall) Designator LEFT_PARENTHESIS ActPars RIGHT_PARENTHESIS SEPARATOR
+                      | (DesignatorIncrement) Designator INCREMENT SEPARATOR
+                      | (DesignatorDecrement) Designator DECREMENT SEPARATOR
+					  ;		
 
 ActPars ::= (ActParameter) Expr
-        | (ActParameters) ActPars COMMA Expr
-        | (ActParametersNO) /* epsilon */
-		;
+          | (ActParameters) ActPars COMMA Expr
+          | (ActParametersNO) /* epsilon */
+		  ;
 		
 Condition ::= (ConditionClass) CondTerm OrCondFactList
 			;
 			
 OrCondFactList ::= (OrConditionFactListClass) OrCondFactList OR CondFact
-				| (NoOrConditionFactListClass) /* epsilon */
-				;				
+				 | (NoOrConditionFactListClass) /* epsilon */
+				 ;				
 
 CondTerm ::= (ConditionTermClass) CondFact AndCondFactList
-			;
+		   ;
 			
 AndCondFactList ::= (AndConditionFactListClass) AndCondFactList AND CondFact
-				| (NoAndConditionFactListClass) /* epsilon */
-				;	
+				  | (NoAndConditionFactListClass) /* epsilon */
+				  ;	
 
 CondFact ::= (ConditionFactClass) Expr OptionalRelopExpr
-		;
+		   ;
 		
 OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop Expr
 					| (NoOptionalRelopExprClassClass) /* epsilon */
 					;
 
 Expr ::= (ExprTerm) Term
-        | (ExprNegativeTerm) SUBTRACT Term
-        | (ExprAddop) Expr Addop Term
-		;		
+       | (ExprNegativeTerm) SUBTRACT Term
+       | (ExprAddop) Expr Addop Term
+       | (ExprERR) error 
+         {: parser.report_error("OPORAVAK Sintaksna greska EXPR ", null); :}
+	   ;		
 
 Term ::= (TermFactor) Factor 
-        | (TermMulop) Term Mulop Factor
-		;			
+       | (TermMulop) Term Mulop Factor
+	   ;			
 
 Factor ::= (FactorDesignator) Designator
-        | (FactorFunctionCall) Designator LEFT_PARENTHESIS ActPars RIGHT_PARENTHESIS
-		| (FactorConst) ConstValue	
-		| (FactorNewObj) NEW Type
-        | (FactorNewArray) NEW Type LEFT_BRACKET Expr RIGHT_BRACKET
-		| (FactorNull) NULL
-		| (FactorExpression) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
-		;		
+         | (FactorStandardFunction) StandardFunction
+         | (FactorFunctionCall) Designator LEFT_PARENTHESIS ActPars RIGHT_PARENTHESIS
+		 | (FactorConst) ConstValue	
+		 | (FactorNewObj) NEW Type
+         | (FactorNewArray) NEW Type LEFT_BRACKET Expr RIGHT_BRACKET
+		 | (FactorNull) NULL
+		 | (FactorExpression) LEFT_PARENTHESIS Expr RIGHT_PARENTHESIS
+		 ;		
 					
 Designator ::= (DesignatorName) IDENTIFIER:name
-            | (DesignatorPointAccess) Designator POINT IDENTIFIER:name
-            | (DesignatorArrayAccess) Designator LEFT_BRACKET Expr RIGHT_BRACKET
-            ;
+             | (DesignatorPointAccess) Designator POINT IDENTIFIER:name
+             | (DesignatorArrayAccess) Designator LEFT_BRACKET Expr RIGHT_BRACKET
+             ;
 
 Assignop ::= (Assignop) ASSIGN 	
-			;
+		   ;
 
 Relop ::= (Equal) EQUAL
 		| (NotEqual) NOT_EQUAL

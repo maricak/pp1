@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:23
+// 3/1/2019 15:5:31
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ExtendsType extends OptionalExtendsType {
+public class ExtendsType extends Extends {
 
     private Type Type;
 

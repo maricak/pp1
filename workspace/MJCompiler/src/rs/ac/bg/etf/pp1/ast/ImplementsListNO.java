@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:23
+// 3/1/2019 15:5:32
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoOptionalExprClass extends OptionalExpr {
+public class ImplementsListNO extends Implements {
 
-    public NoOptionalExprClass () {
+    public ImplementsListNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoOptionalExprClass extends OptionalExpr {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoOptionalExprClass(\n");
+        buffer.append("ImplementsListNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoOptionalExprClass]");
+        buffer.append(") [ImplementsListNO]");
         return buffer.toString();
     }
 }

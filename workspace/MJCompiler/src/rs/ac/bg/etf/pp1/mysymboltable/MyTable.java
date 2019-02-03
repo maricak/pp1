@@ -52,7 +52,6 @@ public class MyTable extends Tab {
 
 	public static Obj insertConstant(int kind, String name, Struct type, int value) {
         Obj ret = Tab.insert(kind, name, type);
-        System.out.println("Adresa " + value);
 		ret.setAdr(value);
 		return ret;
 	}

@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:23
+// 3/1/2019 15:5:31
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class Declaration extends Decl {
+public class DeclarationConst extends Decl {
 
     private ConstDecl ConstDecl;
 
-    public Declaration (ConstDecl ConstDecl) {
+    public DeclarationConst (ConstDecl ConstDecl) {
         this.ConstDecl=ConstDecl;
         if(ConstDecl!=null) ConstDecl.setParent(this);
     }
@@ -43,7 +43,7 @@ public class Declaration extends Decl {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("Declaration(\n");
+        buffer.append("DeclarationConst(\n");
 
         if(ConstDecl!=null)
             buffer.append(ConstDecl.toString("  "+tab));
@@ -52,7 +52,7 @@ public class Declaration extends Decl {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [Declaration]");
+        buffer.append(") [DeclarationConst]");
         return buffer.toString();
     }
 }

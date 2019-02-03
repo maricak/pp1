@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:23
+// 3/1/2019 15:5:31
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class InterfaceImplementsListNO extends InterfaceImplList {
+public class VariableNameEmptyERR extends VarName {
 
-    public InterfaceImplementsListNO () {
+    public VariableNameEmptyERR () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class InterfaceImplementsListNO extends InterfaceImplList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("InterfaceImplementsListNO(\n");
+        buffer.append("VariableNameEmptyERR(\n");
 
         buffer.append(tab);
-        buffer.append(") [InterfaceImplementsListNO]");
+        buffer.append(") [VariableNameEmptyERR]");
         return buffer.toString();
     }
 }

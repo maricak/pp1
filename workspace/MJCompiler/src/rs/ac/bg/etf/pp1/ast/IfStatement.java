@@ -1,15 +1,50 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 1:43:24
+// 3/1/2019 15:5:32
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class IfStatement implements SyntaxNode {
+public class IfStatement implements SyntaxNode {
 
     private SyntaxNode parent;
-
     private int line;
+    private Condition Condition;
+    private Statement Statement;
+    private OptionalElse OptionalElse;
+
+    public IfStatement (Condition Condition, Statement Statement, OptionalElse OptionalElse) {
+        this.Condition=Condition;
+        if(Condition!=null) Condition.setParent(this);
+        this.Statement=Statement;
+        if(Statement!=null) Statement.setParent(this);
+        this.OptionalElse=OptionalElse;
+        if(OptionalElse!=null) OptionalElse.setParent(this);
+    }
+
+    public Condition getCondition() {
+        return Condition;
+    }
+
+    public void setCondition(Condition Condition) {
+        this.Condition=Condition;
+    }
+
+    public Statement getStatement() {
+        return Statement;
+    }
+
+    public void setStatement(Statement Statement) {
+        this.Statement=Statement;
+    }
+
+    public OptionalElse getOptionalElse() {
+        return OptionalElse;
+    }
+
+    public void setOptionalElse(OptionalElse OptionalElse) {
+        this.OptionalElse=OptionalElse;
+    }
 
     public SyntaxNode getParent() {
         return parent;
@@ -27,11 +62,55 @@ public abstract class IfStatement implements SyntaxNode {
         this.line=line;
     }
 
-    public abstract void accept(Visitor visitor);
-    public abstract void childrenAccept(Visitor visitor);
-    public abstract void traverseTopDown(Visitor visitor);
-    public abstract void traverseBottomUp(Visitor visitor);
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
-    public String toString() { return toString(""); }
-    public abstract String toString(String tab);
+    public void childrenAccept(Visitor visitor) {
+        if(Condition!=null) Condition.accept(visitor);
+        if(Statement!=null) Statement.accept(visitor);
+        if(OptionalElse!=null) OptionalElse.accept(visitor);
+    }
+
+    public void traverseTopDown(Visitor visitor) {
+        accept(visitor);
+        if(Condition!=null) Condition.traverseTopDown(visitor);
+        if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(OptionalElse!=null) OptionalElse.traverseTopDown(visitor);
+    }
+
+    public void traverseBottomUp(Visitor visitor) {
+        if(Condition!=null) Condition.traverseBottomUp(visitor);
+        if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(OptionalElse!=null) OptionalElse.traverseBottomUp(visitor);
+        accept(visitor);
+    }
+
+    public String toString(String tab) {
+        StringBuffer buffer=new StringBuffer();
+        buffer.append(tab);
+        buffer.append("IfStatement(\n");
+
+        if(Condition!=null)
+            buffer.append(Condition.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(Statement!=null)
+            buffer.append(Statement.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(OptionalElse!=null)
+            buffer.append(OptionalElse.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(tab);
+        buffer.append(") [IfStatement]");
+        return buffer.toString();
+    }
 }
