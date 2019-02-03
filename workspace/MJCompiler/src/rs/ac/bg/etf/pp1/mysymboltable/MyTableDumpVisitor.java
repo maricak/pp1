@@ -19,7 +19,7 @@ public class MyTableDumpVisitor extends DumpSymbolTableVisitor {
         case Struct.Char:
             output.append("char");
             break;
-        case MyStruct.Bool:
+        case Struct.Bool:
             output.append("bool");
             break;
         case Struct.Array:
@@ -35,37 +35,37 @@ public class MyTableDumpVisitor extends DumpSymbolTableVisitor {
             case Struct.Char:
                 output.append("char");
                 break;
-            case MyStruct.Bool:
+            case Struct.Bool:
                 output.append("bool");
                 break;
             case Struct.Class:
                 output.append("Class");
                 break;
-            case MyStruct.Interface:
+            case Struct.Interface:
                 output.append("Interface");
                 break;
-            case MyStruct.Enum:
+            case Struct.Enum:
                 output.append("Enum");
                 break;
             }
             break;
         case Struct.Class:
             output.append("Class [");
-            for (Obj obj : structToVisit.getMembers().symbols()) {
+            for (Obj obj : structToVisit.getMembers()) {
                 obj.accept(this);
             }
             output.append("]");
             break;
-        case MyStruct.Interface:
+        case Struct.Interface:
             output.append("Interface[");
-            for (Obj obj : structToVisit.getMembers().symbols()) {
+            for (Obj obj : structToVisit.getMembers()) {
                 obj.accept(this);
             }
             output.append("]");
             break;        
-        case MyStruct.Enum:
+        case Struct.Enum:
             output.append("Enum[");
-            for (Obj obj : structToVisit.getMembers().symbols()) {
+            for (Obj obj : structToVisit.getMembers()) {
                 obj.accept(this);
             }
             output.append("]");

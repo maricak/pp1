@@ -9,7 +9,7 @@ program MJProgram
 		}
 	}
 {
-	char p(int q) {
+	int p(int q) {
 	}
 	int k (int i, char k, char s) int deeeeeeeeee; bool eeeeeeeeeee; {
        
@@ -20,7 +20,7 @@ program MJProgram
 	
 	void main() int la; bool de; char b; A klas; {
 		x = y + 2;
-		klas.k(x, b);
+		klas.ggk(p(x), y);
         ord(2);
 		//la = ord(a) + 3;
 		print(y);

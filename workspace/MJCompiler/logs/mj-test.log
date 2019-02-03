@@ -1,172 +1,177 @@
-INFO  17:44:11,971 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
-INFO  17:44:12,029 - #31 program
-INFO  17:44:12,029 - #54 MJProgram
-INFO  17:44:12,029 - #47 const
-INFO  17:44:12,030 - #2 int
-INFO  17:44:12,030 - #54 x
-INFO  17:44:12,031 - #19 =
-INFO  17:44:12,031 - #51 2
-INFO  17:44:12,031 - #23 ,
-INFO  17:44:12,031 - #54 y
-INFO  17:44:12,031 - #19 =
-INFO  17:44:12,032 - #51 3
-INFO  17:44:12,032 - #22 ;
-INFO  17:44:12,032 - #32 class
-INFO  17:44:12,032 - #54 A
-INFO  17:44:12,032 - #29 {
-INFO  17:44:12,034 - #2 int
-INFO  17:44:12,035 - #54 x
-INFO  17:44:12,035 - #22 ;
-INFO  17:44:12,036 - #29 {
-INFO  17:44:12,036 - #46 void
-INFO  17:44:12,037 - #54 k
-INFO  17:44:12,038 - #25 (
-INFO  17:44:12,038 - #2 int
-INFO  17:44:12,038 - #54 i
-INFO  17:44:12,038 - #23 ,
-INFO  17:44:12,039 - #2 int
-INFO  17:44:12,039 - #54 j
-INFO  17:44:12,039 - #26 )
-INFO  17:44:12,039 - #29 {
-INFO  17:44:12,039 - #30 }
-INFO  17:44:12,040 - #30 }
-INFO  17:44:12,041 - #30 }
-INFO  17:44:12,041 - #29 {
-INFO  17:44:12,041 - #4 char
-INFO  17:44:12,041 - #54 p
-INFO  17:44:12,042 - #25 (
-INFO  17:44:12,042 - #2 int
-INFO  17:44:12,042 - #54 q
-INFO  17:44:12,042 - #26 )
-INFO  17:44:12,042 - #29 {
-INFO  17:44:12,042 - #30 }
-INFO  17:44:12,042 - #2 int
-INFO  17:44:12,042 - #54 k
-INFO  17:44:12,042 - #25 (
-INFO  17:44:12,042 - #2 int
-INFO  17:44:12,043 - #54 i
-INFO  17:44:12,043 - #23 ,
-INFO  17:44:12,043 - #4 char
-INFO  17:44:12,043 - #54 k
-INFO  17:44:12,043 - #23 ,
-INFO  17:44:12,043 - #4 char
-INFO  17:44:12,043 - #54 s
-INFO  17:44:12,043 - #26 )
-INFO  17:44:12,043 - #2 int
-INFO  17:44:12,043 - #54 deeeeeeeeee
-INFO  17:44:12,043 - #22 ;
-INFO  17:44:12,043 - #3 bool
-INFO  17:44:12,043 - #54 eeeeeeeeeee
-INFO  17:44:12,044 - #22 ;
-INFO  17:44:12,044 - #29 {
-INFO  17:44:12,044 - #48 chr
-INFO  17:44:12,044 - #25 (
-INFO  17:44:12,044 - #54 a
-INFO  17:44:12,044 - #26 )
-INFO  17:44:12,045 - #22 ;
-INFO  17:44:12,045 - #30 }
-INFO  17:44:12,045 - #46 void
-INFO  17:44:12,045 - #54 main
-INFO  17:44:12,045 - #25 (
-INFO  17:44:12,045 - #26 )
-INFO  17:44:12,046 - #2 int
-INFO  17:44:12,046 - #54 la
-INFO  17:44:12,046 - #22 ;
-INFO  17:44:12,046 - #3 bool
-INFO  17:44:12,046 - #54 de
-INFO  17:44:12,046 - #22 ;
-INFO  17:44:12,046 - #4 char
-INFO  17:44:12,046 - #54 b
-INFO  17:44:12,046 - #22 ;
-INFO  17:44:12,046 - #54 A
-INFO  17:44:12,046 - #54 klas
-INFO  17:44:12,047 - #22 ;
-INFO  17:44:12,047 - #29 {
-INFO  17:44:12,047 - #54 x
-INFO  17:44:12,047 - #19 =
-INFO  17:44:12,047 - #54 y
-INFO  17:44:12,047 - #6 +
-INFO  17:44:12,047 - #51 2
-INFO  17:44:12,048 - #22 ;
-INFO  17:44:12,049 - #54 klas
-INFO  17:44:12,049 - #24 .
-INFO  17:44:12,049 - #54 k
-INFO  17:44:12,049 - #25 (
-INFO  17:44:12,049 - #54 x
-INFO  17:44:12,049 - #23 ,
-INFO  17:44:12,049 - #54 b
-INFO  17:44:12,049 - #26 )
-INFO  17:44:12,049 - #22 ;
-INFO  17:44:12,049 - #49 ord
-INFO  17:44:12,050 - #25 (
-INFO  17:44:12,050 - #51 2
-INFO  17:44:12,050 - #26 )
-INFO  17:44:12,050 - #22 ;
-INFO  17:44:12,050 - #44 print
-INFO  17:44:12,050 - #25 (
-INFO  17:44:12,050 - #54 y
-INFO  17:44:12,050 - #26 )
-INFO  17:44:12,051 - #22 ;
-INFO  17:44:12,051 - #54 p
-INFO  17:44:12,051 - #25 (
-INFO  17:44:12,051 - #51 3
-INFO  17:44:12,051 - #26 )
-INFO  17:44:12,051 - #22 ;
-INFO  17:44:12,052 - #54 la
-INFO  17:44:12,052 - #19 =
-INFO  17:44:12,052 - #54 p
-INFO  17:44:12,052 - #25 (
-INFO  17:44:12,052 - #54 k
-INFO  17:44:12,052 - #25 (
-INFO  17:44:12,052 - #51 2
-INFO  17:44:12,052 - #23 ,
-INFO  17:44:12,052 - #54 b
-INFO  17:44:12,052 - #23 ,
-INFO  17:44:12,052 - #54 p
-INFO  17:44:12,052 - #25 (
-INFO  17:44:12,052 - #51 2
-INFO  17:44:12,052 - #26 )
-INFO  17:44:12,052 - #26 )
-INFO  17:44:12,053 - #26 )
-INFO  17:44:12,053 - #22 ;
-INFO  17:44:12,053 - #30 }
-INFO  17:44:12,053 - #30 }
-INFO  17:44:12,053 - #0 eof
-INFO  17:44:12,054 - #0 eof
-INFO  17:44:12,064 - Deklarisana konstanta x sa vrednosu 2 na liniji 2
-INFO  17:44:12,064 - Deklarisana konstanta y sa vrednosu 3 na liniji 2
-INFO  17:44:12,064 - Zapoceta klasa A na liniji 4
-INFO  17:44:12,065 - Deklarisana polje klase promenljiva x na liniji 5
-INFO  17:44:12,066 - Zapoceta metoda k na liniji 7
-INFO  17:44:12,066 - Formalni parametar i na liniji 7
-INFO  17:44:12,066 - Formalni parametar j na liniji 7
-INFO  17:44:12,066 - Zavrsena metoda k na liniji 2
-INFO  17:44:12,066 - Zapoceta metoda p na liniji 12
-INFO  17:44:12,066 - Formalni parametar q na liniji 12
-ERROR 17:44:12,066 - SINTAKSNA GRESKA!: [Metoda p nema return naredbu]
-INFO  17:44:12,066 - Zavrsena metoda p
-INFO  17:44:12,066 - Zapoceta metoda k na liniji 14
-INFO  17:44:12,066 - Formalni parametar i na liniji 14
-INFO  17:44:12,066 - Formalni parametar k na liniji 14
-INFO  17:44:12,066 - Formalni parametar s na liniji 14
-INFO  17:44:12,066 - Deklarisana promenljiva deeeeeeeeee na liniji 14
-INFO  17:44:12,066 - Deklarisana promenljiva eeeeeeeeeee na liniji 14
-ERROR 17:44:12,066 - SINTAKSNA GRESKA!: [Ime a nije deklarisano] na liniji 17
-ERROR 17:44:12,066 - SINTAKSNA GRESKA!: [Argument mora biti tipa int] na liniji 17
-ERROR 17:44:12,066 - SINTAKSNA GRESKA!: [Metoda k nema return naredbu] na liniji 1
-INFO  17:44:12,066 - Zavrsena metoda k na liniji 1
-INFO  17:44:12,066 - Zapoceta metoda main na liniji 21
-INFO  17:44:12,066 - Deklarisana promenljiva la na liniji 21
-INFO  17:44:12,066 - Deklarisana promenljiva de na liniji 21
-INFO  17:44:12,066 - Deklarisana promenljiva b na liniji 21
-INFO  17:44:12,067 - Deklarisana promenljiva klas na liniji 21
-ERROR 17:44:12,067 - SINTAKSNA GRESKA!: [Kod dodele vrednosti leva strana mora biti promenljiva, polje klase ili element niza] na liniji 22
-ERROR 17:44:12,067 - SINTAKSNA GRESKA!: [2. argument ne moze da se dodeli odgovarajucem parametru] na liniji 23
-ERROR 17:44:12,067 - SINTAKSNA GRESKA!: [Argument mora biti tipa char] na liniji 24
-INFO  17:44:12,067 - Poziv metode p na liniji 27
-INFO  17:44:12,068 - Poziv metode p na liniji 28
-INFO  17:44:12,068 - Poziv metode k na liniji 28
-INFO  17:44:12,068 - Poziv metode p na liniji 28
-ERROR 17:44:12,068 - SINTAKSNA GRESKA!: [Tipovi u dodeli nisu kompatiblini] na liniji 28
-INFO  17:44:12,068 - Zavrsena metoda main na liniji 1
-ERROR 17:44:12,068 - Parsiranje NIJE uspesno zavrseno!
+INFO  18:48:32,843 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
+INFO  18:48:32,918 - #31 program
+INFO  18:48:32,919 - #54 MJProgram
+INFO  18:48:32,919 - #47 const
+INFO  18:48:32,920 - #2 int
+INFO  18:48:32,920 - #54 x
+INFO  18:48:32,921 - #19 =
+INFO  18:48:32,921 - #51 2
+INFO  18:48:32,921 - #23 ,
+INFO  18:48:32,922 - #54 y
+INFO  18:48:32,922 - #19 =
+INFO  18:48:32,922 - #51 3
+INFO  18:48:32,922 - #22 ;
+INFO  18:48:32,922 - #32 class
+INFO  18:48:32,923 - #54 A
+INFO  18:48:32,923 - #29 {
+INFO  18:48:32,926 - #2 int
+INFO  18:48:32,926 - #54 x
+INFO  18:48:32,927 - #22 ;
+INFO  18:48:32,928 - #29 {
+INFO  18:48:32,929 - #46 void
+INFO  18:48:32,930 - #54 k
+INFO  18:48:32,931 - #25 (
+INFO  18:48:32,932 - #2 int
+INFO  18:48:32,932 - #54 i
+INFO  18:48:32,932 - #23 ,
+INFO  18:48:32,933 - #2 int
+INFO  18:48:32,933 - #54 j
+INFO  18:48:32,933 - #26 )
+INFO  18:48:32,933 - #29 {
+INFO  18:48:32,933 - #30 }
+INFO  18:48:32,934 - #30 }
+INFO  18:48:32,934 - #30 }
+INFO  18:48:32,934 - #29 {
+INFO  18:48:32,935 - #2 int
+INFO  18:48:32,935 - #54 p
+INFO  18:48:32,935 - #25 (
+INFO  18:48:32,936 - #2 int
+INFO  18:48:32,936 - #54 q
+INFO  18:48:32,936 - #26 )
+INFO  18:48:32,936 - #29 {
+INFO  18:48:32,936 - #30 }
+INFO  18:48:32,936 - #2 int
+INFO  18:48:32,936 - #54 k
+INFO  18:48:32,936 - #25 (
+INFO  18:48:32,936 - #2 int
+INFO  18:48:32,936 - #54 i
+INFO  18:48:32,936 - #23 ,
+INFO  18:48:32,936 - #4 char
+INFO  18:48:32,936 - #54 k
+INFO  18:48:32,937 - #23 ,
+INFO  18:48:32,937 - #4 char
+INFO  18:48:32,937 - #54 s
+INFO  18:48:32,937 - #26 )
+INFO  18:48:32,937 - #2 int
+INFO  18:48:32,937 - #54 deeeeeeeeee
+INFO  18:48:32,937 - #22 ;
+INFO  18:48:32,937 - #3 bool
+INFO  18:48:32,937 - #54 eeeeeeeeeee
+INFO  18:48:32,938 - #22 ;
+INFO  18:48:32,938 - #29 {
+INFO  18:48:32,938 - #48 chr
+INFO  18:48:32,938 - #25 (
+INFO  18:48:32,938 - #54 a
+INFO  18:48:32,938 - #26 )
+INFO  18:48:32,939 - #22 ;
+INFO  18:48:32,939 - #30 }
+INFO  18:48:32,939 - #46 void
+INFO  18:48:32,939 - #54 main
+INFO  18:48:32,941 - #25 (
+INFO  18:48:32,941 - #26 )
+INFO  18:48:32,941 - #2 int
+INFO  18:48:32,941 - #54 la
+INFO  18:48:32,941 - #22 ;
+INFO  18:48:32,942 - #3 bool
+INFO  18:48:32,942 - #54 de
+INFO  18:48:32,942 - #22 ;
+INFO  18:48:32,942 - #4 char
+INFO  18:48:32,942 - #54 b
+INFO  18:48:32,942 - #22 ;
+INFO  18:48:32,942 - #54 A
+INFO  18:48:32,942 - #54 klas
+INFO  18:48:32,942 - #22 ;
+INFO  18:48:32,942 - #29 {
+INFO  18:48:32,942 - #54 x
+INFO  18:48:32,942 - #19 =
+INFO  18:48:32,942 - #54 y
+INFO  18:48:32,943 - #6 +
+INFO  18:48:32,943 - #51 2
+INFO  18:48:32,944 - #22 ;
+INFO  18:48:32,944 - #54 klas
+INFO  18:48:32,944 - #24 .
+INFO  18:48:32,944 - #54 ggk
+INFO  18:48:32,944 - #25 (
+INFO  18:48:32,945 - #54 p
+INFO  18:48:32,945 - #25 (
+INFO  18:48:32,945 - #54 x
+INFO  18:48:32,945 - #26 )
+INFO  18:48:32,945 - #23 ,
+INFO  18:48:32,945 - #54 y
+INFO  18:48:32,945 - #26 )
+INFO  18:48:32,946 - #22 ;
+INFO  18:48:32,946 - #49 ord
+INFO  18:48:32,946 - #25 (
+INFO  18:48:32,946 - #51 2
+INFO  18:48:32,946 - #26 )
+INFO  18:48:32,946 - #22 ;
+INFO  18:48:32,946 - #44 print
+INFO  18:48:32,946 - #25 (
+INFO  18:48:32,946 - #54 y
+INFO  18:48:32,946 - #26 )
+INFO  18:48:32,947 - #22 ;
+INFO  18:48:32,947 - #54 p
+INFO  18:48:32,948 - #25 (
+INFO  18:48:32,948 - #51 3
+INFO  18:48:32,948 - #26 )
+INFO  18:48:32,948 - #22 ;
+INFO  18:48:32,948 - #54 la
+INFO  18:48:32,948 - #19 =
+INFO  18:48:32,948 - #54 p
+INFO  18:48:32,948 - #25 (
+INFO  18:48:32,948 - #54 k
+INFO  18:48:32,948 - #25 (
+INFO  18:48:32,948 - #51 2
+INFO  18:48:32,948 - #23 ,
+INFO  18:48:32,948 - #54 b
+INFO  18:48:32,948 - #23 ,
+INFO  18:48:32,948 - #54 p
+INFO  18:48:32,948 - #25 (
+INFO  18:48:32,948 - #51 2
+INFO  18:48:32,948 - #26 )
+INFO  18:48:32,948 - #26 )
+INFO  18:48:32,948 - #26 )
+INFO  18:48:32,948 - #22 ;
+INFO  18:48:32,948 - #30 }
+INFO  18:48:32,948 - #30 }
+INFO  18:48:32,949 - #0 eof
+INFO  18:48:32,949 - #0 eof
+INFO  18:48:32,962 - Deklarisana konstanta x sa vrednosu 2 na liniji 2
+INFO  18:48:32,962 - Deklarisana konstanta y sa vrednosu 3 na liniji 2
+INFO  18:48:32,962 - Zapoceta klasa A na liniji 4
+INFO  18:48:32,964 - Deklarisana polje klase promenljiva x na liniji 5
+INFO  18:48:32,964 - Zapoceta metoda k na liniji 7
+INFO  18:48:32,964 - Formalni parametar i na liniji 7
+INFO  18:48:32,964 - Formalni parametar j na liniji 7
+INFO  18:48:32,964 - Zavrsena metoda k na liniji 2
+INFO  18:48:32,964 - Zapoceta metoda p na liniji 12
+INFO  18:48:32,965 - Formalni parametar q na liniji 12
+ERROR 18:48:32,965 - SINTAKSNA GRESKA!: [Metoda p nema return naredbu]
+INFO  18:48:32,965 - Zavrsena metoda p
+INFO  18:48:32,965 - Zapoceta metoda k na liniji 14
+INFO  18:48:32,965 - Formalni parametar i na liniji 14
+INFO  18:48:32,965 - Formalni parametar k na liniji 14
+INFO  18:48:32,965 - Formalni parametar s na liniji 14
+INFO  18:48:32,965 - Deklarisana promenljiva deeeeeeeeee na liniji 14
+INFO  18:48:32,965 - Deklarisana promenljiva eeeeeeeeeee na liniji 14
+ERROR 18:48:32,965 - SINTAKSNA GRESKA!: [Ime a nije deklarisano] na liniji 17
+ERROR 18:48:32,965 - SINTAKSNA GRESKA!: [Argument mora biti tipa int] na liniji 17
+ERROR 18:48:32,965 - SINTAKSNA GRESKA!: [Metoda k nema return naredbu] na liniji 1
+INFO  18:48:32,965 - Zavrsena metoda k na liniji 1
+INFO  18:48:32,965 - Zapoceta metoda main na liniji 21
+INFO  18:48:32,965 - Deklarisana promenljiva la na liniji 21
+INFO  18:48:32,965 - Deklarisana promenljiva de na liniji 21
+INFO  18:48:32,966 - Deklarisana promenljiva b na liniji 21
+INFO  18:48:32,966 - Deklarisana promenljiva klas na liniji 21
+ERROR 18:48:32,966 - SINTAKSNA GRESKA!: [Kod dodele vrednosti leva strana mora biti promenljiva, polje klase ili element niza] na liniji 22
+ERROR 18:48:33,016 - SINTAKSNA GRESKA!: [Ne postoji ime ggk] na liniji 23
+INFO  18:48:33,016 - Poziv funkcije p na liniji 23
+ERROR 18:48:33,016 - SINTAKSNA GRESKA!: [noObj nije ime metode ni funkcije] na liniji 23
+ERROR 18:48:33,016 - SINTAKSNA GRESKA!: [Argument mora biti tipa char] na liniji 24
+INFO  18:48:33,016 - Poziv funkcije p na liniji 27
+INFO  18:48:33,016 - Poziv funkcije p na liniji 28
+ERROR 18:48:33,016 - SINTAKSNA GRESKA!: [3. argument ne moze da se dodeli odgovarajucem parametru] na liniji 28
+INFO  18:48:33,016 - Poziv funkcije p na liniji 28
+INFO  18:48:33,017 - Dodela na liniji 28
+INFO  18:48:33,017 - Zavrsena metoda main na liniji 1
+ERROR 18:48:33,017 - Parsiranje NIJE uspesno zavrseno!

@@ -7,7 +7,7 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class MyTable extends Tab {
 
-	public static final Struct boolType = new Struct(MyStruct.Bool);
+	public static final Struct boolType = new Struct(Struct.Bool);
 
 	public static void init() {
 		// currentLevel inicijalizacija
