@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 18:47:38
+// 3/1/2019 21:1:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NoAndConditionFactListClass extends AndCondFactList {
+public class ConditionTermListNO extends CondTermList {
 
-    public NoAndConditionFactListClass () {
+    public ConditionTermListNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class NoAndConditionFactListClass extends AndCondFactList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NoAndConditionFactListClass(\n");
+        buffer.append("ConditionTermListNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [NoAndConditionFactListClass]");
+        buffer.append(") [ConditionTermListNO]");
         return buffer.toString();
     }
 }

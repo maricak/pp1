@@ -1,31 +1,11 @@
 program MJProgram
-	const int x=2, y=3;
-	
-	class A {
-		int x;
-		{
-			void k(int i, int j) {
-			}
-		}
-	}
+	const int x=2, y=3;	
 {
-	int p(int q) {
-	}
-	int k (int i, char k, char s) int deeeeeeeeee; bool eeeeeeeeeee; {
-       
-		//ceeeeeee =  deeeeeeeeee = 2;
-		chr(a);
-		//return ;
-	}
 	
-	void main() int la; bool de; char b; A klas; {
-		x = y + 2;
-		klas.ggk(p(x), y);
-        ord(2);
-		//la = ord(a) + 3;
-		print(y);
-		p(3);
-        la = p(k(2, b, p(2)));
-		//return;
+	void main() int la; bool de; char b; A klas; int i;{
+        for(i=0;i<5;i++)
+		{
+			if(i == 2) ibool = true;
+		}		
 	}
 }

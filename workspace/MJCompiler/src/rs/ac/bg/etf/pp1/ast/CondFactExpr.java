@@ -1,28 +1,17 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 18:47:38
+// 3/1/2019 21:1:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalRelopExprClassClass extends OptionalRelopExpr {
+public class CondFactExpr extends CondFact {
 
-    private Relop Relop;
     private Expr Expr;
 
-    public OptionalRelopExprClassClass (Relop Relop, Expr Expr) {
-        this.Relop=Relop;
-        if(Relop!=null) Relop.setParent(this);
+    public CondFactExpr (Expr Expr) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-    }
-
-    public Relop getRelop() {
-        return Relop;
-    }
-
-    public void setRelop(Relop Relop) {
-        this.Relop=Relop;
     }
 
     public Expr getExpr() {
@@ -38,18 +27,15 @@ public class OptionalRelopExprClassClass extends OptionalRelopExpr {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Relop!=null) Relop.accept(visitor);
         if(Expr!=null) Expr.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Relop!=null) Relop.traverseTopDown(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Relop!=null) Relop.traverseBottomUp(visitor);
         if(Expr!=null) Expr.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -57,13 +43,7 @@ public class OptionalRelopExprClassClass extends OptionalRelopExpr {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalRelopExprClassClass(\n");
-
-        if(Relop!=null)
-            buffer.append(Relop.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
+        buffer.append("CondFactExpr(\n");
 
         if(Expr!=null)
             buffer.append(Expr.toString("  "+tab));
@@ -72,7 +52,7 @@ public class OptionalRelopExprClassClass extends OptionalRelopExpr {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalRelopExprClassClass]");
+        buffer.append(") [CondFactExpr]");
         return buffer.toString();
     }
 }

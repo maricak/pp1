@@ -1,28 +1,28 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 18:47:38
+// 3/1/2019 21:1:16
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class AndConditionFactListClass extends AndCondFactList {
+public class ConditionFactList extends CondFactList {
 
-    private AndCondFactList AndCondFactList;
+    private CondFactList CondFactList;
     private CondFact CondFact;
 
-    public AndConditionFactListClass (AndCondFactList AndCondFactList, CondFact CondFact) {
-        this.AndCondFactList=AndCondFactList;
-        if(AndCondFactList!=null) AndCondFactList.setParent(this);
+    public ConditionFactList (CondFactList CondFactList, CondFact CondFact) {
+        this.CondFactList=CondFactList;
+        if(CondFactList!=null) CondFactList.setParent(this);
         this.CondFact=CondFact;
         if(CondFact!=null) CondFact.setParent(this);
     }
 
-    public AndCondFactList getAndCondFactList() {
-        return AndCondFactList;
+    public CondFactList getCondFactList() {
+        return CondFactList;
     }
 
-    public void setAndCondFactList(AndCondFactList AndCondFactList) {
-        this.AndCondFactList=AndCondFactList;
+    public void setCondFactList(CondFactList CondFactList) {
+        this.CondFactList=CondFactList;
     }
 
     public CondFact getCondFact() {
@@ -38,18 +38,18 @@ public class AndConditionFactListClass extends AndCondFactList {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(AndCondFactList!=null) AndCondFactList.accept(visitor);
+        if(CondFactList!=null) CondFactList.accept(visitor);
         if(CondFact!=null) CondFact.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(AndCondFactList!=null) AndCondFactList.traverseTopDown(visitor);
+        if(CondFactList!=null) CondFactList.traverseTopDown(visitor);
         if(CondFact!=null) CondFact.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(AndCondFactList!=null) AndCondFactList.traverseBottomUp(visitor);
+        if(CondFactList!=null) CondFactList.traverseBottomUp(visitor);
         if(CondFact!=null) CondFact.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -57,10 +57,10 @@ public class AndConditionFactListClass extends AndCondFactList {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("AndConditionFactListClass(\n");
+        buffer.append("ConditionFactList(\n");
 
-        if(AndCondFactList!=null)
-            buffer.append(AndCondFactList.toString("  "+tab));
+        if(CondFactList!=null)
+            buffer.append(CondFactList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
@@ -72,7 +72,7 @@ public class AndConditionFactListClass extends AndCondFactList {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [AndConditionFactListClass]");
+        buffer.append(") [ConditionFactList]");
         return buffer.toString();
     }
 }

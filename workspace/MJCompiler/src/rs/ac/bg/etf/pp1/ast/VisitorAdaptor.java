@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2019 18:47:39
+// 3/1/2019 21:1:16
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -13,6 +13,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(OptionalAssignNum OptionalAssignNum) { }
     public void visit(InterfaceMethodDeclList InterfaceMethodDeclList) { }
     public void visit(Relop Relop) { }
+    public void visit(CondTermList CondTermList) { }
     public void visit(PrintNumParameter PrintNumParameter) { }
     public void visit(VarName VarName) { }
     public void visit(OptionalBrackets OptionalBrackets) { }
@@ -21,13 +22,11 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(AssignConst AssignConst) { }
     public void visit(Addop Addop) { }
     public void visit(Factor Factor) { }
-    public void visit(CondTerm CondTerm) { }
     public void visit(VarList VarList) { }
+    public void visit(CondFactList CondFactList) { }
     public void visit(DeclList DeclList) { }
     public void visit(Designator Designator) { }
     public void visit(Term Term) { }
-    public void visit(Condition Condition) { }
-    public void visit(AndCondFactList AndCondFactList) { }
     public void visit(ConstValue ConstValue) { }
     public void visit(Implements Implements) { }
     public void visit(StandardFunction StandardFunction) { }
@@ -36,7 +35,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Expr Expr) { }
     public void visit(ForStatement ForStatement) { }
     public void visit(ActPars ActPars) { }
-    public void visit(OptionalRelopExpr OptionalRelopExpr) { }
     public void visit(DesignatorStatement DesignatorStatement) { }
     public void visit(OptionalCondition OptionalCondition) { }
     public void visit(Decl Decl) { }
@@ -48,7 +46,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ConstDecl ConstDecl) { }
     public void visit(CondFact CondFact) { }
     public void visit(MethodDeclList MethodDeclList) { }
-    public void visit(OrCondFactList OrCondFactList) { }
     public void visit(FormPars FormPars) { }
     public void visit(OptionalElse OptionalElse) { }
     public void visit(OptionalMethodDeclList OptionalMethodDeclList) { }
@@ -81,15 +78,14 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ExprAddop ExprAddop) { visit(); }
     public void visit(ExprNegativeTerm ExprNegativeTerm) { visit(); }
     public void visit(ExprTerm ExprTerm) { visit(); }
-    public void visit(NoOptionalRelopExprClassClass NoOptionalRelopExprClassClass) { visit(); }
-    public void visit(OptionalRelopExprClassClass OptionalRelopExprClassClass) { visit(); }
-    public void visit(ConditionFactClass ConditionFactClass) { visit(); }
-    public void visit(NoAndConditionFactListClass NoAndConditionFactListClass) { visit(); }
-    public void visit(AndConditionFactListClass AndConditionFactListClass) { visit(); }
-    public void visit(ConditionTermClass ConditionTermClass) { visit(); }
-    public void visit(NoOrConditionFactListClass NoOrConditionFactListClass) { visit(); }
-    public void visit(OrConditionFactListClass OrConditionFactListClass) { visit(); }
-    public void visit(ConditionClass ConditionClass) { visit(); }
+    public void visit(CondFactCompare CondFactCompare) { visit(); }
+    public void visit(CondFactExpr CondFactExpr) { visit(); }
+    public void visit(ConditionFactListNO ConditionFactListNO) { visit(); }
+    public void visit(ConditionFactList ConditionFactList) { visit(); }
+    public void visit(CondTerm CondTerm) { visit(); }
+    public void visit(ConditionTermListNO ConditionTermListNO) { visit(); }
+    public void visit(ConditionTermList ConditionTermList) { visit(); }
+    public void visit(Condition Condition) { visit(); }
     public void visit(ActParametersNO ActParametersNO) { visit(); }
     public void visit(ActParameters ActParameters) { visit(); }
     public void visit(ActParameter ActParameter) { visit(); }
@@ -137,6 +133,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(FormalParameters FormalParameters) { visit(); }
     public void visit(ReturnVoid ReturnVoid) { visit(); }
     public void visit(ReturnT ReturnT) { visit(); }
+    public void visit(MethodVarsEnd MethodVarsEnd) { visit(); }
     public void visit(MethodStart MethodStart) { visit(); }
     public void visit(MethodDecl MethodDecl) { visit(); }
     public void visit(InterfaceMethodDecl InterfaceMethodDecl) { visit(); }

@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import java_cup.runtime.Symbol;
-//import rs.ac.bg.etf.pp1.ast.Program;
+import rs.ac.bg.etf.pp1.ast.Program;
 import rs.ac.bg.etf.pp1.ast.SyntaxNode;
 import rs.ac.bg.etf.pp1.mysymboltable.MyTable;
 import rs.ac.bg.etf.pp1.util.Log4JUtils;
@@ -73,7 +73,7 @@ public class MJParserTest {
 			return;
 		}*/
 		
-		File sourceCode = new File("test/program.mj");
+		File sourceCode = new File("test/test302.mj");
 		if (!sourceCode.exists()) {
 			log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
 			return;

@@ -109,18 +109,14 @@ nonterminal StatementList StatementList;
 nonterminal DesignatorStatement DesignatorStatement;
 nonterminal ActPars ActPars;
 nonterminal Condition Condition;
-nonterminal OrCondFactList OrCondFactList;
-nonterminal CondTerm CondTerm;
-nonterminal AndCondFactList AndCondFactList;
-nonterminal CondFact CondFact;
-nonterminal OptionalRelopExpr OptionalRelopExpr; 
+nonterminal MethodVarsEnd MethodVarsEnd; 
 nonterminal Assignop Assignop;
 nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, StandardFunction;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
@@ -234,11 +230,14 @@ InterfaceMethodDeclList ::= (InterfaceMethodDeclarations) InterfaceMethodDeclLis
 InterfaceMethodDecl ::= (InterfaceMethodDecl) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS FormPars:F3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDecl(R1, I2, F3); RESULT.setLine(R1left); :}
 					  ;
 
-MethodDecl ::= (MethodDecl) MethodStart:M1 LEFT_PARENTHESIS FormPars:F2 RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList:V3 LEFT_BRACE StatementList:S4 RIGHT_BRACE {: RESULT=new MethodDecl(M1, F2, V3, S4); RESULT.setLine(M1left); :}
+MethodDecl ::= (MethodDecl) MethodStart:M1 LEFT_PARENTHESIS FormPars:F2 RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList:V3 MethodVarsEnd:M4 LEFT_BRACE StatementList:S5 RIGHT_BRACE {: RESULT=new MethodDecl(M1, F2, V3, M4, S5); RESULT.setLine(M1left); :}
              ;
 
 MethodStart ::= (MethodStart) {: parser.type = "formalnog parametra"; :} ReturnType:R1 IDENTIFIER:methodName {: RESULT=new MethodStart(R1, methodName); RESULT.setLine(R1left); :}                
 			  ;
+
+MethodVarsEnd ::= (MethodVarsEnd) {: RESULT=new MethodVarsEnd(); :}  /* epsilon */
+                    ;
 	
 ReturnType ::= (ReturnT) Type:T1 {: RESULT=new ReturnT(T1); RESULT.setLine(T1left); :}
 			 | (ReturnVoid) VOID {: RESULT=new ReturnVoid(); :}
@@ -271,7 +270,7 @@ StandardFunction ::= (StandardFunctionChr) CHR LEFT_PARENTHESIS Expr:E1 RIGHT_PA
                    | (StandardFunctionLen) LEN LEFT_PARENTHESIS Expr:E1 RIGHT_PARENTHESIS {: RESULT=new StandardFunctionLen(E1); RESULT.setLine(E1left); :}
                    ;
 
-Statement ::= (StatementDesignator) DesignatorStatement:D1 {: RESULT=new StatementDesignator(D1); RESULT.setLine(D1left); :}
+Statement ::= (StatementDesignator) DesignatorStatement:D1 SEPARATOR {: RESULT=new StatementDesignator(D1); RESULT.setLine(D1left); :}
 			| (StatementIf) IfStatement:I1 {: RESULT=new StatementIf(I1); RESULT.setLine(I1left); :} 
 			| (StatementFor) ForStatement:F1 {: RESULT=new StatementFor(F1); RESULT.setLine(F1left); :}
 			| (StatementBreak) BREAK SEPARATOR {: RESULT=new StatementBreak(); :}
@@ -293,7 +292,8 @@ OptionalElse ::= (OptionalElseClass) ELSE Statement:S1 {: RESULT=new OptionalEls
 			   ;
 			
 ForStatement ::= (ForStatementClass) FOR LEFT_PARENTHESIS OptionalDesignatorStatement:O1 SEPARATOR OptionalCondition:O2 SEPARATOR OptionalDesignatorStatement:O3 RIGHT_PARENTHESIS Statement:S4 {: RESULT=new ForStatementClass(O1, O2, O3, S4); RESULT.setLine(O1left); :}
-			   ;
+               ;
+
 			
 OptionalCondition ::= (OptionalConditionClass) Condition:C1 {: RESULT=new OptionalConditionClass(C1); RESULT.setLine(C1left); :} 
 					| (NoOptionalConditionClass) {: RESULT=new NoOptionalConditionClass(); :} /* epsilon */
@@ -311,11 +311,11 @@ StatementList ::= (Statements) StatementList:S1 Statement:S2 {: RESULT=new State
 				| (StatementsNO) {: RESULT=new StatementsNO(); :} /* epsilon */
 				;
 
-DesignatorStatement ::= (DesignatorAssign) Designator:D1 Assignop:A2 Expr:E3 SEPARATOR {: RESULT=new DesignatorAssign(D1, A2, E3); RESULT.setLine(D1left); :}
-                      | (DesignatorStandardFunction) StandardFunction:S1 SEPARATOR {: RESULT=new DesignatorStandardFunction(S1); RESULT.setLine(S1left); :}
-                      | (DesignatorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new DesignatorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
-                      | (DesignatorIncrement) Designator:D1 INCREMENT SEPARATOR {: RESULT=new DesignatorIncrement(D1); RESULT.setLine(D1left); :}
-                      | (DesignatorDecrement) Designator:D1 DECREMENT SEPARATOR {: RESULT=new DesignatorDecrement(D1); RESULT.setLine(D1left); :}
+DesignatorStatement ::= (DesignatorAssign) Designator:D1 Assignop:A2 Expr:E3 {: RESULT=new DesignatorAssign(D1, A2, E3); RESULT.setLine(D1left); :}
+                      | (DesignatorStandardFunction) StandardFunction:S1 {: RESULT=new DesignatorStandardFunction(S1); RESULT.setLine(S1left); :}
+                      | (DesignatorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS {: RESULT=new DesignatorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
+                      | (DesignatorIncrement) Designator:D1 INCREMENT {: RESULT=new DesignatorIncrement(D1); RESULT.setLine(D1left); :}
+                      | (DesignatorDecrement) Designator:D1 DECREMENT {: RESULT=new DesignatorDecrement(D1); RESULT.setLine(D1left); :}
 					  ;		
 
 ActPars ::= (ActParameter) Expr:E1 {: RESULT=new ActParameter(E1); RESULT.setLine(E1left); :}
@@ -323,26 +323,23 @@ ActPars ::= (ActParameter) Expr:E1 {: RESULT=new ActParameter(E1); RESULT.setLin
           | (ActParametersNO) {: RESULT=new ActParametersNO(); :} /* epsilon */
 		  ;
 		
-Condition ::= (ConditionClass) CondTerm:C1 OrCondFactList:O2 {: RESULT=new ConditionClass(C1, O2); RESULT.setLine(C1left); :}
+Condition ::= (Condition) CondTerm:C1 CondTermList:C2 {: RESULT=new Condition(C1, C2); RESULT.setLine(C1left); :}
 			;
 			
-OrCondFactList ::= (OrConditionFactListClass) OrCondFactList:O1 OR CondFact:C2 {: RESULT=new OrConditionFactListClass(O1, C2); RESULT.setLine(O1left); :}
-				 | (NoOrConditionFactListClass) {: RESULT=new NoOrConditionFactListClass(); :} /* epsilon */
+CondTermList ::= (ConditionTermList) CondTermList:C1 OR CondTerm:C2 {: RESULT=new ConditionTermList(C1, C2); RESULT.setLine(C1left); :}
+				 | (ConditionTermListNO) {: RESULT=new ConditionTermListNO(); :} /* epsilon */
 				 ;				
 
-CondTerm ::= (ConditionTermClass) CondFact:C1 AndCondFactList:A2 {: RESULT=new ConditionTermClass(C1, A2); RESULT.setLine(C1left); :}
+CondTerm ::= (CondTerm) CondFact:C1 CondFactList:C2 {: RESULT=new CondTerm(C1, C2); RESULT.setLine(C1left); :}
 		   ;
 			
-AndCondFactList ::= (AndConditionFactListClass) AndCondFactList:A1 AND CondFact:C2 {: RESULT=new AndConditionFactListClass(A1, C2); RESULT.setLine(A1left); :}
-				  | (NoAndConditionFactListClass) {: RESULT=new NoAndConditionFactListClass(); :} /* epsilon */
+CondFactList ::= (ConditionFactList) CondFactList:C1 AND CondFact:C2 {: RESULT=new ConditionFactList(C1, C2); RESULT.setLine(C1left); :}
+				  | (ConditionFactListNO) {: RESULT=new ConditionFactListNO(); :} /* epsilon */
 				  ;	
 
-CondFact ::= (ConditionFactClass) Expr:E1 OptionalRelopExpr:O2 {: RESULT=new ConditionFactClass(E1, O2); RESULT.setLine(E1left); :}
+CondFact ::= (CondFactExpr) Expr:E1 {: RESULT=new CondFactExpr(E1); RESULT.setLine(E1left); :} 
+           | (CondFactCompare) Expr:E1 Relop:R2 Expr:E3 {: RESULT=new CondFactCompare(E1, R2, E3); RESULT.setLine(E1left); :}
 		   ;
-		
-OptionalRelopExpr ::= (OptionalRelopExprClassClass) Relop:R1 Expr:E2 {: RESULT=new OptionalRelopExprClassClass(R1, E2); RESULT.setLine(R1left); :}
-					| (NoOptionalRelopExprClassClass) {: RESULT=new NoOptionalRelopExprClassClass(); :} /* epsilon */
-					;
 
 Expr ::= (ExprTerm) Term:T1 {: RESULT=new ExprTerm(T1); RESULT.setLine(T1left); :}
        | (ExprNegativeTerm) SUBTRACT Term:T1 {: RESULT=new ExprNegativeTerm(T1); RESULT.setLine(T1left); :}
