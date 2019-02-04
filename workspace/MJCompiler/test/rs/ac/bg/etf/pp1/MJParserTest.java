@@ -73,7 +73,7 @@ public class MJParserTest {
 			return;
 		}*/
 		
-		File sourceCode = new File("test/stabla.mj");
+		File sourceCode = new File("test/interfejsi.mj");
 		if (!sourceCode.exists()) {
 			log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
 			return;

@@ -83,6 +83,12 @@ public class MyTable extends Tab {
         if (refType(s2) && s1 == Tab.nullType) {
             return true;
         }
+        if(s1.getKind() == Struct.Enum && s2.getKind() == Struct.Int) {
+            return true;
+        }
+        if(s1.getKind() == Struct.Int && s2.getKind() == Struct.Enum) {
+            return true;
+        }
         return false;
     }
 
