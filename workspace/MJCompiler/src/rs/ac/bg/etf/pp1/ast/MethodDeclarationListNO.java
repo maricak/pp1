@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:16
+// 4/1/2019 3:12:11
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MethodDeclarationListNO extends OptionalMethodDeclList {
+public class MethodDeclarationListNO extends ClassMethodDeclList {
 
     public MethodDeclarationListNO () {
     }

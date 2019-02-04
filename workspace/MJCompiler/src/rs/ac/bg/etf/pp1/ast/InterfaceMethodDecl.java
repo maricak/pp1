@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:16
+// 4/1/2019 3:12:11
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,32 +9,22 @@ public class InterfaceMethodDecl implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private ReturnType ReturnType;
-    private String I2;
+    private InterfaceMethodStart InterfaceMethodStart;
     private FormPars FormPars;
 
-    public InterfaceMethodDecl (ReturnType ReturnType, String I2, FormPars FormPars) {
-        this.ReturnType=ReturnType;
-        if(ReturnType!=null) ReturnType.setParent(this);
-        this.I2=I2;
+    public InterfaceMethodDecl (InterfaceMethodStart InterfaceMethodStart, FormPars FormPars) {
+        this.InterfaceMethodStart=InterfaceMethodStart;
+        if(InterfaceMethodStart!=null) InterfaceMethodStart.setParent(this);
         this.FormPars=FormPars;
         if(FormPars!=null) FormPars.setParent(this);
     }
 
-    public ReturnType getReturnType() {
-        return ReturnType;
+    public InterfaceMethodStart getInterfaceMethodStart() {
+        return InterfaceMethodStart;
     }
 
-    public void setReturnType(ReturnType ReturnType) {
-        this.ReturnType=ReturnType;
-    }
-
-    public String getI2() {
-        return I2;
-    }
-
-    public void setI2(String I2) {
-        this.I2=I2;
+    public void setInterfaceMethodStart(InterfaceMethodStart InterfaceMethodStart) {
+        this.InterfaceMethodStart=InterfaceMethodStart;
     }
 
     public FormPars getFormPars() {
@@ -66,18 +56,18 @@ public class InterfaceMethodDecl implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(ReturnType!=null) ReturnType.accept(visitor);
+        if(InterfaceMethodStart!=null) InterfaceMethodStart.accept(visitor);
         if(FormPars!=null) FormPars.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(ReturnType!=null) ReturnType.traverseTopDown(visitor);
+        if(InterfaceMethodStart!=null) InterfaceMethodStart.traverseTopDown(visitor);
         if(FormPars!=null) FormPars.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(ReturnType!=null) ReturnType.traverseBottomUp(visitor);
+        if(InterfaceMethodStart!=null) InterfaceMethodStart.traverseBottomUp(visitor);
         if(FormPars!=null) FormPars.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -87,13 +77,10 @@ public class InterfaceMethodDecl implements SyntaxNode {
         buffer.append(tab);
         buffer.append("InterfaceMethodDecl(\n");
 
-        if(ReturnType!=null)
-            buffer.append(ReturnType.toString("  "+tab));
+        if(InterfaceMethodStart!=null)
+            buffer.append(InterfaceMethodStart.toString("  "+tab));
         else
             buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(FormPars!=null)

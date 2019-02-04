@@ -1,5 +1,6 @@
 package rs.ac.bg.etf.pp1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -132,7 +133,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                         }
                         variable.setStruct(arrayTypes.get(variable.getStruct()));
                     }
-                    MyTable.insert(Obj.Var, variable.getName(), variable.getStruct());
+                    MyTable.insert(Obj.Fld, variable.getName(), variable.getStruct());
                 }
             }
         } else {
@@ -191,9 +192,30 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         MyTable.openScope();
     }
 
+    // kraj deklaracjie polja
     public void visit(ClassVarDeclList classVarDeclList) {
         if (currentClass != null) {
             MyTable.chainLocalSymbols(currentClass);
+            // dodavanje nasledjenih metoda
+            if (currentClass.getElemType() != null) {
+                for (Obj field : currentClass.getElemType().getMembers()) {
+                    if (field.getKind() == Obj.Meth) {
+                        Obj newMethod = new Obj(field.getKind(), field.getName(), field.getType(), field.getAdr(),
+                                field.getLevel());
+                        newMethod.setFpPos(field.getFpPos());
+                        if (!field.getLocalSymbols().isEmpty()) {
+                            Scope tempScope = new Scope(null);
+                            for (Obj localVar : field.getLocalSymbols()) {
+                                Obj newLocalVar = new Obj(localVar.getKind(), localVar.getName(), localVar.getType(),
+                                        localVar.getAdr(), localVar.getLevel());
+                                tempScope.addToLocals(newLocalVar);
+                            }
+                            newMethod.setLocals(tempScope.getLocals());
+                        }
+                        MyTable.currentScope.addToLocals(newMethod);
+                    }
+                }
+            }
         }
     }
 
@@ -202,6 +224,63 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         currentClass = null;
         MyTable.closeScope();
     }
+
+    // region implements
+
+    public void visit(Interfaces interfaces) {
+        Struct type = interfaces.getType().struct;
+        if (type.getKind() != Struct.Interface) {
+            report_error("Mogu se implementirati samo interfejsi", interfaces);
+        } else if (currentClass != null) {
+            if (currentClass.getImplementedInterfaces().stream().filter(s -> s == type).findFirst()
+                    .orElse(null) != null) {
+                report_error("Interfejsi u listi moraju biti jedinstveni", interfaces);
+            }
+            currentClass.getImplementedInterfaces().add(type);
+            // STA jos dodati?
+
+        }
+    }
+
+    public void visit(Interface interfacee) {
+        Struct type = interfacee.getType().struct;
+        if (type.getKind() != Struct.Interface) {
+            report_error("Mogu se implementirati samo interfejsi", interfacee);
+        } else if (currentClass != null) {
+            if (currentClass.getImplementedInterfaces().stream().filter(s -> s == type).findFirst()
+                    .orElse(null) != null) {
+                report_error("Interfejsi u listi moraju biti jedinstveni", interfacee);
+            }
+            currentClass.getImplementedInterfaces().add(type);
+            // STA jos dodati?
+
+        }
+    }
+
+    public void visit(Implements implementss) {
+        // svi interfejsi su tu
+    }
+
+    // endregion
+
+    // region extends
+    public void visit(ExtendsType extendsType) {
+        if (extendsType.getType().struct.getKind() != Struct.Class) {
+            report_error("Moze se izvoditi samo iz klasa", extendsType);
+        } else {
+            currentClass.setElementType(extendsType.getType().struct);
+            // dodavanje nasledjenih polja
+            for (Obj field : extendsType.getType().struct.getMembers()) {
+                if (field.getKind() == Obj.Fld) {
+                    Obj newField = new Obj(field.getKind(), field.getName(), field.getType(), field.getAdr(),
+                            field.getLevel());
+                    MyTable.currentScope.addToLocals(newField);
+                }
+            }
+        }
+    }
+    // endregion
+
     // endregion
 
     // region deklaracija enuma
@@ -250,7 +329,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // kraj enuma
     public void visit(EnumDecl enumDecl) {
         for (Constant enumeration : enums) {
-            MyTable.insert(Obj.Con, enumeration.getName(), MyTable.intType);
+            MyTable.insertConstant(Obj.Con, enumeration.getName(), MyTable.intType, enumeration.getValue());
         }
         enums.clear();
         if (enumDecl.getEnumStart().obj != null) {
@@ -261,15 +340,79 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // endregion
 
+    // region deklaracije interfejsa
+
+    // pocetak interfejsa
+    public void visit(InterfaceStart interfaceStart) {
+        if (MyTable.existsInCurrentScope(interfaceStart.getInterfaceName())) {
+            report_error("Ime " + interfaceStart.getInterfaceName() + " vec postoji u trenutnom opsegu",
+                    interfaceStart);
+        } else {
+            report_info("Zapocet interfej " + interfaceStart.getInterfaceName(), interfaceStart);
+            interfaceStart.obj = MyTable.insert(Obj.Type, interfaceStart.getInterfaceName(),
+                    new Struct(Struct.Interface));
+        }
+        MyTable.openScope();
+    }
+
+    // kraj interfejsa
+    public void visit(InterfaceDecl interfaceDecl) {
+        if (interfaceDecl.getInterfaceStart().obj != null) {
+            MyTable.chainLocalSymbols(interfaceDecl.getInterfaceStart().obj);
+        }
+        MyTable.closeScope();
+    }
+
+    // pocetak metode interfejsa
+    public void visit(InterfaceMethodStart interfaceMethodStart) {
+        if (MyTable.existsInCurrentScope(interfaceMethodStart.getMethodName())) {
+            report_error("Ime " + interfaceMethodStart.getMethodName() + " vec postoji u trenutnom opsegu",
+                    interfaceMethodStart);
+        } else {
+            report_info("Zapoceta metoda interfejsa " + interfaceMethodStart.getMethodName(), interfaceMethodStart);
+            interfaceMethodStart.obj = MyTable.insert(Obj.Meth, interfaceMethodStart.getMethodName(),
+                    interfaceMethodStart.getReturnType().struct);
+        }
+        numberOfParameters = 0;
+        MyTable.openScope();
+    }
+
+    // kraj metode interfejsa
+    public void visit(InterfaceMethodDecl interfaceMethodDecl) {
+        Obj method = interfaceMethodDecl.getInterfaceMethodStart().obj;
+        if (method != null) {
+            MyTable.chainLocalSymbols(method);
+            method.setLevel(numberOfParameters);
+        }
+        numberOfParameters = 0;
+        report_info("Zavrsena metoda " + interfaceMethodDecl.getInterfaceMethodStart().getMethodName(), null);
+        MyTable.closeScope();
+    }
+    // endregion
+
     // region deklaracije metoda
     private Obj currentMethod = null;
     private int numberOfParameters = 0;
     private boolean isReturned = false;
     private boolean foundMain = false;
+    private ArrayList<Obj> baseMethodVars;
+    private boolean overrideError = false;
 
     // pocetak metode
     public void visit(MethodStart methodStart) {
-        if (MyTable.existsInCurrentScope(methodStart.getMethodName())) {
+        Obj baseMethod = MyTable.currentScope.findSymbol(methodStart.getMethodName());
+        if (baseMethod != null && currentClass != null) {
+            // proveri redefiniciju
+            if (!baseMethod.getType().equals(methodStart.getReturnType().struct)) {
+                report_error("Prilikom redefinisanja metode" + methodStart.getMethodName()
+                        + " povratni tip se sme da se menja", methodStart);
+            } else {
+                baseMethodVars = new ArrayList<>(baseMethod.getLocalSymbols());
+                currentMethod = baseMethod;
+                currentMethod.setLocals(null);
+                methodStart.obj = currentMethod;
+            }
+        } else if (baseMethod != null) {
             report_error("Ime " + methodStart.getMethodName() + " vec postoji u trenutnom opsegu", methodStart);
             currentMethod = new Obj(Obj.Meth, methodStart.getMethodName(), MyTable.noType);
         } else {
@@ -307,6 +450,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         isReturned = false;
         numberOfParameters = 0;
         currentMethod = null;
+        baseMethodVars = null;
         report_info("Zavrsena metoda " + methodDecl.getMethodStart().getMethodName(), null);
         MyTable.closeScope();
     }
@@ -323,6 +467,19 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         if (MyTable.existsInCurrentScope(variable.getName())) {
             report_error("Ime " + variable.getName() + " vec postoji u trenutnom opsegu", variable.getLine());
         } else {
+            if (baseMethodVars != null) {
+                if (baseMethodVars.size() <= numberOfParameters) {
+                    report_error("Broj parametara u redefinisanoj metodi je veci nego u originalnoj", formPar);
+                    overrideError = true;
+                    return;
+                } else if (!baseMethodVars.get(numberOfParameters).getType().equals(variable.getStruct())) {
+                    report_error(
+                            numberOfParameters + ". parametar ne odgovara po tipu parametru metode iz osnovne klase",
+                            formPar);
+                    overrideError = true;
+                    return;
+                }
+            }
             Obj newFormalParameter;
             report_info("Formalni parametar " + variable.getName(), variable.getLine());
             if (variable.isArray()) {
@@ -338,10 +495,29 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         }
     }
 
+    // kraj formalnih parametara
+    public void visit(MethodFormParsEnd methodFormParsEnd) {
+        if (currentMethod != null && baseMethodVars != null) {
+            if (overrideError || currentMethod.getLevel() > 1) {
+                if (currentMethod.getLevel() != numberOfParameters) {
+                    report_error("Broj parametara u redefinisanoj metodi je manji nego u originalnoj",
+                            methodFormParsEnd);
+                }
+                Scope tempScope = new Scope(null);
+                for (Obj o : baseMethodVars) {
+                    tempScope.addToLocals(o);
+                }
+                currentMethod.setLocals(tempScope.getLocals());
+            }
+        }
+    }
+
     // kraj pomenljivih
     public void visit(MethodVarsEnd methodVarsEnd) {
-        MyTable.chainLocalSymbols(currentMethod);
-        currentMethod.setLevel(numberOfParameters);
+        if (currentMethod != null) {
+            MyTable.chainLocalSymbols(currentMethod);
+            currentMethod.setLevel(numberOfParameters);
+        }
     }
 
     public void visit(ReturnT returnT) {
@@ -451,10 +627,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             report_error("Return ne sme da postoji van funkcije ili metode", statementReturnExpr);
         } else {
             isReturned = true;
-            // provera osnovne klase i interfejsa
-            // if
-            // (!currentMethod.getType().compatibleWith(statementReturnExpr.getExpr().struct))
-            // {
             if (!MyTable.equivalent(currentMethod.getType(), statementReturnExpr.getExpr().struct)) {
                 report_error("Povratni tip metode " + currentMethod.getName()
                         + " nije kompatibilan sa tipom povratne vrednosti", statementReturnExpr);
@@ -492,9 +664,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             Struct right = designatorAssign.getExpr().struct;
             if (MyTable.assignable(left, right)) {
                 report_info("Dodela", designatorAssign);
+                if (left.getKind() == Struct.Interface) {
+                    left.setElementType(right);
+                }
                 return;
             }
-            // proveriti interfejs i izvedene klase
             report_error("Tipovi u dodeli nisu kompatiblini", designatorAssign);
         } else {
             report_error("Kod dodele vrednosti leva strana mora biti promenljiva, polje klase ili element niza",
@@ -668,9 +842,15 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(ExprAddop exprAddop) {
-        if (exprAddop.getExpr().struct.compatibleWith(exprAddop.getTerm().struct)
-                && exprAddop.getExpr().struct == MyTable.intType) {
-            exprAddop.struct = exprAddop.getTerm().struct;
+        Struct left = exprAddop.getExpr().struct;
+        Struct right = exprAddop.getTerm().struct;
+
+        int leftKind = left.getKind();
+        int rightKind = right.getKind();
+
+        if ((leftKind == Struct.Int && rightKind == Struct.Int) || (leftKind == Struct.Int && rightKind == Struct.Enum)
+                || (leftKind == Struct.Enum && rightKind == Struct.Int)) {
+            exprAddop.struct = MyTable.intType;
         } else {
             report_error("Operacija radi samo nad celim brojevima", exprAddop);
             exprAddop.struct = MyTable.noType;
@@ -690,8 +870,16 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     }
 
     public void visit(TermMulop termMulop) {
-        if (termMulop.getFactor().struct == MyTable.intType && termMulop.getTerm().struct == MyTable.intType) {
-            termMulop.struct = termMulop.getFactor().struct;
+        Struct left = termMulop.getFactor().struct;
+        Struct right = termMulop.getTerm().struct;
+
+        int leftKind = left.getKind();
+        int rightKind = right.getKind();
+
+        if ((leftKind == Struct.Int && rightKind == Struct.Int) || (leftKind == Struct.Int && rightKind == Struct.Enum)
+                || (leftKind == Struct.Enum && rightKind == Struct.Int)) {
+            termMulop.struct = MyTable.intType;
+
         } else {
             report_error("Operacija radi samo nad celim brojevima", termMulop);
             termMulop.struct = MyTable.noType;
@@ -808,24 +996,41 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
         if (designatorPointAccess.getDesignator().obj != MyTable.noObj) {
             Struct struct = designatorPointAccess.getDesignator().obj.getType();
-            if (struct.getKind() != Struct.Class && struct.getKind() != Struct.Enum) {
+            if (struct.getKind() != Struct.Class && struct.getKind() != Struct.Interface
+                    && struct.getKind() != Struct.Enum) {
                 report_error("Moze se pristupati samo poljima klasnih tipova i enumeratora", designatorPointAccess);
                 designatorPointAccess.obj = MyTable.noObj;
             } else {
-                Obj elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
-                        .findFirst().orElse(null);
+                Obj elem;
+                System.err.println(
+                        "Name " + designatorPointAccess.getDesignator().obj.getName() + " type : " + struct.getKind()
+                                + "elemType " + (struct.getElemType() != null ? struct.getElemType().getKind() : ""));
+
+                // trazi u objektu na koji ukazuje interfejs referenca
+                if (struct.getKind() == Struct.Interface) {
+                    elem = struct.getElemType().getMembers().stream()
+                            .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
+                    if (elem != null)
+                        System.err.println("Interfaace search " + elem.getName());
+                } else {
+                    elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
+                            .findFirst().orElse(null);
+                }
+
                 if (elem == null) {
                     report_error("Ne postoji ime " + designatorPointAccess.getName(), designatorPointAccess);
                     designatorPointAccess.obj = MyTable.noObj;
                 } else {
-                    if(struct.getKind() == Struct.Class) {
+                    if (struct.getKind() == Struct.Class || struct.getKind() == Struct.Interface) {
                         designatorPointAccess.obj = elem;
                     } else {
                         designatorPointAccess.obj = designatorPointAccess.getDesignator().obj;
                     }
                 }
             }
-        } else {
+        } else
+
+        {
             designatorPointAccess.obj = MyTable.noObj;
         }
     }
@@ -833,12 +1038,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     public void visit(DesignatorArrayAccess designatorArrayAccess) {
         Obj obj = designatorArrayAccess.getDesignator().obj;
         if (obj != MyTable.noObj) {
-            String arrayName = designatorArrayAccess.getDesignator().obj.getName();
+            String arrayName = obj.getName();
             if (obj.getType().getKind() != Struct.Array) {
                 report_error("Promenljiva " + arrayName + " nije niz", designatorArrayAccess);
                 designatorArrayAccess.obj = MyTable.noObj;
-            } else if (designatorArrayAccess.getExpr().struct.getKind() != Struct.Int) {
-                report_error("Za indeksiranje niza mora da se koristi int", designatorArrayAccess);
+            } else if (designatorArrayAccess.getExpr().struct.getKind() != Struct.Int
+                    && designatorArrayAccess.getExpr().struct.getKind() != Struct.Enum) {
+                report_error("Za indeksiranje niza mora da se koristi int ili enum", designatorArrayAccess);
                 designatorArrayAccess.obj = MyTable.noObj;
             } else {
                 designatorArrayAccess.obj = new Obj(Obj.Elem, arrayName, obj.getType().getElemType());

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:17
+// 4/1/2019 3:12:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -15,6 +15,7 @@ public interface Visitor {
     public void visit(EnumAssignList EnumAssignList);
     public void visit(PrintNumParameter PrintNumParameter);
     public void visit(VarName VarName);
+    public void visit(ClassMethodDeclList ClassMethodDeclList);
     public void visit(OptionalBrackets OptionalBrackets);
     public void visit(StatementList StatementList);
     public void visit(Extends Extends);
@@ -47,7 +48,6 @@ public interface Visitor {
     public void visit(MethodDeclList MethodDeclList);
     public void visit(FormPars FormPars);
     public void visit(EnumAssign EnumAssign);
-    public void visit(OptionalMethodDeclList OptionalMethodDeclList);
     public void visit(Modulo Modulo);
     public void visit(Divide Divide);
     public void visit(Multiplie Multiplie);
@@ -135,11 +135,14 @@ public interface Visitor {
     public void visit(ReturnVoid ReturnVoid);
     public void visit(ReturnT ReturnT);
     public void visit(MethodVarsEnd MethodVarsEnd);
+    public void visit(MethodFormParsEnd MethodFormParsEnd);
     public void visit(MethodStart MethodStart);
     public void visit(MethodDecl MethodDecl);
+    public void visit(InterfaceMethodStart InterfaceMethodStart);
     public void visit(InterfaceMethodDecl InterfaceMethodDecl);
-    public void visit(InterfaceMethodDeclarationsNO InterfaceMethodDeclarationsNO);
-    public void visit(InterfaceMethodDeclarations InterfaceMethodDeclarations);
+    public void visit(InterfaceMethodListNO InterfaceMethodListNO);
+    public void visit(InterfaceMethodList InterfaceMethodList);
+    public void visit(InterfaceStart InterfaceStart);
     public void visit(InterfaceDecl InterfaceDecl);
     public void visit(MethodDeclarationsNO MethodDeclarationsNO);
     public void visit(MethodDeclarations MethodDeclarations);

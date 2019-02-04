@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:17
+// 4/1/2019 3:12:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -15,6 +15,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(EnumAssignList EnumAssignList) { }
     public void visit(PrintNumParameter PrintNumParameter) { }
     public void visit(VarName VarName) { }
+    public void visit(ClassMethodDeclList ClassMethodDeclList) { }
     public void visit(OptionalBrackets OptionalBrackets) { }
     public void visit(StatementList StatementList) { }
     public void visit(Extends Extends) { }
@@ -47,7 +48,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MethodDeclList MethodDeclList) { }
     public void visit(FormPars FormPars) { }
     public void visit(EnumAssign EnumAssign) { }
-    public void visit(OptionalMethodDeclList OptionalMethodDeclList) { }
     public void visit(Modulo Modulo) { visit(); }
     public void visit(Divide Divide) { visit(); }
     public void visit(Multiplie Multiplie) { visit(); }
@@ -135,11 +135,14 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ReturnVoid ReturnVoid) { visit(); }
     public void visit(ReturnT ReturnT) { visit(); }
     public void visit(MethodVarsEnd MethodVarsEnd) { visit(); }
+    public void visit(MethodFormParsEnd MethodFormParsEnd) { visit(); }
     public void visit(MethodStart MethodStart) { visit(); }
     public void visit(MethodDecl MethodDecl) { visit(); }
+    public void visit(InterfaceMethodStart InterfaceMethodStart) { visit(); }
     public void visit(InterfaceMethodDecl InterfaceMethodDecl) { visit(); }
-    public void visit(InterfaceMethodDeclarationsNO InterfaceMethodDeclarationsNO) { visit(); }
-    public void visit(InterfaceMethodDeclarations InterfaceMethodDeclarations) { visit(); }
+    public void visit(InterfaceMethodListNO InterfaceMethodListNO) { visit(); }
+    public void visit(InterfaceMethodList InterfaceMethodList) { visit(); }
+    public void visit(InterfaceStart InterfaceStart) { visit(); }
     public void visit(InterfaceDecl InterfaceDecl) { visit(); }
     public void visit(MethodDeclarationsNO MethodDeclarationsNO) { visit(); }
     public void visit(MethodDeclarations MethodDeclarations) { visit(); }

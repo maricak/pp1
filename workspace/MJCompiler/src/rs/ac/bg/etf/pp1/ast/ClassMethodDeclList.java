@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:17
+// 4/1/2019 3:12:12
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class OptionalMethodDeclList implements SyntaxNode {
+public abstract class ClassMethodDeclList implements SyntaxNode {
 
     private SyntaxNode parent;
 

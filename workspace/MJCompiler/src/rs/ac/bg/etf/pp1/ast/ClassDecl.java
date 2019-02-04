@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 0:28:16
+// 4/1/2019 3:12:11
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -13,9 +13,9 @@ public class ClassDecl implements SyntaxNode {
     private Extends Extends;
     private Implements Implements;
     private ClassVarDeclList ClassVarDeclList;
-    private OptionalMethodDeclList OptionalMethodDeclList;
+    private ClassMethodDeclList ClassMethodDeclList;
 
-    public ClassDecl (ClassStart ClassStart, Extends Extends, Implements Implements, ClassVarDeclList ClassVarDeclList, OptionalMethodDeclList OptionalMethodDeclList) {
+    public ClassDecl (ClassStart ClassStart, Extends Extends, Implements Implements, ClassVarDeclList ClassVarDeclList, ClassMethodDeclList ClassMethodDeclList) {
         this.ClassStart=ClassStart;
         if(ClassStart!=null) ClassStart.setParent(this);
         this.Extends=Extends;
@@ -24,8 +24,8 @@ public class ClassDecl implements SyntaxNode {
         if(Implements!=null) Implements.setParent(this);
         this.ClassVarDeclList=ClassVarDeclList;
         if(ClassVarDeclList!=null) ClassVarDeclList.setParent(this);
-        this.OptionalMethodDeclList=OptionalMethodDeclList;
-        if(OptionalMethodDeclList!=null) OptionalMethodDeclList.setParent(this);
+        this.ClassMethodDeclList=ClassMethodDeclList;
+        if(ClassMethodDeclList!=null) ClassMethodDeclList.setParent(this);
     }
 
     public ClassStart getClassStart() {
@@ -60,12 +60,12 @@ public class ClassDecl implements SyntaxNode {
         this.ClassVarDeclList=ClassVarDeclList;
     }
 
-    public OptionalMethodDeclList getOptionalMethodDeclList() {
-        return OptionalMethodDeclList;
+    public ClassMethodDeclList getClassMethodDeclList() {
+        return ClassMethodDeclList;
     }
 
-    public void setOptionalMethodDeclList(OptionalMethodDeclList OptionalMethodDeclList) {
-        this.OptionalMethodDeclList=OptionalMethodDeclList;
+    public void setClassMethodDeclList(ClassMethodDeclList ClassMethodDeclList) {
+        this.ClassMethodDeclList=ClassMethodDeclList;
     }
 
     public SyntaxNode getParent() {
@@ -93,7 +93,7 @@ public class ClassDecl implements SyntaxNode {
         if(Extends!=null) Extends.accept(visitor);
         if(Implements!=null) Implements.accept(visitor);
         if(ClassVarDeclList!=null) ClassVarDeclList.accept(visitor);
-        if(OptionalMethodDeclList!=null) OptionalMethodDeclList.accept(visitor);
+        if(ClassMethodDeclList!=null) ClassMethodDeclList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
@@ -102,7 +102,7 @@ public class ClassDecl implements SyntaxNode {
         if(Extends!=null) Extends.traverseTopDown(visitor);
         if(Implements!=null) Implements.traverseTopDown(visitor);
         if(ClassVarDeclList!=null) ClassVarDeclList.traverseTopDown(visitor);
-        if(OptionalMethodDeclList!=null) OptionalMethodDeclList.traverseTopDown(visitor);
+        if(ClassMethodDeclList!=null) ClassMethodDeclList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
@@ -110,7 +110,7 @@ public class ClassDecl implements SyntaxNode {
         if(Extends!=null) Extends.traverseBottomUp(visitor);
         if(Implements!=null) Implements.traverseBottomUp(visitor);
         if(ClassVarDeclList!=null) ClassVarDeclList.traverseBottomUp(visitor);
-        if(OptionalMethodDeclList!=null) OptionalMethodDeclList.traverseBottomUp(visitor);
+        if(ClassMethodDeclList!=null) ClassMethodDeclList.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -143,8 +143,8 @@ public class ClassDecl implements SyntaxNode {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalMethodDeclList!=null)
-            buffer.append(OptionalMethodDeclList.toString("  "+tab));
+        if(ClassMethodDeclList!=null)
+            buffer.append(ClassMethodDeclList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

@@ -5,24 +5,24 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ProgramStart implements SyntaxNode {
+public class InterfaceStart implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
     public rs.etf.pp1.symboltable.concepts.Obj obj = null;
 
-    private String programName;
+    private String interfaceName;
 
-    public ProgramStart (String programName) {
-        this.programName=programName;
+    public InterfaceStart (String interfaceName) {
+        this.interfaceName=interfaceName;
     }
 
-    public String getProgramName() {
-        return programName;
+    public String getInterfaceName() {
+        return interfaceName;
     }
 
-    public void setProgramName(String programName) {
-        this.programName=programName;
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName=interfaceName;
     }
 
     public SyntaxNode getParent() {
@@ -59,13 +59,13 @@ public class ProgramStart implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ProgramStart(\n");
+        buffer.append("InterfaceStart(\n");
 
-        buffer.append(" "+tab+programName);
+        buffer.append(" "+tab+interfaceName);
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [ProgramStart]");
+        buffer.append(") [InterfaceStart]");
         return buffer.toString();
     }
 }

@@ -27,7 +27,7 @@ class Sfera extends Predmet
 {
 	int r;
 	{
-		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = VrstaPredmeta.SFERA;}
+		void postaviTezinu(int tezizzzzzzzzna) {this.tezina = tezina; vrsta = VrstaPredmeta.SFERA;}
 		void postaviPoluprecnik(int r) {this.r = r; postaviVrstu(VrstaPredmeta.SFERA);}
 		int zapremina()
 		int z;
@@ -42,7 +42,7 @@ class Kvadar extends Predmet
 {
 	int a, b, c;
 	{
-		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = VrstaPredmeta.KVADAR;}
+		void postaviTezinu(int tezzzzzzzzzzzina) {this.tezina = tezina; vrsta = VrstaPredmeta.KVADAR;}
 		void postaviStranice(int a, int b, int c) {this.a = a; this.b = b; this.c = c; vrsta = VrstaPredmeta.KVADAR;}
 		int zapremina()
 		int z;
@@ -69,7 +69,7 @@ int tezinaK, tezinaS;
 	void main() Predmet predmeti[]; IPredmet interPredmeti[]; int i; Sfera s1, s2, s3; Kvadar k1, k2, k3; int t;
 	{
 		
-		predmeti = new int[6];
+		predmeti = new Predmet[6];
 		interPredmeti = new IPredmet[6];
 		s1 = new Sfera;
 		s2 = new Sfera;

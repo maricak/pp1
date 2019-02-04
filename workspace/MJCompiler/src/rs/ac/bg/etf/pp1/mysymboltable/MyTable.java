@@ -93,6 +93,9 @@ public class MyTable extends Tab {
         if(src.getKind() == Struct.Class && src.getElemType() != null && src.getElemType() == dst) {
             return true;
         }
+        if(dst.getKind() == Struct.Int && src.getKind() == Struct.Enum) {
+            return true;
+        } 
         if(dst.getKind() == Struct.Interface && 
             src.getImplementedInterfaces().stream().filter(s -> s == dst).findFirst().orElse(null) != null) {
                 return true;

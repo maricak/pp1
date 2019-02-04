@@ -5,7 +5,7 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MethodStart implements SyntaxNode {
+public class InterfaceMethodStart implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
@@ -14,7 +14,7 @@ public class MethodStart implements SyntaxNode {
     private ReturnType ReturnType;
     private String methodName;
 
-    public MethodStart (ReturnType ReturnType, String methodName) {
+    public InterfaceMethodStart (ReturnType ReturnType, String methodName) {
         this.ReturnType=ReturnType;
         if(ReturnType!=null) ReturnType.setParent(this);
         this.methodName=methodName;
@@ -73,7 +73,7 @@ public class MethodStart implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("MethodStart(\n");
+        buffer.append("InterfaceMethodStart(\n");
 
         if(ReturnType!=null)
             buffer.append(ReturnType.toString("  "+tab));
@@ -85,7 +85,7 @@ public class MethodStart implements SyntaxNode {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [MethodStart]");
+        buffer.append(") [InterfaceMethodStart]");
         return buffer.toString();
     }
 }

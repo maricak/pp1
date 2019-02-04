@@ -84,7 +84,7 @@ nonterminal Extends Extends;
 nonterminal ClassVarDeclList ClassVarDeclList;
 nonterminal Implements Implements;
 nonterminal InterfaceList InterfaceList;
-nonterminal OptionalMethodDeclList OptionalMethodDeclList;
+nonterminal ClassMethodDeclList ClassMethodDeclList;
 nonterminal MethodDeclList MethodDeclList;
 nonterminal InterfaceDecl InterfaceDecl;
 nonterminal InterfaceMethodDeclList InterfaceMethodDeclList;
@@ -110,13 +110,14 @@ nonterminal MethodVarsEnd MethodVarsEnd;
 nonterminal IfElseStatement IfElseStatement;
 nonterminal ForStart ForStart;
 nonterminal EnumAssignList EnumAssignList;
-nonterminal EnumAssign EnumAssign; 
+nonterminal EnumAssign EnumAssign;
+nonterminal MethodFormParsEnd MethodFormParsEnd; 
 nonterminal Assignop Assignop;
 nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart, InterfaceStart, InterfaceMethodStart;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
@@ -189,7 +190,7 @@ VarName ::= (VariableName) IDENTIFIER:varName OptionalBrackets:brackets {: RESUL
             {: parser.report_error("OPORAVAK Sintasna greska prilikom deklarisanja", null); :} {: RESULT=new VariableNameEmptyERR(); :}
 		  ;
 
-ClassDecl ::= (ClassDecl) ClassStart:C1 Extends:E2 Implements:I3 LEFT_BRACE ClassVarDeclList:C4 OptionalMethodDeclList:O5 RIGHT_BRACE {: RESULT=new ClassDecl(C1, E2, I3, C4, O5); RESULT.setLine(C1left); :}
+ClassDecl ::= (ClassDecl) ClassStart:C1 Extends:E2 Implements:I3 LEFT_BRACE ClassVarDeclList:C4 ClassMethodDeclList:C5 RIGHT_BRACE {: RESULT=new ClassDecl(C1, E2, I3, C4, C5); RESULT.setLine(C1left); :}
             ;
 
 ClassStart ::= (ClassStart) {: parser.type = "polja klase"; :} CLASS IDENTIFIER:className {: RESULT=new ClassStart(className); RESULT.setLine(classNameleft); :}               
@@ -212,7 +213,7 @@ InterfaceList ::= (Interfaces) InterfaceList:I1 COMMA Type:T2 {: RESULT=new Inte
                 | (InterfacesNO) {: RESULT=new InterfacesNO(); :} /* epsilon */
                 ;
 			
-OptionalMethodDeclList ::= (MethodDeclarationList) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new MethodDeclarationList(M1); RESULT.setLine(M1left); :}
+ClassMethodDeclList ::= (MethodDeclarationList) LEFT_BRACE MethodDeclList:M1 RIGHT_BRACE {: RESULT=new MethodDeclarationList(M1); RESULT.setLine(M1left); :}
 						 | (MethodDeclarationListNO) {: RESULT=new MethodDeclarationListNO(); :} /* epsilon */
 						 ;
 								
@@ -220,24 +221,32 @@ MethodDeclList ::= (MethodDeclarations) MethodDeclList:M1 MethodDecl:M2 {: RESUL
 			     | (MethodDeclarationsNO) {: RESULT=new MethodDeclarationsNO(); :}/* epsilon */
 			     ;
 
-InterfaceDecl ::= (InterfaceDecl) INTERFACE IDENTIFIER:I1 LEFT_BRACE InterfaceMethodDeclList:I2 RIGHT_BRACE {: RESULT=new InterfaceDecl(I1, I2); RESULT.setLine(I1left); :}
+InterfaceDecl ::= (InterfaceDecl) InterfaceStart:I1 LEFT_BRACE InterfaceMethodDeclList:I2 RIGHT_BRACE {: RESULT=new InterfaceDecl(I1, I2); RESULT.setLine(I1left); :}
 				;
 
-InterfaceMethodDeclList ::= (InterfaceMethodDeclarations) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodDeclarations(I1, I2); RESULT.setLine(I1left); :}
-						  | (InterfaceMethodDeclarationsNO) {: RESULT=new InterfaceMethodDeclarationsNO(); :} /* epsilon */
+InterfaceStart ::= (InterfaceStart) INTERFACE IDENTIFIER:interfaceName {: RESULT=new InterfaceStart(interfaceName); RESULT.setLine(interfaceNameleft); :}
+                 ;
+
+InterfaceMethodDeclList ::= (InterfaceMethodList) InterfaceMethodDeclList:I1 InterfaceMethodDecl:I2 {: RESULT=new InterfaceMethodList(I1, I2); RESULT.setLine(I1left); :}
+						  | (InterfaceMethodListNO) {: RESULT=new InterfaceMethodListNO(); :} /* epsilon */
 						  ;
 
-InterfaceMethodDecl ::= (InterfaceMethodDecl) ReturnType:R1 IDENTIFIER:I2 LEFT_PARENTHESIS FormPars:F3 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDecl(R1, I2, F3); RESULT.setLine(R1left); :}
+InterfaceMethodDecl ::= (InterfaceMethodDecl) InterfaceMethodStart:I1 LEFT_PARENTHESIS FormPars:F2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new InterfaceMethodDecl(I1, F2); RESULT.setLine(I1left); :}
 					  ;
 
-MethodDecl ::= (MethodDecl) MethodStart:M1 LEFT_PARENTHESIS FormPars:F2 RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList:V3 MethodVarsEnd:M4 LEFT_BRACE StatementList:S5 RIGHT_BRACE {: RESULT=new MethodDecl(M1, F2, V3, M4, S5); RESULT.setLine(M1left); :}
+InterfaceMethodStart ::= (InterfaceMethodStart) ReturnType:R1 IDENTIFIER:methodName {: RESULT=new InterfaceMethodStart(R1, methodName); RESULT.setLine(R1left); :}
+                       ;
+
+MethodDecl ::= (MethodDecl) MethodStart:M1 LEFT_PARENTHESIS FormPars:F2 MethodFormParsEnd:M3 RIGHT_PARENTHESIS {: parser.type = "lokalne promenljive"; :} VarDeclList:V4 MethodVarsEnd:M5 LEFT_BRACE StatementList:S6 RIGHT_BRACE {: RESULT=new MethodDecl(M1, F2, M3, V4, M5, S6); RESULT.setLine(M1left); :}
              ;
 
 MethodStart ::= (MethodStart) {: parser.type = "formalnog parametra"; :} ReturnType:R1 IDENTIFIER:methodName {: RESULT=new MethodStart(R1, methodName); RESULT.setLine(R1left); :}                
 			  ;
+MethodFormParsEnd ::= (MethodFormParsEnd) {: RESULT=new MethodFormParsEnd(); :} /* epsilon */
+                    ;
 
 MethodVarsEnd ::= (MethodVarsEnd) {: RESULT=new MethodVarsEnd(); :}  /* epsilon */
-                    ;
+                ;
 	
 ReturnType ::= (ReturnT) Type:T1 {: RESULT=new ReturnT(T1); RESULT.setLine(T1left); :}
 			 | (ReturnVoid) VOID {: RESULT=new ReturnVoid(); :}

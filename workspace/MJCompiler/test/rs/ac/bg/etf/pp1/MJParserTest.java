@@ -73,7 +73,7 @@ public class MJParserTest {
 			return;
 		}*/
 		
-		File sourceCode = new File("test/test302.mj");
+		File sourceCode = new File("test/test303.mj");
 		if (!sourceCode.exists()) {
 			log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
 			return;
@@ -91,7 +91,7 @@ public class MJParserTest {
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
 	        //log.info("Print calls = " + semanticCheck.printCallCount);
-			MyTable.dump();
+			//MyTable.dump();
 	        
 	        if (!p.errorDetected && analyzer.passed()) {
 				/*
