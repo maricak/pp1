@@ -9,7 +9,13 @@ interface IPredmet
 	int zapremina();
 	int Q();
 }
-class Predmet implements IPredmet
+
+interface IPredmet2
+{
+	int zapremina(int k);
+	int Q();
+}
+class Predmet implements IPredmet, IPredmet2
 {
 	int tezina;
 	VrstaPredmeta vrsta;

@@ -2,6 +2,7 @@ package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -178,6 +179,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // region deklaracija klase
     // pocetak klase
     private Struct currentClass = null;
+    private HashMap<String, Boolean> baseMethods = new HashMap<>();
+    private HashMap<String, Boolean> interfaceMethods = new HashMap<>();
 
     public void visit(ClassStart classStart) {
         if (MyTable.existsInCurrentScope(classStart.getClassName())) {
@@ -200,6 +203,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             if (currentClass.getElemType() != null) {
                 for (Obj field : currentClass.getElemType().getMembers()) {
                     if (field.getKind() == Obj.Meth) {
+                        baseMethods.put(field.getName(), false);
                         Obj newMethod = new Obj(field.getKind(), field.getName(), field.getType(), field.getAdr(),
                                 field.getLevel());
                         newMethod.setFpPos(field.getFpPos());
@@ -221,6 +225,21 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // kraj klase
     public void visit(ClassDecl classDecl) {
+        System.err.println(classDecl.getClassStart().getClassName() + "nasledjene ");
+        baseMethods.forEach((k, v) -> System.err.println(k + " " + v));
+        baseMethods.clear();
+
+        // proveriti da li su sve implementirane
+        System.err.println(classDecl.getClassStart().getClassName() + "interfejs metode ");
+        interfaceMethods.forEach((k, v) -> {
+            System.err.println(k + " " + v);
+            if (v == false) {
+                report_error("Metoda interfejsa " + k + " nije implementirana", classDecl);
+                MyTable.currentScope.getLocals().deleteKey(k);
+            }
+        });
+        interfaceMethods.clear();
+
         currentClass = null;
         MyTable.closeScope();
     }
@@ -236,9 +255,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     .orElse(null) != null) {
                 report_error("Interfejsi u listi moraju biti jedinstveni", interfaces);
             }
+            // proveriti da li je duplikat
             currentClass.getImplementedInterfaces().add(type);
-            // STA jos dodati?
-
         }
     }
 
@@ -251,14 +269,62 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     .orElse(null) != null) {
                 report_error("Interfejsi u listi moraju biti jedinstveni", interfacee);
             }
+            // proveriti da li je duplikat
             currentClass.getImplementedInterfaces().add(type);
-            // STA jos dodati?
-
         }
     }
 
-    public void visit(Implements implementss) {
-        // svi interfejsi su tu
+    public void visit(ImplementsList implementsList) {
+        if (currentClass != null && currentClass.getImplementedInterfaces() != null) {
+            for (Struct interfacee : currentClass.getImplementedInterfaces()) {
+                // dodavanje nasledjenih metoda
+                for (Obj interfaceMethod : interfacee.getMembers()) {
+                    Obj other = MyTable.currentScope.findSymbol(interfaceMethod.getName());
+                    if (other != null) {
+                        // proveriti da li su parametri isti
+                        if (!other.getType().equals(interfaceMethod.getType())) {
+                            report_error(
+                                    "Metode istog imena  (" + interfaceMethod.getName()
+                                            + ") razlicith interfejsa moraju imati istu povratnu vrednost",
+                                    implementsList);
+                        }
+                        if (interfaceMethod.getLevel() != other.getLevel()) {
+                            report_error(
+                                    "Metode " + interfaceMethod.getName()
+                                            + " u dva razlicita interfejsa imaju razlicit broj parametara",
+                                    implementsList);
+                        } else {
+                            if (interfaceMethod.getLevel() != 0) {
+                                Obj[] locals = (Obj[]) interfaceMethod.getLocalSymbols().toArray();
+                                Obj[] otherLocals = (Obj[]) other.getLocalSymbols().toArray();
+                                for (int i = 0; i < locals.length; i++) {
+                                    if (!locals[i].getType().equals(otherLocals[i].getType())) {
+                                        report_error((i + 1) + ". parametar metode " + interfaceMethod.getName()
+                                                + " nije isti u svim interfejsima", implementsList);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Obj newMethod = new Obj(interfaceMethod.getKind(), interfaceMethod.getName(),
+                                interfaceMethod.getType(), interfaceMethod.getAdr(), interfaceMethod.getLevel());
+                        newMethod.setFpPos(interfaceMethod.getFpPos());
+                        if (!interfaceMethod.getLocalSymbols().isEmpty()) {
+                            Scope tempScope = new Scope(null);
+                            for (Obj localVar : interfaceMethod.getLocalSymbols()) {
+                                Obj newLocalVar = new Obj(localVar.getKind(), localVar.getName(), localVar.getType(),
+                                        localVar.getAdr(), localVar.getLevel());
+                                tempScope.addToLocals(newLocalVar);
+                            }
+                            newMethod.setLocals(tempScope.getLocals());
+                        }
+                        MyTable.currentScope.addToLocals(newMethod);
+                        interfaceMethods.put(interfaceMethod.getName(), false);
+                    }
+                }
+            }
+        }
+
     }
 
     // endregion
@@ -348,7 +414,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             report_error("Ime " + interfaceStart.getInterfaceName() + " vec postoji u trenutnom opsegu",
                     interfaceStart);
         } else {
-            report_info("Zapocet interfej " + interfaceStart.getInterfaceName(), interfaceStart);
+            report_info("Zapocet interfejs " + interfaceStart.getInterfaceName(), interfaceStart);
             interfaceStart.obj = MyTable.insert(Obj.Type, interfaceStart.getInterfaceName(),
                     new Struct(Struct.Interface));
         }
@@ -358,7 +424,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // kraj interfejsa
     public void visit(InterfaceDecl interfaceDecl) {
         if (interfaceDecl.getInterfaceStart().obj != null) {
-            MyTable.chainLocalSymbols(interfaceDecl.getInterfaceStart().obj);
+            MyTable.chainLocalSymbols(interfaceDecl.getInterfaceStart().obj.getType());
         }
         MyTable.closeScope();
     }
@@ -403,6 +469,15 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         Obj baseMethod = MyTable.currentScope.findSymbol(methodStart.getMethodName());
         if (baseMethod != null && currentClass != null) {
             // proveri redefiniciju
+            if (baseMethods.get(methodStart.getMethodName()) != null && baseMethods.get(methodStart.getMethodName())) {
+                report_error("Inherited method " + methodStart.getMethodName() + "was already implemented",
+                        methodStart);
+            }
+            if (interfaceMethods.get(methodStart.getMethodName()) != null
+                    && interfaceMethods.get(methodStart.getMethodName())) {
+                report_error("Inherited method " + methodStart.getMethodName() + "was already implemented",
+                        methodStart);
+            }
             if (!baseMethod.getType().equals(methodStart.getReturnType().struct)) {
                 report_error("Prilikom redefinisanja metode" + methodStart.getMethodName()
                         + " povratni tip se sme da se menja", methodStart);
@@ -447,6 +522,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 }
             }
         }
+        baseMethods.replace(methodDecl.getMethodStart().getMethodName(), false, true);
+        interfaceMethods.replace(methodDecl.getMethodStart().getMethodName(), false, true);
         isReturned = false;
         numberOfParameters = 0;
         currentMethod = null;
@@ -664,9 +741,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             Struct right = designatorAssign.getExpr().struct;
             if (MyTable.assignable(left, right)) {
                 report_info("Dodela", designatorAssign);
-                if (left.getKind() == Struct.Interface) {
-                    left.setElementType(right);
-                }
+                // if (left.getKind() == Struct.Interface) {
+                // left.setElementType(right);
+                // }
                 return;
             }
             report_error("Tipovi u dodeli nisu kompatiblini", designatorAssign);
@@ -1002,21 +1079,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 designatorPointAccess.obj = MyTable.noObj;
             } else {
                 Obj elem;
-                System.err.println(
-                        "Name " + designatorPointAccess.getDesignator().obj.getName() + " type : " + struct.getKind()
-                                + "elemType " + (struct.getElemType() != null ? struct.getElemType().getKind() : ""));
-
-                // trazi u objektu na koji ukazuje interfejs referenca
-                if (struct.getKind() == Struct.Interface) {
-                    elem = struct.getElemType().getMembers().stream()
-                            .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
-                    if (elem != null)
-                        System.err.println("Interfaace search " + elem.getName());
-                } else {
-                    elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
-                            .findFirst().orElse(null);
-                }
-
+                elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
+                        .findFirst().orElse(null);
                 if (elem == null) {
                     report_error("Ne postoji ime " + designatorPointAccess.getName(), designatorPointAccess);
                     designatorPointAccess.obj = MyTable.noObj;
@@ -1028,9 +1092,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     }
                 }
             }
-        } else
-
-        {
+        } else {
             designatorPointAccess.obj = MyTable.noObj;
         }
     }
