@@ -91,7 +91,7 @@ public class MJParserTest {
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
 	        //log.info("Print calls = " + semanticCheck.printCallCount);
-			//MyTable.dump();
+			MyTable.dump();
 	        
 	        if (!p.errorDetected && analyzer.passed()) {
 				/*

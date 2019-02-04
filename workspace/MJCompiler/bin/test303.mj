@@ -12,7 +12,7 @@ interface IPredmet
 
 interface IPredmet2
 {
-	int zapremina(int k);
+	int zapremina();
 	int Q();
 }
 class Predmet implements IPredmet, IPredmet2
@@ -23,7 +23,7 @@ class Predmet implements IPredmet, IPredmet2
 	{
 		void postaviTezinu(int tezina) {this.tezina = tezina;}  
 		void ucitajTezinu() { read(tezina); }
-		int zapremina() { return 0;}
+		//int zapremina() { return 0;}
 		int Q() {return zapremina() * tezina;}
 		void postaviVrstu(VrstaPredmeta vrsta) {this.vrsta = vrsta;}
 	}

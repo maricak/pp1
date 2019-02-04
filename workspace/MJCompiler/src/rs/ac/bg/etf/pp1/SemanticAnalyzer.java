@@ -2,7 +2,6 @@ package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -225,21 +224,19 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // kraj klase
     public void visit(ClassDecl classDecl) {
-        System.err.println(classDecl.getClassStart().getClassName() + "nasledjene ");
         baseMethods.forEach((k, v) -> System.err.println(k + " " + v));
         baseMethods.clear();
 
         // proveriti da li su sve implementirane
-        System.err.println(classDecl.getClassStart().getClassName() + "interfejs metode ");
         interfaceMethods.forEach((k, v) -> {
             System.err.println(k + " " + v);
             if (v == false) {
-                report_error("Metoda interfejsa " + k + " nije implementirana", classDecl);
+                report_error("Interfejs metoda " + k + " nije implementirana", classDecl);
                 MyTable.currentScope.getLocals().deleteKey(k);
             }
         });
         interfaceMethods.clear();
-
+        
         currentClass = null;
         MyTable.closeScope();
     }
