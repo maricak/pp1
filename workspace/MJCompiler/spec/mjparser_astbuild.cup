@@ -105,7 +105,6 @@ nonterminal PrintNumParameter PrintNumParameter;
 nonterminal StatementList StatementList;
 nonterminal DesignatorStatement DesignatorStatement;
 nonterminal ActPars ActPars;
-nonterminal Condition Condition;
 nonterminal MethodVarsEnd MethodVarsEnd;
 nonterminal IfElseStatement IfElseStatement;
 nonterminal ForStart ForStart;
@@ -118,7 +117,7 @@ nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart, InterfaceStart, InterfaceMethodStart;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, Condition, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Constant ConstValue;
 nonterminal rs.ac.bg.etf.pp1.mysymboltable.Variable VarName;
 
@@ -280,8 +279,8 @@ StandardFunction ::= (StandardFunctionChr) CHR LEFT_PARENTHESIS Expr:E1 RIGHT_PA
                    ;
 
 Statement ::= (StatementDesignator) DesignatorStatement:D1 SEPARATOR {: RESULT=new StatementDesignator(D1); RESULT.setLine(D1left); :}
-			| (StatementIf) IfStatement:I1 {: RESULT=new StatementIf(I1); RESULT.setLine(I1left); :} 
-			| (StatementIfElse) IfElseStatement:I1 {: RESULT=new StatementIfElse(I1); RESULT.setLine(I1left); :} 
+			| (StatementIf) IF IfCond:I1 Statement:S2 {: RESULT=new StatementIf(I1, S2); RESULT.setLine(I1left); :} 
+			| (StatementIfElse) IF IfCond:I1 Statement:S2 ELSE Statement:S3 {: RESULT=new StatementIfElse(I1, S2, S3); RESULT.setLine(I1left); :} 
 			| (StatementFor) ForStatement:F1 {: RESULT=new StatementFor(F1); RESULT.setLine(F1left); :}
 			| (StatementBreak) BREAK SEPARATOR {: RESULT=new StatementBreak(); :}
 			| (StatementContinue) CONTINUE SEPARATOR {: RESULT=new StatementContinue(); :}
@@ -292,11 +291,11 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEPARATOR {: RESULT=n
 			| (StatementBlock) LEFT_BRACE StatementList:S1 RIGHT_BRACE {: RESULT=new StatementBlock(S1); RESULT.setLine(S1left); :}
 			;
 
-IfStatement ::= (IfStatement) IF LEFT_PARENTHESIS Condition:C1 RIGHT_PARENTHESIS Statement:S2 {: RESULT=new IfStatement(C1, S2); RESULT.setLine(C1left); :}
-			  ;
+// IfStatement ::= (IfStatement) 
+// 			  ;
 
-IfElseStatement ::= (IfElseStatement) IF LEFT_PARENTHESIS Condition:C1 RIGHT_PARENTHESIS Statement:S2 ELSE Statement:S3 {: RESULT=new IfElseStatement(C1, S2, S3); RESULT.setLine(C1left); :}
-                  ;
+// IfElseStatement ::= (IfElseStatement) 
+//                   ;
 
 IfCond ::= (IfCondition) LEFT_PARENTHESIS Condition:C1 RIGHT_PARENTHESIS {: RESULT=new IfCondition(C1); RESULT.setLine(C1left); :}
          ;

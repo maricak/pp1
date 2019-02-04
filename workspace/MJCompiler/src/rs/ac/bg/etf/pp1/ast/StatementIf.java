@@ -1,25 +1,36 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 3:12:12
+// 4/1/2019 15:41:58
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class StatementIf extends Statement {
 
-    private IfStatement IfStatement;
+    private IfCond IfCond;
+    private Statement Statement;
 
-    public StatementIf (IfStatement IfStatement) {
-        this.IfStatement=IfStatement;
-        if(IfStatement!=null) IfStatement.setParent(this);
+    public StatementIf (IfCond IfCond, Statement Statement) {
+        this.IfCond=IfCond;
+        if(IfCond!=null) IfCond.setParent(this);
+        this.Statement=Statement;
+        if(Statement!=null) Statement.setParent(this);
     }
 
-    public IfStatement getIfStatement() {
-        return IfStatement;
+    public IfCond getIfCond() {
+        return IfCond;
     }
 
-    public void setIfStatement(IfStatement IfStatement) {
-        this.IfStatement=IfStatement;
+    public void setIfCond(IfCond IfCond) {
+        this.IfCond=IfCond;
+    }
+
+    public Statement getStatement() {
+        return Statement;
+    }
+
+    public void setStatement(Statement Statement) {
+        this.Statement=Statement;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +38,19 @@ public class StatementIf extends Statement {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(IfStatement!=null) IfStatement.accept(visitor);
+        if(IfCond!=null) IfCond.accept(visitor);
+        if(Statement!=null) Statement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(IfStatement!=null) IfStatement.traverseTopDown(visitor);
+        if(IfCond!=null) IfCond.traverseTopDown(visitor);
+        if(Statement!=null) Statement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(IfStatement!=null) IfStatement.traverseBottomUp(visitor);
+        if(IfCond!=null) IfCond.traverseBottomUp(visitor);
+        if(Statement!=null) Statement.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +59,14 @@ public class StatementIf extends Statement {
         buffer.append(tab);
         buffer.append("StatementIf(\n");
 
-        if(IfStatement!=null)
-            buffer.append(IfStatement.toString("  "+tab));
+        if(IfCond!=null)
+            buffer.append(IfCond.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(Statement!=null)
+            buffer.append(Statement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

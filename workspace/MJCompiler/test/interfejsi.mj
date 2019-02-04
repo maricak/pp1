@@ -1,0 +1,109 @@
+program Programcic123
+
+// klasa za pakovanje nizova
+// posto ne mozemo da imamo niz kao povratnu vrednost (po gramatici)
+class PackedCharArray
+{
+	char array[];
+}
+
+// gomila interfejsa, za testiranje visestruke implementacije
+interface IUtil
+{
+	void printstr(char str[]);
+}
+interface IBuilder
+{
+	PackedCharArray buildIma();	
+}
+interface IBuilder2
+{
+	PackedCharArray buildNema();	
+}
+
+// glob. promenljiva
+IBuilder builder1;
+
+
+class Util implements IBuilder, IBuilder2
+{
+int i;
+	{
+		void metoda(int ll) 	int i;			int j;{
+		
+		}
+		// kreira string "Nema" i vraca ga
+		PackedCharArray buildIma()
+		PackedCharArray pca;
+		char nizchar[];
+		{
+			nizchar=new char[3];
+			nizchar[0]='I';
+			nizchar[1]='m';
+			nizchar[2]='a';
+			pca=new PackedCharArray;
+			pca.array=nizchar;
+			return pca;
+		}
+		// vraca null, bice nadjacana dole
+		PackedCharArray buildNema()
+		{
+			return null;
+		}
+	}
+}
+IBuilder2 builder2;
+class Util2 extends Util implements IUtil, IBuilder2
+{
+	{
+	void metoda(int o) {
+	}
+		// ispisuje string
+		void printstr(char stirngoci[])
+		int i;
+		{
+			len(stirngoci);
+			for(i=0;i<len(stirngoci);i++) print(stirngoci[i]);
+		}
+		
+		// nadjacana odozgo, vraca string "Ima"
+		PackedCharArray buildNema()
+		PackedCharArray pca;
+		char nizchar[];
+		{
+			nizchar=new char[4];
+			nizchar[0]='N';
+			nizchar[1]='e';
+			nizchar[2]='m';
+			nizchar[3]='a';
+			pca=new PackedCharArray;
+			pca.array=nizchar;
+			return pca;
+		}
+	}
+}
+IUtil util;
+
+PackedCharArray ima;
+PackedCharArray nema;
+
+enum StringPicker{IMA=42, NEMA=43}
+    
+
+{	void met() {}
+    void main()
+    PackedCharArray message;
+    int c, v, miz[];
+    {
+    chr(2);
+    	miz[2]++;
+    	util=new Util2;
+    	builder1=new Util2;
+    	builder2=new Util2;
+    	ima=builder1.buildIma();
+    	nema=builder2.buildNema();
+    	util.printstr(message.array);
+    	read(c);
+    	met();
+    }
+}

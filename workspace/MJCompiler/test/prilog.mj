@@ -20,12 +20,13 @@ program P
 	int x;
 	{
 		x = arg;
+		x = x + Num.ZERO;
 	}
 	void main() 
 	int x, i; char c;
 	{	
 		val = new Table;
-		val.pos = new int [size];
+		val.pos = new int [Num.ZERO];
 		val.neg = new int [size];
 		for (i = 0; i<size; i++)
 		{
@@ -39,11 +40,11 @@ program P
 		{
 			if (Num.ZERO <= x && x < size)
 			{
-				val.putp(val.getp(x)+Num.ONE);
+				val.putp(val.getp(x), Num.ONE);
 			} else
 				if (-size < x && x < 0)
 				{
-					val.putn(val.getn(-x)+1);
+					val.putn(val.getn(-x), 1);
 				}
 				read(x);
 		}

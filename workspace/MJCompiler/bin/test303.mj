@@ -9,13 +9,7 @@ interface IPredmet
 	int zapremina();
 	int Q();
 }
-
-interface IPredmet2
-{
-	int zapremina();
-	int Q();
-}
-class Predmet implements IPredmet, IPredmet2
+class Predmet implements IPredmet
 {
 	int tezina;
 	VrstaPredmeta vrsta;
@@ -23,7 +17,7 @@ class Predmet implements IPredmet, IPredmet2
 	{
 		void postaviTezinu(int tezina) {this.tezina = tezina;}  
 		void ucitajTezinu() { read(tezina); }
-		//int zapremina() { return 0;}
+		int zapremina() { return 0;}
 		int Q() {return zapremina() * tezina;}
 		void postaviVrstu(VrstaPredmeta vrsta) {this.vrsta = vrsta;}
 	}
@@ -33,7 +27,8 @@ class Sfera extends Predmet
 {
 	int r;
 	{
-		void postaviTezinu(int tezizzzzzzzzna) {this.tezina = tezina; vrsta = VrstaPredmeta.SFERA;}
+		void postaviTezinu(int tezina) {this.tezina = tezina; 
+		vrsta = VrstaPredmeta.SFERA;}
 		void postaviPoluprecnik(int r) {this.r = r; postaviVrstu(VrstaPredmeta.SFERA);}
 		int zapremina()
 		int z;
@@ -48,7 +43,7 @@ class Kvadar extends Predmet
 {
 	int a, b, c;
 	{
-		void postaviTezinu(int tezzzzzzzzzzzina) {this.tezina = tezina; vrsta = VrstaPredmeta.KVADAR;}
+		void postaviTezinu(int tezina) {this.tezina = tezina; vrsta = VrstaPredmeta.KVADAR;}
 		void postaviStranice(int a, int b, int c) {this.a = a; this.b = b; this.c = c; vrsta = VrstaPredmeta.KVADAR;}
 		int zapremina()
 		int z;
