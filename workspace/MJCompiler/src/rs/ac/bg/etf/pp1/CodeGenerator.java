@@ -1,7 +1,11 @@
 
 package rs.ac.bg.etf.pp1;
 
+import java.util.LinkedList;
+import java.util.Stack;
+
 import rs.ac.bg.etf.pp1.ast.*;
+import rs.ac.bg.etf.pp1.mysymboltable.MyTable;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.concepts.*;
 
@@ -20,16 +24,22 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(MethodDecl methodDecl) {
+        Obj obj = methodDecl.getMethodStart().obj;
+        if (obj.getType() == MyTable.noType) {
+            Code.put(Code.exit);
+            Code.put(Code.return_);
+        } else {
+            Code.put(Code.trap);
+            Code.put(1);
+        }
+    }
+
+    public void visit(StatementReturn statementReturn) {
         Code.put(Code.exit);
         Code.put(Code.return_);
     }
 
-    public void visit(ReturnT returnT) {
-        Code.put(Code.exit);
-        Code.put(Code.return_);
-    }
-
-    public void visit(ReturnVoid returnVoid) {
+    public void visit(StatementReturnExpr statementReturnExpr) {
         Code.put(Code.exit);
         Code.put(Code.return_);
     }
@@ -51,7 +61,8 @@ public class CodeGenerator extends VisitorAdaptor {
 
     // region print i read
     public void visit(StatementPrint statementPrint) {
-        if (statementPrint.getExpr().struct.getKind() == Struct.Int) {
+        if (statementPrint.getExpr().struct.getKind() == Struct.Int
+                || statementPrint.getExpr().struct.getKind() == Struct.Bool) {
             Code.put(Code.print);
         } else {
             Code.put(Code.bprint);
@@ -63,7 +74,7 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(PrintParameterNO printParameterNO) {
-        Code.put(Code.const_3);
+        Code.put(Code.const_5);
     }
 
     public void visit(StatementRead statementRead) {
@@ -151,49 +162,195 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     // endregion
-    // ???
+
+    // region operandi
     public void visit(DesignatorAssign designatorAssign) {
         Code.store(designatorAssign.getDesignator().obj);
     }
 
     public void visit(FactorDesignator factorDesignator) {
-        // ubaci adresu niza
         Code.load(factorDesignator.getDesignator().obj);
     }
 
     public void visit(DesignatorName designatorName) {
-        if(designatorName.getParent() instanceof DesignatorArrayAccess) {
-            System.err.println("otac");
+        if (designatorName.getParent() instanceof DesignatorArrayAccess) {
+            // kod pristupa nizu prvo posatviti adresu niza pa tek onda indeksa
             DesignatorArrayAccess designatorArrayAccess = (DesignatorArrayAccess) designatorName.getParent();
             Code.load(designatorArrayAccess.getDesignator().obj);
-        }       
+        }
     }
-
-    public void visit(DesignatorArrayAccess designatorArrayAccess) {
-        
-    }
-    // public void visit(Designator designator) {
-    // SyntaxNode parent = designator.getParent();
-    // if(parent instanceof DesignatorArrayAccess) {
-    // System.err.println("Adresa niza " +
-    // ((DesignatorArrayAccess)parent).getDesignator().obj.getName());
-    // Code.load(((DesignatorArrayAccess)parent).getDesignator().obj);
-    // }
-    // //System.err.println("Adresa podatka " +
-    // factorDesignator.getDesignator().obj.getName());
-    // }
-
-    // public void visit(DesignatorName designatorName) { // elem designator
-    // System.err.println("obj kind " + designatorName.obj.getKind());
-    // Code.load(designatorName.obj);
-    // }
 
     public void visit(DesignatorPointAccess designatorPointAccess) {
         Struct struct = designatorPointAccess.obj.getType();
+        // u semantickoj analizi se prosledjuje enum, ovde treba proslediti bas enum
+        // konstantu
         if (struct.getKind() == Struct.Enum) {
             Obj elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
                     .findFirst().orElse(null);
             designatorPointAccess.obj = elem;
         }
     }
+    // endregion
+
+    // region condition
+    Stack<LinkedList<Integer>> fixupTrueStack = new Stack<>();
+    Stack<LinkedList<Integer>> fixupFalseStack = new Stack<>();
+
+    public void visit(OrStart orStart) {
+        // ako je prethodno tacno skok na if deo, preskacu se ostali or uslovi
+        Code.putJump(0);
+        fixupTrueStack.peek().add(Code.pc - 2);
+        // svi pre or operatora ako nisu tacni skacu na proveru narednog or uslova
+        fixupFalseStack.peek().forEach(addr -> Code.fixup(addr));
+        fixupFalseStack.peek().clear();
+    }
+
+    public void visit(CondFactExpr condFactExpr) {
+        // pojedinacni izrazi -- poredi se sa true
+        Code.put(Code.const_1);
+        Code.putFalseJump(Code.eq, 0);
+        fixupFalseStack.peek().add(Code.pc - 2);
+    }
+
+    public void visit(CondFactCompare condFactCompare) {
+        // pojedinacni izrazi -- poredjenje
+        if (condFactCompare.getRelop() instanceof Equal) {
+            Code.putFalseJump(Code.eq, 0);
+        } else if (condFactCompare.getRelop() instanceof NotEqual) {
+            Code.putFalseJump(Code.ne, 0);
+        } else if (condFactCompare.getRelop() instanceof Greater) {
+            Code.putFalseJump(Code.gt, 0);
+        } else if (condFactCompare.getRelop() instanceof GreaterEqual) {
+            Code.putFalseJump(Code.ge, 0);
+        } else if (condFactCompare.getRelop() instanceof Less) {
+            Code.putFalseJump(Code.lt, 0);
+        } else if (condFactCompare.getRelop() instanceof LessEqual) {
+            Code.putFalseJump(Code.le, 0);
+        }
+        fixupFalseStack.peek().add(Code.pc - 2);
+    }
+    // endregion
+
+    // region if
+
+    public void visit(StatementIfElse statementIfElse) {
+        // postavljanje adrese za preskakanje else bloka - samo jedna adresa
+        LinkedList<Integer> fix = fixupTrueStack.pop();
+        fix.forEach(adr -> Code.fixup(adr));
+        fixupFalseStack.pop();
+    }
+
+    public void visit(ElseStart elseStart) {
+        // skok za preskakanje else bloka
+        Code.putJump(0);
+        fixupTrueStack.peek().add(Code.pc - 2);
+        // postaviti adresu za false/else skokove, iza if bloka
+        LinkedList<Integer> fix = fixupFalseStack.peek();
+        fix.forEach(adr -> Code.fixup(adr));
+    }
+
+    public void visit(StatementIf statementIf) {
+        // postaviti adresu za false skokove iza if bloka
+        LinkedList<Integer> fix = fixupFalseStack.pop();
+        fix.forEach(adr -> Code.fixup(adr));
+        fixupTrueStack.pop();
+    }
+
+    public void visit(IfCondition ifCondition) {
+        // postaviti adresu za true skokove
+        LinkedList<Integer> fix = fixupTrueStack.peek();
+        fix.forEach(adr -> Code.fixup(adr));
+        fix.clear();
+    }
+
+    public void visit(IfStart ifStart) {
+        fixupFalseStack.push(new LinkedList<>());
+        fixupTrueStack.push(new LinkedList<>());
+    }
+
+    // endregion
+
+    // region for
+    Stack<Integer> forCheckConditionStack = new Stack<>();
+    Stack<Integer> forUpdateStmntStack = new Stack<>();
+    Stack<LinkedList<Integer>> breakStack = new Stack<>();
+    Stack<LinkedList<Integer>> continueStack = new Stack<>();
+
+    public void visit(ForStart forStart) {
+        fixupFalseStack.push(new LinkedList<>());
+        fixupTrueStack.push(new LinkedList<>());
+
+        breakStack.push(new LinkedList<>());
+        continueStack.push(new LinkedList<>());
+    }
+
+    public void visit(ForInitStatement forInitStatemet) {
+        // adresa za povratak na proveru uslova
+        forCheckConditionStack.push(Code.pc);
+    }
+
+    public void visit(ForInitStatementNO forInitStatementNO) {
+        // adresa za povratak na proveru uslova
+        forCheckConditionStack.push(Code.pc);
+    }
+
+    public void visit(ForCondition forCondition) {
+        // preskakanje update statement
+        Code.putJump(0);
+        fixupTrueStack.peek().add(Code.pc - 2);
+        // adresa za update statement
+        forUpdateStmntStack.push(Code.pc);
+    }
+
+    public void visit(ForConditionNO forConditionNO) {
+         // preskakanje update statement
+         Code.putJump(0);
+         fixupTrueStack.peek().add(Code.pc - 2);
+         // adresa za update statement
+         forUpdateStmntStack.push(Code.pc);
+    }
+
+    public void visit(ForUpdateStatement forUpdateStatement) {
+        // povratak na proveru uslova
+        Code.putJump(forCheckConditionStack.peek());
+        // postaviti adresu za true skokove
+        LinkedList<Integer> fix = fixupTrueStack.peek();
+        fix.forEach(adr -> Code.fixup(adr));
+        fix.clear();
+    }
+
+    public void visit(ForUpdateStatementNO forUpdateStatementNO) {
+        // povratak na proveru uslova
+        Code.putJump(forCheckConditionStack.peek());
+        // postaviti adresu za true skokove
+        LinkedList<Integer> fix = fixupTrueStack.peek();
+        fix.forEach(adr -> Code.fixup(adr));
+        fix.clear();
+    }
+
+    public void visit(ForBody forBody) {
+        // bezuslovni skok na update statement
+        Code.putJump(forUpdateStmntStack.peek());
+
+        // postaviti adresu za false skokove iza for bloka
+        LinkedList<Integer> fix = fixupFalseStack.pop();
+        fix.forEach(adr -> Code.fixup(adr));
+        fixupTrueStack.pop();
+    }
+
+    public void visit(ForStatement forStatement) {
+        forCheckConditionStack.pop();
+        forUpdateStmntStack.pop();
+        continueStack.pop();
+        breakStack.pop();
+    }
+
+    public void visit(StatementBreak statementBreak) {
+
+    }
+
+    public void visit(StatementContinue statementContinue) {
+
+    }
+    // endregion
 }

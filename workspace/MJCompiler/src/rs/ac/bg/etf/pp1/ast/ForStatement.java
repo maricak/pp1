@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:3
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -10,22 +10,22 @@ public class ForStatement implements SyntaxNode {
     private SyntaxNode parent;
     private int line;
     private ForStart ForStart;
-    private OptionalDesignatorStmnt OptionalDesignatorStmnt;
-    private OptionalCond OptionalCond;
-    private OptionalDesignatorStmnt OptionalDesignatorStmnt1;
-    private Statement Statement;
+    private ForInitStmnt ForInitStmnt;
+    private ForCond ForCond;
+    private ForUpdateStmnt ForUpdateStmnt;
+    private ForBody ForBody;
 
-    public ForStatement (ForStart ForStart, OptionalDesignatorStmnt OptionalDesignatorStmnt, OptionalCond OptionalCond, OptionalDesignatorStmnt OptionalDesignatorStmnt1, Statement Statement) {
+    public ForStatement (ForStart ForStart, ForInitStmnt ForInitStmnt, ForCond ForCond, ForUpdateStmnt ForUpdateStmnt, ForBody ForBody) {
         this.ForStart=ForStart;
         if(ForStart!=null) ForStart.setParent(this);
-        this.OptionalDesignatorStmnt=OptionalDesignatorStmnt;
-        if(OptionalDesignatorStmnt!=null) OptionalDesignatorStmnt.setParent(this);
-        this.OptionalCond=OptionalCond;
-        if(OptionalCond!=null) OptionalCond.setParent(this);
-        this.OptionalDesignatorStmnt1=OptionalDesignatorStmnt1;
-        if(OptionalDesignatorStmnt1!=null) OptionalDesignatorStmnt1.setParent(this);
-        this.Statement=Statement;
-        if(Statement!=null) Statement.setParent(this);
+        this.ForInitStmnt=ForInitStmnt;
+        if(ForInitStmnt!=null) ForInitStmnt.setParent(this);
+        this.ForCond=ForCond;
+        if(ForCond!=null) ForCond.setParent(this);
+        this.ForUpdateStmnt=ForUpdateStmnt;
+        if(ForUpdateStmnt!=null) ForUpdateStmnt.setParent(this);
+        this.ForBody=ForBody;
+        if(ForBody!=null) ForBody.setParent(this);
     }
 
     public ForStart getForStart() {
@@ -36,36 +36,36 @@ public class ForStatement implements SyntaxNode {
         this.ForStart=ForStart;
     }
 
-    public OptionalDesignatorStmnt getOptionalDesignatorStmnt() {
-        return OptionalDesignatorStmnt;
+    public ForInitStmnt getForInitStmnt() {
+        return ForInitStmnt;
     }
 
-    public void setOptionalDesignatorStmnt(OptionalDesignatorStmnt OptionalDesignatorStmnt) {
-        this.OptionalDesignatorStmnt=OptionalDesignatorStmnt;
+    public void setForInitStmnt(ForInitStmnt ForInitStmnt) {
+        this.ForInitStmnt=ForInitStmnt;
     }
 
-    public OptionalCond getOptionalCond() {
-        return OptionalCond;
+    public ForCond getForCond() {
+        return ForCond;
     }
 
-    public void setOptionalCond(OptionalCond OptionalCond) {
-        this.OptionalCond=OptionalCond;
+    public void setForCond(ForCond ForCond) {
+        this.ForCond=ForCond;
     }
 
-    public OptionalDesignatorStmnt getOptionalDesignatorStmnt1() {
-        return OptionalDesignatorStmnt1;
+    public ForUpdateStmnt getForUpdateStmnt() {
+        return ForUpdateStmnt;
     }
 
-    public void setOptionalDesignatorStmnt1(OptionalDesignatorStmnt OptionalDesignatorStmnt1) {
-        this.OptionalDesignatorStmnt1=OptionalDesignatorStmnt1;
+    public void setForUpdateStmnt(ForUpdateStmnt ForUpdateStmnt) {
+        this.ForUpdateStmnt=ForUpdateStmnt;
     }
 
-    public Statement getStatement() {
-        return Statement;
+    public ForBody getForBody() {
+        return ForBody;
     }
 
-    public void setStatement(Statement Statement) {
-        this.Statement=Statement;
+    public void setForBody(ForBody ForBody) {
+        this.ForBody=ForBody;
     }
 
     public SyntaxNode getParent() {
@@ -90,27 +90,27 @@ public class ForStatement implements SyntaxNode {
 
     public void childrenAccept(Visitor visitor) {
         if(ForStart!=null) ForStart.accept(visitor);
-        if(OptionalDesignatorStmnt!=null) OptionalDesignatorStmnt.accept(visitor);
-        if(OptionalCond!=null) OptionalCond.accept(visitor);
-        if(OptionalDesignatorStmnt1!=null) OptionalDesignatorStmnt1.accept(visitor);
-        if(Statement!=null) Statement.accept(visitor);
+        if(ForInitStmnt!=null) ForInitStmnt.accept(visitor);
+        if(ForCond!=null) ForCond.accept(visitor);
+        if(ForUpdateStmnt!=null) ForUpdateStmnt.accept(visitor);
+        if(ForBody!=null) ForBody.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(ForStart!=null) ForStart.traverseTopDown(visitor);
-        if(OptionalDesignatorStmnt!=null) OptionalDesignatorStmnt.traverseTopDown(visitor);
-        if(OptionalCond!=null) OptionalCond.traverseTopDown(visitor);
-        if(OptionalDesignatorStmnt1!=null) OptionalDesignatorStmnt1.traverseTopDown(visitor);
-        if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(ForInitStmnt!=null) ForInitStmnt.traverseTopDown(visitor);
+        if(ForCond!=null) ForCond.traverseTopDown(visitor);
+        if(ForUpdateStmnt!=null) ForUpdateStmnt.traverseTopDown(visitor);
+        if(ForBody!=null) ForBody.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(ForStart!=null) ForStart.traverseBottomUp(visitor);
-        if(OptionalDesignatorStmnt!=null) OptionalDesignatorStmnt.traverseBottomUp(visitor);
-        if(OptionalCond!=null) OptionalCond.traverseBottomUp(visitor);
-        if(OptionalDesignatorStmnt1!=null) OptionalDesignatorStmnt1.traverseBottomUp(visitor);
-        if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(ForInitStmnt!=null) ForInitStmnt.traverseBottomUp(visitor);
+        if(ForCond!=null) ForCond.traverseBottomUp(visitor);
+        if(ForUpdateStmnt!=null) ForUpdateStmnt.traverseBottomUp(visitor);
+        if(ForBody!=null) ForBody.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -125,26 +125,26 @@ public class ForStatement implements SyntaxNode {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalDesignatorStmnt!=null)
-            buffer.append(OptionalDesignatorStmnt.toString("  "+tab));
+        if(ForInitStmnt!=null)
+            buffer.append(ForInitStmnt.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalCond!=null)
-            buffer.append(OptionalCond.toString("  "+tab));
+        if(ForCond!=null)
+            buffer.append(ForCond.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(OptionalDesignatorStmnt1!=null)
-            buffer.append(OptionalDesignatorStmnt1.toString("  "+tab));
+        if(ForUpdateStmnt!=null)
+            buffer.append(ForUpdateStmnt.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Statement!=null)
-            buffer.append(Statement.toString("  "+tab));
+        if(ForBody!=null)
+            buffer.append(ForBody.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

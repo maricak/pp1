@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:4
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public abstract class IfElseStatement implements SyntaxNode {
+public abstract class ForUpdateStmnt implements SyntaxNode {
 
     private SyntaxNode parent;
 

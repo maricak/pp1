@@ -554,7 +554,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
     // broj parametara metode koja se redefinise
     private int baseNumberOfParameters = 0;
     // da li se dogodila greska prilikom redefinicije
-    private boolean overrideError = false;
+    // private boolean overrideError = false;
     // da li je metoda nasledjena iz interfejsa
     private int interfaceMethod = 0;
 
@@ -649,7 +649,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         baseNumberOfParameters = 0;
         currentMethod = null;
         baseMethodVars = null;
-        overrideError = false;
+        // overrideError = false;
         // report_info("Zavrsena metoda " + methodDecl.getMethodStart().getMethodName(),
         // null);
 
@@ -690,7 +690,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     report_error("Broj parametara u redefinisanoj metodi" + currentMethod.getName()
                             + " je veci nego u originalnoj", formPar);
                     // dogodila se greska
-                    overrideError = true;
+                    // overrideError = true;
                     return;
                     // proverit da li tip parametra u redefiniciji odgovara tipu parametra u
                     // originalnoj metodi
@@ -700,7 +700,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                             numberOfParameters + ". parametar ne odgovara po tipu parametru metode iz osnovne klase",
                             formPar);
                     // dogodila se greska
-                    overrideError = true;
+                    // overrideError = true;
                     return;
                 }
             }
@@ -723,7 +723,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             if (baseNumberOfParameters + interfaceMethod != numberOfParameters) {
                 report_error("Broj parametara u redefinisanoj metodi je manji nego u originalnoj", methodFormParsEnd);
                 // dogodila se greska
-                overrideError = true;
+                // overrideError = true;
             }
             // ako se dogodila greska vratiti parametre iz originalne metode radi manje
             // greska u nastavku

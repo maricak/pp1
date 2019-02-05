@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:3
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalDesignatorStatement extends OptionalDesignatorStmnt {
+public class ForInitStatement extends ForInitStmnt {
 
     private DesignatorStatement DesignatorStatement;
 
-    public OptionalDesignatorStatement (DesignatorStatement DesignatorStatement) {
+    public ForInitStatement (DesignatorStatement DesignatorStatement) {
         this.DesignatorStatement=DesignatorStatement;
         if(DesignatorStatement!=null) DesignatorStatement.setParent(this);
     }
@@ -43,7 +43,7 @@ public class OptionalDesignatorStatement extends OptionalDesignatorStmnt {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalDesignatorStatement(\n");
+        buffer.append("ForInitStatement(\n");
 
         if(DesignatorStatement!=null)
             buffer.append(DesignatorStatement.toString("  "+tab));
@@ -52,7 +52,7 @@ public class OptionalDesignatorStatement extends OptionalDesignatorStmnt {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalDesignatorStatement]");
+        buffer.append(") [ForInitStatement]");
         return buffer.toString();
     }
 }

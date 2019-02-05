@@ -30,7 +30,7 @@ public class MJParserTest {
 
         Logger log = Logger.getLogger(MJParserTest.class);
 
-        File sourceCode = new File("test/test301.mj");
+        File sourceCode = new File("test/test302.mj");
         if (!sourceCode.exists()) {
             log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
             return;
@@ -57,7 +57,6 @@ public class MJParserTest {
                 if (objFile.exists())
                     objFile.delete();
 
-                //Code generation... 
                 CodeGenerator codeGenerator = new CodeGenerator();
                 Code.dataSize = semanticAnalyzer.nVars;      
                 

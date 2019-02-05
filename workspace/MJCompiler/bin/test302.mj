@@ -4,7 +4,7 @@ program test302
 
 enum IncrementType { BY_ONE, DOUBLE_VALUE }
 
-int i;
+int i, j;
 bool ibool;
 
 int niz[];
@@ -30,11 +30,13 @@ int niz[];
 			
 		ibool = false;
 		i = 0;
-		for(i=0;i<5;i++)
-		{
-			if(i == 2) ibool = true;
+		print(eol);
+		for(;;)
+		{			
+			print(i);
+			
 		}
-		
+		print(eol);
 		if(ibool)
 			if(i == 5) print(1); 
 			else print(-1);

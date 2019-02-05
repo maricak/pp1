@@ -1,55 +1,54 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:4
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public interface Visitor { 
 
-    public void visit(ReturnType ReturnType);
-    public void visit(Mulop Mulop);
-    public void visit(InterfaceMethodDeclList InterfaceMethodDeclList);
-    public void visit(Relop Relop);
-    public void visit(CondTermList CondTermList);
-    public void visit(EnumAssignList EnumAssignList);
-    public void visit(VarName VarName);
-    public void visit(ClassMethodDeclList ClassMethodDeclList);
-    public void visit(OptionalBrackets OptionalBrackets);
-    public void visit(StatementList StatementList);
-    public void visit(Extends Extends);
-    public void visit(Addop Addop);
-    public void visit(Factor Factor);
-    public void visit(VarList VarList);
-    public void visit(CondFactList CondFactList);
-    public void visit(DeclList DeclList);
-    public void visit(Designator Designator);
-    public void visit(Term Term);
-    public void visit(OptionalDesignatorStmnt OptionalDesignatorStmnt);
-    public void visit(PrintParam PrintParam);
-    public void visit(OptionalCond OptionalCond);
-    public void visit(IfCond IfCond);
-    public void visit(ConstValue ConstValue);
-    public void visit(Implements Implements);
-    public void visit(StandardFunction StandardFunction);
-    public void visit(InterfaceList InterfaceList);
-    public void visit(IfElseStatement IfElseStatement);
-    public void visit(VarDeclList VarDeclList);
-    public void visit(Expr Expr);
-    public void visit(ActPars ActPars);
-    public void visit(DesignatorStatement DesignatorStatement);
-    public void visit(Decl Decl);
-    public void visit(ConstAssignList ConstAssignList);
-    public void visit(ConstAssign ConstAssign);
-    public void visit(Statement Statement);
-    public void visit(VarDecl VarDecl);
-    public void visit(Type Type);
-    public void visit(ConstDecl ConstDecl);
-    public void visit(CondFact CondFact);
-    public void visit(IfStatement IfStatement);
-    public void visit(MethodDeclList MethodDeclList);
     public void visit(FormPars FormPars);
+    public void visit(IfCond IfCond);
     public void visit(EnumAssign EnumAssign);
+    public void visit(Factor Factor);
+    public void visit(Statement Statement);
+    public void visit(VarName VarName);
+    public void visit(Relop Relop);
+    public void visit(DeclList DeclList);
+    public void visit(CondFactList CondFactList);
+    public void visit(ForCond ForCond);
+    public void visit(Expr Expr);
+    public void visit(InterfaceList InterfaceList);
+    public void visit(ConstAssignList ConstAssignList);
+    public void visit(ForInitStmnt ForInitStmnt);
+    public void visit(ForUpdateStmnt ForUpdateStmnt);
+    public void visit(EnumAssignList EnumAssignList);
+    public void visit(VarDecl VarDecl);
+    public void visit(ClassMethodDeclList ClassMethodDeclList);
+    public void visit(Mulop Mulop);
+    public void visit(DesignatorStatement DesignatorStatement);
+    public void visit(ConstAssign ConstAssign);
+    public void visit(StandardFunction StandardFunction);
+    public void visit(Addop Addop);
+    public void visit(StatementList StatementList);
+    public void visit(ConstDecl ConstDecl);
+    public void visit(Implements Implements);
+    public void visit(Type Type);
+    public void visit(ReturnType ReturnType);
+    public void visit(CondTermList CondTermList);
+    public void visit(VarList VarList);
+    public void visit(MethodDeclList MethodDeclList);
+    public void visit(ConstValue ConstValue);
+    public void visit(PrintParam PrintParam);
+    public void visit(Extends Extends);
+    public void visit(ActPars ActPars);
+    public void visit(Designator Designator);
+    public void visit(VarDeclList VarDeclList);
+    public void visit(CondFact CondFact);
+    public void visit(InterfaceMethodDeclList InterfaceMethodDeclList);
+    public void visit(OptionalBrackets OptionalBrackets);
+    public void visit(Term Term);
+    public void visit(Decl Decl);
     public void visit(Modulo Modulo);
     public void visit(Divide Divide);
     public void visit(Multiplie Multiplie);
@@ -84,6 +83,7 @@ public interface Visitor {
     public void visit(ConditionFactListNO ConditionFactListNO);
     public void visit(ConditionFactList ConditionFactList);
     public void visit(CondTerm CondTerm);
+    public void visit(OrStart OrStart);
     public void visit(ConditionTermListNO ConditionTermListNO);
     public void visit(ConditionTermList ConditionTermList);
     public void visit(Condition Condition);
@@ -99,13 +99,18 @@ public interface Visitor {
     public void visit(Statements Statements);
     public void visit(PrintParameterNO PrintParameterNO);
     public void visit(PrintParameter PrintParameter);
-    public void visit(OptionalDesignatorStatementNO OptionalDesignatorStatementNO);
-    public void visit(OptionalDesignatorStatement OptionalDesignatorStatement);
-    public void visit(OptionalConditionNO OptionalConditionNO);
-    public void visit(OptionalCondition OptionalCondition);
+    public void visit(ForBody ForBody);
+    public void visit(ForUpdateStatementNO ForUpdateStatementNO);
+    public void visit(ForUpdateStatement ForUpdateStatement);
+    public void visit(ForInitStatementNO ForInitStatementNO);
+    public void visit(ForInitStatement ForInitStatement);
+    public void visit(ForConditionNO ForConditionNO);
+    public void visit(ForCondition ForCondition);
     public void visit(ForStart ForStart);
     public void visit(ForStatement ForStatement);
+    public void visit(ElseStart ElseStart);
     public void visit(IfCondition IfCondition);
+    public void visit(IfStart IfStart);
     public void visit(StatementBlock StatementBlock);
     public void visit(StatementPrint StatementPrint);
     public void visit(StatementRead StatementRead);

@@ -1,13 +1,31 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:3
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalConditionNO extends OptionalCond {
+public class OrStart implements SyntaxNode {
 
-    public OptionalConditionNO () {
+    private SyntaxNode parent;
+    private int line;
+    public OrStart () {
+    }
+
+    public SyntaxNode getParent() {
+        return parent;
+    }
+
+    public void setParent(SyntaxNode parent) {
+        this.parent=parent;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line=line;
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +46,10 @@ public class OptionalConditionNO extends OptionalCond {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalConditionNO(\n");
+        buffer.append("OrStart(\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalConditionNO]");
+        buffer.append(") [OrStart]");
         return buffer.toString();
     }
 }

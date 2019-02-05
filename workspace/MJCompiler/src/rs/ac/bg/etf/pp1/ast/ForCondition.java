@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/1/2019 14:8:30
+// 5/1/2019 19:38:3
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalCondition extends OptionalCond {
+public class ForCondition extends ForCond {
 
     private Condition Condition;
 
-    public OptionalCondition (Condition Condition) {
+    public ForCondition (Condition Condition) {
         this.Condition=Condition;
         if(Condition!=null) Condition.setParent(this);
     }
@@ -43,7 +43,7 @@ public class OptionalCondition extends OptionalCond {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalCondition(\n");
+        buffer.append("ForCondition(\n");
 
         if(Condition!=null)
             buffer.append(Condition.toString("  "+tab));
@@ -52,7 +52,7 @@ public class OptionalCondition extends OptionalCond {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalCondition]");
+        buffer.append(") [ForCondition]");
         return buffer.toString();
     }
 }
