@@ -332,10 +332,16 @@ public class CodeGenerator extends VisitorAdaptor {
         // bezuslovni skok na update statement
         Code.putJump(forUpdateStmntStack.peek());
 
+        // postaviti adresu za continue skokove
+        continueStack.peek().forEach(adr -> Code.fixup(adr));
+
         // postaviti adresu za false skokove iza for bloka
         LinkedList<Integer> fix = fixupFalseStack.pop();
         fix.forEach(adr -> Code.fixup(adr));
         fixupTrueStack.pop();
+
+        // postaviti adresu za break skokove iza for bloka
+        breakStack.peek().forEach(adr -> Code.fixup(adr));
     }
 
     public void visit(ForStatement forStatement) {
@@ -346,11 +352,13 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(StatementBreak statementBreak) {
-
+        Code.putJump(0);
+        breakStack.peek().add(Code.pc - 2);
     }
 
     public void visit(StatementContinue statementContinue) {
-
+        Code.putJump(0);
+        continueStack.peek().add(Code.pc - 2);
     }
     // endregion
 }
