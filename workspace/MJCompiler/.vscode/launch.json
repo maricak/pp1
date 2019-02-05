@@ -46,14 +46,16 @@
             "name": "Run",
             "request": "launch",
             "mainClass": "rs.etf.pp1.mj.runtime.Run",
-            "projectName": "MJCompiler"
+            "projectName": "MJCompiler", 
+            "args": "test\\program.obj"
         },
         {
             "type": "java",
             "name": "Disasm",
             "request": "launch",
             "mainClass": "rs.etf.pp1.mj.runtime.disasm",
-            "projectName": "MJCompiler"
+            "projectName": "MJCompiler",
+            "args": "test\\program.obj"
         }
     ]
 }

@@ -14,6 +14,8 @@ import rs.ac.bg.etf.pp1.mysymboltable.*;
 
 public class SemanticAnalyzer extends VisitorAdaptor {
 
+    public int nVars;
+
     private MyTableDumpVisitor tdv = new MyTableDumpVisitor();
 
     // region report
@@ -68,6 +70,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     // kraj programa
     public void visit(Program program) {
+        nVars = MyTable.currentScope.getLocals().symbols().size();
         // svi simboli su lokalni za obj Program
         MyTable.chainLocalSymbols(program.getProgramStart().obj);
         MyTable.closeScope();

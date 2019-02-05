@@ -101,7 +101,7 @@ nonterminal IfCond IfCond;
 nonterminal ForStatement ForStatement;
 nonterminal OptionalCond OptionalCond;
 nonterminal OptionalDesignatorStmnt OptionalDesignatorStmnt;
-nonterminal PrintNumParameter PrintNumParameter;
+nonterminal PrintParam PrintParam;
 nonterminal StatementList StatementList;
 nonterminal DesignatorStatement DesignatorStatement;
 nonterminal ActPars ActPars;
@@ -287,15 +287,9 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEPARATOR {: RESULT=n
 			| (StatementReturn) RETURN SEPARATOR {: RESULT=new StatementReturn(); :}
 			| (StatementReturnExpr) RETURN Expr:E1 SEPARATOR {: RESULT=new StatementReturnExpr(E1); RESULT.setLine(E1left); :}
 			| (StatementRead) READ LEFT_PARENTHESIS Designator:D1 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementRead(D1); RESULT.setLine(D1left); :}
-			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr:E1 PrintNumParameter:P2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}
+			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr:E1 PrintParam:P2 RIGHT_PARENTHESIS SEPARATOR {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}
 			| (StatementBlock) LEFT_BRACE StatementList:S1 RIGHT_BRACE {: RESULT=new StatementBlock(S1); RESULT.setLine(S1left); :}
 			;
-
-// IfStatement ::= (IfStatement) 
-// 			  ;
-
-// IfElseStatement ::= (IfElseStatement) 
-//                   ;
 
 IfCond ::= (IfCondition) LEFT_PARENTHESIS Condition:C1 RIGHT_PARENTHESIS {: RESULT=new IfCondition(C1); RESULT.setLine(C1left); :}
          ;
@@ -314,9 +308,9 @@ OptionalDesignatorStmnt ::= (OptionalDesignatorStatement) DesignatorStatement:D1
 						  | (OptionalDesignatorStatementNO) {: RESULT=new OptionalDesignatorStatementNO(); :} /* epsilon */
 						  ;
 	
-PrintNumParameter ::= (PrintNumberParameter) COMMA INT_VALUE:I1 {: RESULT=new PrintNumberParameter(I1); RESULT.setLine(I1left); :}
-                    | (PrintNumberParameterNO) {: RESULT=new PrintNumberParameterNO(); :} /* espilon */
-                    ;		
+PrintParam ::= (PrintParameter) COMMA INT_VALUE:value {: RESULT=new PrintParameter(value); RESULT.setLine(valueleft); :}
+             | (PrintParameterNO) {: RESULT=new PrintParameterNO(); :} /* espilon */
+             ;		
 			
 StatementList ::= (Statements) StatementList:S1 Statement:S2 {: RESULT=new Statements(S1, S2); RESULT.setLine(S1left); :}
 				| (StatementsNO) {: RESULT=new StatementsNO(); :} /* epsilon */

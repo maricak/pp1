@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 15:41:58
+// 5/1/2019 3:13:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class StatementPrint extends Statement {
 
     private Expr Expr;
-    private PrintNumParameter PrintNumParameter;
+    private PrintParam PrintParam;
 
-    public StatementPrint (Expr Expr, PrintNumParameter PrintNumParameter) {
+    public StatementPrint (Expr Expr, PrintParam PrintParam) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-        this.PrintNumParameter=PrintNumParameter;
-        if(PrintNumParameter!=null) PrintNumParameter.setParent(this);
+        this.PrintParam=PrintParam;
+        if(PrintParam!=null) PrintParam.setParent(this);
     }
 
     public Expr getExpr() {
@@ -25,12 +25,12 @@ public class StatementPrint extends Statement {
         this.Expr=Expr;
     }
 
-    public PrintNumParameter getPrintNumParameter() {
-        return PrintNumParameter;
+    public PrintParam getPrintParam() {
+        return PrintParam;
     }
 
-    public void setPrintNumParameter(PrintNumParameter PrintNumParameter) {
-        this.PrintNumParameter=PrintNumParameter;
+    public void setPrintParam(PrintParam PrintParam) {
+        this.PrintParam=PrintParam;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class StatementPrint extends Statement {
 
     public void childrenAccept(Visitor visitor) {
         if(Expr!=null) Expr.accept(visitor);
-        if(PrintNumParameter!=null) PrintNumParameter.accept(visitor);
+        if(PrintParam!=null) PrintParam.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
-        if(PrintNumParameter!=null) PrintNumParameter.traverseTopDown(visitor);
+        if(PrintParam!=null) PrintParam.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Expr!=null) Expr.traverseBottomUp(visitor);
-        if(PrintNumParameter!=null) PrintNumParameter.traverseBottomUp(visitor);
+        if(PrintParam!=null) PrintParam.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class StatementPrint extends Statement {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(PrintNumParameter!=null)
-            buffer.append(PrintNumParameter.toString("  "+tab));
+        if(PrintParam!=null)
+            buffer.append(PrintParam.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

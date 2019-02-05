@@ -1,24 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2019 15:41:58
+// 5/1/2019 3:13:15
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class PrintNumberParameter extends PrintNumParameter {
+public class PrintParameterNO extends PrintParam {
 
-    private Integer I1;
-
-    public PrintNumberParameter (Integer I1) {
-        this.I1=I1;
-    }
-
-    public Integer getI1() {
-        return I1;
-    }
-
-    public void setI1(Integer I1) {
-        this.I1=I1;
+    public PrintParameterNO () {
     }
 
     public void accept(Visitor visitor) {
@@ -39,13 +28,10 @@ public class PrintNumberParameter extends PrintNumParameter {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("PrintNumberParameter(\n");
-
-        buffer.append(" "+tab+I1);
-        buffer.append("\n");
+        buffer.append("PrintParameterNO(\n");
 
         buffer.append(tab);
-        buffer.append(") [PrintNumberParameter]");
+        buffer.append(") [PrintParameterNO]");
         return buffer.toString();
     }
 }

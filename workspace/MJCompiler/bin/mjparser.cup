@@ -75,7 +75,7 @@ nonterminal Program, DeclList, Decl, ConstDecl, ConstAssignList, EnumDecl;
 nonterminal VarDecl, VarList, ClassDecl, Extends, ClassVarDeclList;
 nonterminal Implements, InterfaceList, ClassMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
 nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, IfStatement, ConstAssign, IfCond;
-nonterminal ForStatement, OptionalCond, OptionalDesignatorStmnt, PrintNumParameter, StatementList, DesignatorStatement;
+nonterminal ForStatement, OptionalCond, OptionalDesignatorStmnt, PrintParam, StatementList, DesignatorStatement;
 nonterminal ActPars, MethodVarsEnd, IfElseStatement, ForStart, EnumAssignList, EnumAssign, MethodFormParsEnd; 
 nonterminal Assignop, Relop, Addop, Mulop;
 
@@ -250,7 +250,7 @@ Statement ::= (StatementDesignator) DesignatorStatement SEPARATOR
 			| (StatementReturn) RETURN SEPARATOR
 			| (StatementReturnExpr) RETURN Expr SEPARATOR
 			| (StatementRead) READ LEFT_PARENTHESIS Designator RIGHT_PARENTHESIS SEPARATOR
-			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr PrintNumParameter RIGHT_PARENTHESIS SEPARATOR
+			| (StatementPrint) PRINT LEFT_PARENTHESIS Expr PrintParam RIGHT_PARENTHESIS SEPARATOR
 			| (StatementBlock) LEFT_BRACE StatementList RIGHT_BRACE
 			;
 
@@ -271,9 +271,9 @@ OptionalDesignatorStmnt ::= (OptionalDesignatorStatement) DesignatorStatement
 						  | (OptionalDesignatorStatementNO) /* epsilon */
 						  ;
 	
-PrintNumParameter ::= (PrintNumberParameter) COMMA INT_VALUE
-                    | (PrintNumberParameterNO) /* espilon */
-                    ;		
+PrintParam ::= (PrintParameter) COMMA INT_VALUE:value
+             | (PrintParameterNO) /* espilon */
+             ;		
 			
 StatementList ::= (Statements) StatementList Statement
 				| (StatementsNO) /* epsilon */
