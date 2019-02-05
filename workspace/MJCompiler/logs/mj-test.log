@@ -1,31 +1,326 @@
-INFO  03:25:03,853 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.mj
-INFO  03:25:03,907 - #31 program
-INFO  03:25:03,907 - #54 m
-INFO  03:25:03,907 - #29 {
-INFO  03:25:03,908 - #46 void
-INFO  03:25:03,908 - #54 main
-INFO  03:25:03,909 - #25 (
-INFO  03:25:03,910 - #26 )
-INFO  03:25:03,910 - #2 int
-INFO  03:25:03,911 - #54 i
-INFO  03:25:03,912 - #22 ;
-INFO  03:25:03,913 - #29 {
-INFO  03:25:03,913 - #54 i
-INFO  03:25:03,914 - #19 =
-INFO  03:25:03,914 - #51 2
-INFO  03:25:03,915 - #22 ;
-INFO  03:25:03,916 - #44 print
-INFO  03:25:03,916 - #25 (
-INFO  03:25:03,916 - #54 i
-INFO  03:25:03,916 - #26 )
-INFO  03:25:03,917 - #22 ;
-INFO  03:25:03,917 - #30 }
-INFO  03:25:03,917 - #30 }
-INFO  03:25:03,918 - #0 eof
-INFO  03:25:03,919 - #0 eof
-INFO  03:25:03,930 - DETEKCIJA: [Deklarisana lokalna promenljiva i] na liniji 3
-INFO  03:25:03,930 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: int, 0, 1 ] na liniji 4
-INFO  03:25:03,931 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: int, 0, 1 ] na liniji 5
-INFO  03:25:03,932 - DETEKCIJA: [Poziv funkcije print] na liniji 5
-INFO  03:25:03,932 - Generating bytecode file: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.obj
-INFO  03:25:03,942 - Parsiranje uspesno zavrseno!
+INFO  14:33:04,592 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\test301.mj
+INFO  14:33:04,650 - #31 program
+INFO  14:33:04,650 - #54 test301
+INFO  14:33:04,650 - #36 enum
+INFO  14:33:04,651 - #54 Broj
+INFO  14:33:04,651 - #29 {
+INFO  14:33:04,652 - #54 NULA
+INFO  14:33:04,652 - #23 ,
+INFO  14:33:04,652 - #54 JEDAN
+INFO  14:33:04,652 - #23 ,
+INFO  14:33:04,652 - #54 PET
+INFO  14:33:04,652 - #19 =
+INFO  14:33:04,652 - #51 5
+INFO  14:33:04,652 - #23 ,
+INFO  14:33:04,653 - #54 DESET
+INFO  14:33:04,653 - #19 =
+INFO  14:33:04,653 - #51 10
+INFO  14:33:04,653 - #30 }
+INFO  14:33:04,653 - #47 const
+INFO  14:33:04,654 - #2 int
+INFO  14:33:04,654 - #54 jedan
+INFO  14:33:04,654 - #19 =
+INFO  14:33:04,655 - #51 1
+INFO  14:33:04,655 - #22 ;
+INFO  14:33:04,655 - #47 const
+INFO  14:33:04,655 - #2 int
+INFO  14:33:04,656 - #54 pet
+INFO  14:33:04,656 - #19 =
+INFO  14:33:04,656 - #51 5
+INFO  14:33:04,656 - #22 ;
+INFO  14:33:04,656 - #2 int
+INFO  14:33:04,656 - #54 niz
+INFO  14:33:04,656 - #27 [
+INFO  14:33:04,656 - #28 ]
+INFO  14:33:04,656 - #22 ;
+INFO  14:33:04,657 - #4 char
+INFO  14:33:04,658 - #54 nizch
+INFO  14:33:04,658 - #27 [
+INFO  14:33:04,658 - #28 ]
+INFO  14:33:04,658 - #22 ;
+INFO  14:33:04,658 - #29 {
+INFO  14:33:04,659 - #46 void
+INFO  14:33:04,659 - #54 main
+INFO  14:33:04,660 - #25 (
+INFO  14:33:04,660 - #26 )
+INFO  14:33:04,661 - #2 int
+INFO  14:33:04,662 - #54 bodovi
+INFO  14:33:04,662 - #22 ;
+INFO  14:33:04,662 - #54 Broj
+INFO  14:33:04,662 - #54 nula
+INFO  14:33:04,662 - #23 ,
+INFO  14:33:04,663 - #54 jedan
+INFO  14:33:04,663 - #22 ;
+INFO  14:33:04,663 - #29 {
+INFO  14:33:04,663 - #54 nula
+INFO  14:33:04,664 - #19 =
+INFO  14:33:04,664 - #54 Broj
+INFO  14:33:04,665 - #24 .
+INFO  14:33:04,665 - #54 NULA
+INFO  14:33:04,665 - #22 ;
+INFO  14:33:04,665 - #54 jedan
+INFO  14:33:04,666 - #19 =
+INFO  14:33:04,666 - #54 Broj
+INFO  14:33:04,666 - #24 .
+INFO  14:33:04,666 - #54 JEDAN
+INFO  14:33:04,666 - #22 ;
+INFO  14:33:04,666 - #54 bodovi
+INFO  14:33:04,666 - #19 =
+INFO  14:33:04,666 - #51 0
+INFO  14:33:04,666 - #22 ;
+INFO  14:33:04,666 - #54 bodovi
+INFO  14:33:04,666 - #20 ++
+INFO  14:33:04,666 - #22 ;
+INFO  14:33:04,667 - #54 bodovi
+INFO  14:33:04,667 - #19 =
+INFO  14:33:04,667 - #54 bodovi
+INFO  14:33:04,667 - #6 +
+INFO  14:33:04,667 - #54 jedan
+INFO  14:33:04,668 - #22 ;
+INFO  14:33:04,668 - #54 bodovi
+INFO  14:33:04,668 - #19 =
+INFO  14:33:04,668 - #54 bodovi
+INFO  14:33:04,669 - #8 *
+INFO  14:33:04,669 - #54 pet
+INFO  14:33:04,670 - #22 ;
+INFO  14:33:04,670 - #54 bodovi
+INFO  14:33:04,670 - #21 --
+INFO  14:33:04,670 - #22 ;
+INFO  14:33:04,670 - #44 print
+INFO  14:33:04,670 - #25 (
+INFO  14:33:04,670 - #54 bodovi
+INFO  14:33:04,670 - #26 )
+INFO  14:33:04,671 - #22 ;
+INFO  14:33:04,671 - #54 niz
+INFO  14:33:04,671 - #19 =
+INFO  14:33:04,671 - #39 new
+INFO  14:33:04,671 - #2 int
+INFO  14:33:04,671 - #27 [
+INFO  14:33:04,671 - #51 2
+INFO  14:33:04,671 - #28 ]
+INFO  14:33:04,671 - #22 ;
+INFO  14:33:04,672 - #54 niz
+INFO  14:33:04,672 - #27 [
+INFO  14:33:04,672 - #54 nula
+INFO  14:33:04,672 - #28 ]
+INFO  14:33:04,672 - #19 =
+INFO  14:33:04,672 - #54 pet
+INFO  14:33:04,672 - #22 ;
+INFO  14:33:04,672 - #54 niz
+INFO  14:33:04,672 - #27 [
+INFO  14:33:04,672 - #51 1
+INFO  14:33:04,672 - #28 ]
+INFO  14:33:04,672 - #19 =
+INFO  14:33:04,672 - #54 Broj
+INFO  14:33:04,672 - #24 .
+INFO  14:33:04,672 - #54 DESET
+INFO  14:33:04,672 - #22 ;
+INFO  14:33:04,672 - #54 bodovi
+INFO  14:33:04,672 - #19 =
+INFO  14:33:04,672 - #54 niz
+INFO  14:33:04,672 - #27 [
+INFO  14:33:04,673 - #51 1
+INFO  14:33:04,673 - #28 ]
+INFO  14:33:04,673 - #9 /
+INFO  14:33:04,673 - #54 niz
+INFO  14:33:04,673 - #27 [
+INFO  14:33:04,673 - #51 0
+INFO  14:33:04,674 - #28 ]
+INFO  14:33:04,674 - #22 ;
+INFO  14:33:04,674 - #44 print
+INFO  14:33:04,674 - #25 (
+INFO  14:33:04,674 - #54 bodovi
+INFO  14:33:04,674 - #26 )
+INFO  14:33:04,676 - #22 ;
+INFO  14:33:04,676 - #44 print
+INFO  14:33:04,676 - #25 (
+INFO  14:33:04,676 - #54 niz
+INFO  14:33:04,676 - #27 [
+INFO  14:33:04,676 - #54 Broj
+INFO  14:33:04,676 - #24 .
+INFO  14:33:04,676 - #54 JEDAN
+INFO  14:33:04,676 - #28 ]
+INFO  14:33:04,676 - #26 )
+INFO  14:33:04,676 - #22 ;
+INFO  14:33:04,676 - #54 nizch
+INFO  14:33:04,676 - #19 =
+INFO  14:33:04,676 - #39 new
+INFO  14:33:04,676 - #4 char
+INFO  14:33:04,676 - #27 [
+INFO  14:33:04,676 - #51 3
+INFO  14:33:04,676 - #28 ]
+INFO  14:33:04,676 - #22 ;
+INFO  14:33:04,677 - #54 nizch
+INFO  14:33:04,677 - #27 [
+INFO  14:33:04,677 - #51 0
+INFO  14:33:04,677 - #28 ]
+INFO  14:33:04,677 - #19 =
+INFO  14:33:04,677 - #52 97
+INFO  14:33:04,677 - #22 ;
+INFO  14:33:04,677 - #54 nizch
+INFO  14:33:04,677 - #27 [
+INFO  14:33:04,677 - #54 jedan
+INFO  14:33:04,677 - #28 ]
+INFO  14:33:04,677 - #19 =
+INFO  14:33:04,677 - #52 98
+INFO  14:33:04,677 - #22 ;
+INFO  14:33:04,677 - #54 nizch
+INFO  14:33:04,677 - #27 [
+INFO  14:33:04,677 - #54 pet
+INFO  14:33:04,677 - #7 -
+INFO  14:33:04,677 - #51 3
+INFO  14:33:04,678 - #28 ]
+INFO  14:33:04,678 - #19 =
+INFO  14:33:04,678 - #52 99
+INFO  14:33:04,678 - #22 ;
+INFO  14:33:04,678 - #44 print
+INFO  14:33:04,678 - #25 (
+INFO  14:33:04,678 - #54 nizch
+INFO  14:33:04,678 - #27 [
+INFO  14:33:04,678 - #51 2
+INFO  14:33:04,678 - #7 -
+INFO  14:33:04,679 - #51 1
+INFO  14:33:04,679 - #28 ]
+INFO  14:33:04,679 - #26 )
+INFO  14:33:04,679 - #22 ;
+INFO  14:33:04,679 - #44 print
+INFO  14:33:04,679 - #25 (
+INFO  14:33:04,679 - #54 nizch
+INFO  14:33:04,679 - #27 [
+INFO  14:33:04,679 - #54 jedan
+INFO  14:33:04,679 - #8 *
+INFO  14:33:04,679 - #51 2
+INFO  14:33:04,679 - #28 ]
+INFO  14:33:04,679 - #26 )
+INFO  14:33:04,679 - #22 ;
+INFO  14:33:04,679 - #54 bodovi
+INFO  14:33:04,679 - #19 =
+INFO  14:33:04,679 - #54 bodovi
+INFO  14:33:04,679 - #6 +
+INFO  14:33:04,679 - #25 (
+INFO  14:33:04,679 - #25 (
+INFO  14:33:04,679 - #54 pet
+INFO  14:33:04,679 - #8 *
+INFO  14:33:04,679 - #54 jedan
+INFO  14:33:04,679 - #7 -
+INFO  14:33:04,679 - #51 1
+INFO  14:33:04,679 - #26 )
+INFO  14:33:04,680 - #8 *
+INFO  14:33:04,680 - #51 2
+INFO  14:33:04,680 - #7 -
+INFO  14:33:04,680 - #25 (
+INFO  14:33:04,680 - #51 3
+INFO  14:33:04,680 - #10 %
+INFO  14:33:04,680 - #51 2
+INFO  14:33:04,681 - #6 +
+INFO  14:33:04,681 - #51 3
+INFO  14:33:04,681 - #8 *
+INFO  14:33:04,681 - #51 2
+INFO  14:33:04,681 - #7 -
+INFO  14:33:04,681 - #51 3
+INFO  14:33:04,681 - #26 )
+INFO  14:33:04,681 - #7 -
+INFO  14:33:04,681 - #54 Broj
+INFO  14:33:04,681 - #24 .
+INFO  14:33:04,681 - #54 JEDAN
+INFO  14:33:04,681 - #8 *
+INFO  14:33:04,681 - #51 0
+INFO  14:33:04,681 - #26 )
+INFO  14:33:04,681 - #22 ;
+INFO  14:33:04,681 - #44 print
+INFO  14:33:04,681 - #25 (
+INFO  14:33:04,681 - #54 bodovi
+INFO  14:33:04,681 - #26 )
+INFO  14:33:04,681 - #22 ;
+INFO  14:33:04,682 - #45 read
+INFO  14:33:04,682 - #25 (
+INFO  14:33:04,682 - #54 bodovi
+INFO  14:33:04,682 - #26 )
+INFO  14:33:04,682 - #22 ;
+INFO  14:33:04,682 - #54 bodovi
+INFO  14:33:04,684 - #19 =
+INFO  14:33:04,684 - #54 bodovi
+INFO  14:33:04,684 - #6 +
+INFO  14:33:04,684 - #51 1
+INFO  14:33:04,685 - #22 ;
+INFO  14:33:04,685 - #44 print
+INFO  14:33:04,685 - #25 (
+INFO  14:33:04,685 - #54 bodovi
+INFO  14:33:04,685 - #26 )
+INFO  14:33:04,685 - #22 ;
+INFO  14:33:04,685 - #30 }
+INFO  14:33:04,685 - #30 }
+INFO  14:33:04,686 - #0 eof
+INFO  14:33:04,687 - #0 eof
+INFO  14:33:04,745 - DETEKCIJA: [Deklarisana konstanta jedan=1] na liniji 7
+INFO  14:33:04,745 - DETEKCIJA: [Deklarisana konstanta pet=5] na liniji 8
+INFO  14:33:04,746 - DETEKCIJA: [Deklarisana globalna promenljiva niz] na liniji 10
+INFO  14:33:04,746 - DETEKCIJA: [Deklarisana globalna promenljiva nizch] na liniji 11
+INFO  14:33:04,746 - DETEKCIJA: [Deklarisana lokalna promenljiva bodovi] na liniji 15
+INFO  14:33:04,746 - DETEKCIJA: [Deklarisana lokalna promenljiva nula] na liniji 16
+INFO  14:33:04,746 - DETEKCIJA: [Deklarisana lokalna promenljiva jedan] na liniji 16
+INFO  14:33:04,747 - DETEKCIJA: [Upotreba lokalne promenljive nula metode mainVar nula: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 1, 1 ] na liniji 18
+INFO  14:33:04,748 - DETEKCIJA: [Pristup enum konstanti NULAType Broj: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 0, 0 Con NULA: int, 0, 1 ] na liniji 18
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive jedan metode mainVar jedan: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 2, 1 ] na liniji 19
+INFO  14:33:04,749 - DETEKCIJA: [Pristup enum konstanti JEDANType Broj: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 0, 0 Con JEDAN: int, 1, 1 ] na liniji 19
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 21
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 22
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 23
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 23
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive jedan metode mainVar jedan: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 2, 1 ] na liniji 23
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 24
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 24
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba globalne konstante petCon pet: int, 5, 0 ] na liniji 24
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 25
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 26
+INFO  14:33:04,749 - DETEKCIJA: [Poziv funkcije print] na liniji 26
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 29
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 30
+INFO  14:33:04,749 - DETEKCIJA: [Upotreba lokalne promenljive nula metode mainVar nula: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 1, 1 ] na liniji 30
+INFO  14:33:04,749 - DETEKCIJA: [Pristup elementu niza nizVar niz: Arr of int, 0, 0 ] na liniji 30
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne konstante petCon pet: int, 5, 0 ] na liniji 30
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 31
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizVar niz: Arr of int, 0, 0 ] na liniji 31
+INFO  14:33:04,750 - DETEKCIJA: [Pristup enum konstanti DESETType Broj: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 0, 0 Con DESET: int, 10, 1 ] na liniji 31
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 32
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 32
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizVar niz: Arr of int, 0, 0 ] na liniji 32
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 32
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizVar niz: Arr of int, 0, 0 ] na liniji 32
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 33
+INFO  14:33:04,750 - DETEKCIJA: [Poziv funkcije print] na liniji 33
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizVar niz: Arr of int, 0, 0 ] na liniji 34
+INFO  14:33:04,750 - DETEKCIJA: [Pristup enum konstanti JEDANType Broj: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 0, 0 Con JEDAN: int, 1, 1 ] na liniji 34
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizVar niz: Arr of int, 0, 0 ] na liniji 34
+INFO  14:33:04,750 - DETEKCIJA: [Poziv funkcije print] na liniji 34
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 37
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 38
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizchVar nizch: Arr of char, 1, 0 ] na liniji 38
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 39
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba lokalne promenljive jedan metode mainVar jedan: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 2, 1 ] na liniji 39
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizchVar nizch: Arr of char, 1, 0 ] na liniji 39
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 40
+INFO  14:33:04,750 - DETEKCIJA: [Upotreba globalne konstante petCon pet: int, 5, 0 ] na liniji 40
+INFO  14:33:04,750 - DETEKCIJA: [Pristup elementu niza nizchVar nizch: Arr of char, 1, 0 ] na liniji 40
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 41
+INFO  14:33:04,751 - DETEKCIJA: [Pristup elementu niza nizchVar nizch: Arr of char, 1, 0 ] na liniji 41
+INFO  14:33:04,751 - DETEKCIJA: [Poziv funkcije print] na liniji 41
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba globalne promenljive nizchVar nizch: Arr of char, 1, 0 ] na liniji 42
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive jedan metode mainVar jedan: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 2, 1 ] na liniji 42
+INFO  14:33:04,751 - DETEKCIJA: [Pristup elementu niza nizchVar nizch: Arr of char, 1, 0 ] na liniji 42
+INFO  14:33:04,751 - DETEKCIJA: [Poziv funkcije print] na liniji 42
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 45
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 45
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba globalne konstante petCon pet: int, 5, 0 ] na liniji 45
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive jedan metode mainVar jedan: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 2, 1 ] na liniji 45
+INFO  14:33:04,751 - DETEKCIJA: [Pristup enum konstanti JEDANType Broj: Enum [Con NULA: int, 0, 1 Con JEDAN: int, 1, 1 Con PET: int, 5, 1 Con DESET: int, 10, 1 ], 0, 0 Con JEDAN: int, 1, 1 ] na liniji 45
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 46
+INFO  14:33:04,751 - DETEKCIJA: [Poziv funkcije print] na liniji 46
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 49
+INFO  14:33:04,751 - DETEKCIJA: [Poziv funkcije read] na liniji 49
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 50
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 50
+INFO  14:33:04,751 - DETEKCIJA: [Upotreba lokalne promenljive bodovi metode mainVar bodovi: int, 0, 1 ] na liniji 51
+INFO  14:33:04,751 - DETEKCIJA: [Poziv funkcije print] na liniji 51
+INFO  14:33:04,752 - Generating bytecode file: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.obj
+INFO  14:33:04,762 - Parsiranje uspesno zavrseno!

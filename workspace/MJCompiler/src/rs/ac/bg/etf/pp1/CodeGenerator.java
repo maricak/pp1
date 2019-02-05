@@ -76,34 +76,58 @@ public class CodeGenerator extends VisitorAdaptor {
     }
     // endregion
 
+    // region poziv funkcije
+    public void visit(StandardFunctionLen standardFunctionLen) {
+        Code.put(Code.arraylength);
+    }
+
+    public void visit(DesignatorFunctionCall designatorFunctionCall) {
+        callFunction(designatorFunctionCall.getDesignator());
+    }
+
+    public void visit(FactorFunctionCall factorFunctionCall) {
+        callFunction(factorFunctionCall.getDesignator());
+    }
+
+    private void callFunction(Designator designator) {
+        int offset = designator.obj.getAdr() - Code.pc;
+        Code.put(Code.call);
+        Code.put2(offset);
+    }
+    // endregion
+
     // region aritmeticke operacije
     public void visit(TermMulop termMulop) {
         Mulop operation = termMulop.getMulop();
-        if(operation instanceof Multiplie) {
+        if (operation instanceof Multiplie) {
             Code.put(Code.mul);
-        } else if(operation instanceof Divide) {
+        } else if (operation instanceof Divide) {
             Code.put(Code.div);
-        } else if(operation instanceof Modulo) {
+        } else if (operation instanceof Modulo) {
             Code.put(Code.rem);
         }
     }
+
     public void visit(ExprAddop exprAddop) {
         Addop operation = exprAddop.getAddop();
-        if(operation instanceof Add) {
+        if (operation instanceof Add) {
             Code.put(Code.add);
-        } else if(operation instanceof Subtract) {
+        } else if (operation instanceof Subtract) {
             Code.put(Code.sub);
         }
     }
+
     public void visit(ExprNegativeTerm exprNegativeTerm) {
         Code.put(Code.neg);
     }
+
     public void visit(DesignatorIncrement designatorIncrement) {
         Code.load(designatorIncrement.getDesignator().obj);
         Code.put(Code.const_1);
         Code.put(Code.add);
         Code.store(designatorIncrement.getDesignator().obj);
     }
+
     public void visit(DesignatorDecrement designatorDecrement) {
         Code.load(designatorDecrement.getDesignator().obj);
         Code.put(Code.const_1);
@@ -112,13 +136,64 @@ public class CodeGenerator extends VisitorAdaptor {
     }
     // endregion
 
+    // region alokacija
+    public void visit(FactorNewArray factorNewArray) {
+        Code.put(Code.newarray);
+        if (factorNewArray.getType().struct.getKind() == Struct.Char) {
+            Code.put(0);
+        } else {
+            Code.put(1);
+        }
+    }
+
+    public void visit(FactorNewObj factorNewObj) {
+
+    }
+
+    // endregion
     // ???
     public void visit(DesignatorAssign designatorAssign) {
-        // Code.load(designatorAssign.getDesignator().obj);
         Code.store(designatorAssign.getDesignator().obj);
-   }
+    }
 
-   public void visit(FactorDesignator factorDesignator) {
-       Code.load(factorDesignator.getDesignator().obj);
-   }
+    public void visit(FactorDesignator factorDesignator) {
+        // ubaci adresu niza
+        Code.load(factorDesignator.getDesignator().obj);
+    }
+
+    public void visit(DesignatorName designatorName) {
+        if(designatorName.getParent() instanceof DesignatorArrayAccess) {
+            System.err.println("otac");
+            DesignatorArrayAccess designatorArrayAccess = (DesignatorArrayAccess) designatorName.getParent();
+            Code.load(designatorArrayAccess.getDesignator().obj);
+        }       
+    }
+
+    public void visit(DesignatorArrayAccess designatorArrayAccess) {
+        
+    }
+    // public void visit(Designator designator) {
+    // SyntaxNode parent = designator.getParent();
+    // if(parent instanceof DesignatorArrayAccess) {
+    // System.err.println("Adresa niza " +
+    // ((DesignatorArrayAccess)parent).getDesignator().obj.getName());
+    // Code.load(((DesignatorArrayAccess)parent).getDesignator().obj);
+    // }
+    // //System.err.println("Adresa podatka " +
+    // factorDesignator.getDesignator().obj.getName());
+    // }
+
+    // public void visit(DesignatorName designatorName) { // elem designator
+    // System.err.println("obj kind " + designatorName.obj.getKind());
+    // Code.load(designatorName.obj);
+    // }
+
+    public void visit(DesignatorPointAccess designatorPointAccess) {
+        Struct struct = designatorPointAccess.obj.getType();
+        if (struct.getKind() == Struct.Enum) {
+            Obj elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
+                    .findFirst().orElse(null);
+            designatorPointAccess.obj = elem;
+        }
+    }
 }

@@ -30,7 +30,7 @@ public class MJParserTest {
 
         Logger log = Logger.getLogger(MJParserTest.class);
 
-        File sourceCode = new File("test/program.mj");
+        File sourceCode = new File("test/test301.mj");
         if (!sourceCode.exists()) {
             log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
             return;

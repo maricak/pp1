@@ -1388,7 +1388,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 designatorArrayAccess.obj = MyTable.noObj;
             } else {
                 // prosledjivanje tipa
-                designatorArrayAccess.obj = new Obj(Obj.Elem, arrayName, obj.getType().getElemType());
+                designatorArrayAccess.obj = new Obj(Obj.Elem, "elem" + arrayName, obj.getType().getElemType());
                 tdv.visitObjNode(obj);
                 report_info("Pristup elementu niza " + obj.getName() + tdv.getOutput(), designatorArrayAccess);
             }
