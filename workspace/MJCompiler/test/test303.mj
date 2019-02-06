@@ -8,6 +8,7 @@ interface IPredmet
 {
 	int zapremina();
 	int Q();
+	void pisi();
 }
 class Predmet implements IPredmet
 {
@@ -20,6 +21,7 @@ class Predmet implements IPredmet
 		int zapremina() { return 0;}
 		int Q() {return zapremina() * tezina;}
 		void postaviVrstu(VrstaPredmeta vrsta) {this.vrsta = vrsta;}
+		void pisi() {print('p');}
 	}
 }
 
@@ -36,6 +38,7 @@ class Sfera extends Predmet
 			z = cinilac;
 			return z *(r/delilac);
 		}
+			void pisi() {print('s');}
 	}
 }
 
@@ -51,6 +54,7 @@ class Kvadar extends Predmet
 			z = a * b * c;
 			return z;
 		}
+			void pisi() {print('k');}
 	}
 }
 
@@ -80,7 +84,7 @@ int tezinaK, tezinaS;
 		k2 = new Kvadar;
 		k3 = new Kvadar;
 
-		s1.postaviPoluprecnik(1);
+		s1.postaviPoluprecnik(30);
 		s2.postaviPoluprecnik(2);
 		s3.postaviPoluprecnik(3);
 
@@ -106,26 +110,40 @@ int tezinaK, tezinaS;
 		tezinaS = 0;
 		for(i=1;i<=6;i++)
 		{
-			//if(i % 2 == 0) continue; 
+			if(i % 2 == 0) continue; 
+			//print(i);
 			zapreminaS = zapreminaS + interPredmeti[i - 1].zapremina();
 			tezinaS = tezinaS + interPredmeti[i - 1].Q();
 			ispis(predmeti[i - 1]);
 		}
+		print(eol);print(eol);print(eol);print(eol);
 		
-		//zapreminaK = 0; 
-		//tezinaK = 0;
-		//for(i=1;i<=6;i++)
-		//{
-		//	if(i % 2 == 1) continue; 
-		//	zapreminaK = zapreminaK + predmeti[i - 1].zapremina();
-		//	tezinaK = tezinaK + predmeti[i - 1].Q();
-		//	ispis(predmeti[i - 1]);
-		//}
+		print(interPredmeti[0].zapremina())
+		
+		;print(eol);print(eol);print(eol);
+		
+		print(interPredmeti[3].zapremina());		
+		
+		print(eol);print(eol);print(eol);
+		zapreminaK = 0; print(eol);
+		tezinaK = 0;
+		for(i=1;i<=6;i++)
+		{
+			if(i % 2 == 1) continue; 
+			zapreminaK = zapreminaK + predmeti[i - 1].zapremina();
+			tezinaK = tezinaK + predmeti[i - 1].Q();
+			ispis(predmeti[i - 1]);
+		}
 		
 		print(zapreminaS); print(eol);
 		print(zapreminaK); print(eol);
 		print(tezinaS); print(eol);
 		print(tezinaK); print(eol);
+		
+		for(i=0;i<6;i++) {
+			interPredmeti[i].pisi();
+		}
+	
 	}
 }
 

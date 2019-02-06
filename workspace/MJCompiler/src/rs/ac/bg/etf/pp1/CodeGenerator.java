@@ -26,20 +26,19 @@ public class CodeGenerator extends VisitorAdaptor {
         if (currentClass.getElemType() != null) {
             for (Obj parentMethod : currentClass.getElemType().getMembers()) {
                 if (parentMethod.getKind() == Obj.Meth) {
+                    // prepisate adrese iz roditeljske klase
                     Obj currentMethod = currentClass.getMembersTable().searchKey(parentMethod.getName());
                     currentMethod.setAdr(parentMethod.getAdr());
                 }
             }
         }
-
         vtpHashMap.put(classStart.getClassName(), Code.dataSize);
     }
 
     public void visit(ClassDecl classDecl) {
-        System.err.println("klasa " + classDecl.getClassStart().getClassName());
         for (Obj method : classDecl.getClassStart().struct.getMembers()) {
+            // sve metode ubaciti u tabelu
             if (method.getKind() == Obj.Meth) {
-                System.err.println("Virtuelna metoda " + method.getName() + " adr " + method.getAdr());
                 virtualTable.addFunctionEntry(method.getName(), method.getAdr());
             }
         }
@@ -191,18 +190,17 @@ public class CodeGenerator extends VisitorAdaptor {
     private void callFunction(Designator designator) {
         // poziv funkcije --> skok
 
-        // int offset = designator.obj.getAdr() - Code.pc;
-        // Code.put(Code.call);
-        // Code.put2(offset);
-
         if (designator instanceof DesignatorPointAccess) {
+            // objekat -- this
             if (!(((DesignatorPointAccess) designator).getDesignator() instanceof DesignatorArrayAccess))
                 Code.load(((DesignatorPointAccess) designator).getDesignator().obj);
             else
                 designator.traverseBottomUp(this);
+            // get vtp
             Code.put(Code.getfield);
             Code.put2(0);
             Code.put(Code.invokevirtual);
+            // argument za invoke virtual
             String name = designator.obj.getName();
             for (int i = 0; i < name.length(); i++) {
                 Code.put4(name.charAt(i));
@@ -210,11 +208,14 @@ public class CodeGenerator extends VisitorAdaptor {
             Code.put4(-1);
         } else if (currentClass != null && currentClass.getMembers().contains(designator.obj)) {
 
+            // this
             Code.put(Code.load);
             Code.put(0);
+            // get vtp
             Code.put(Code.getfield);
             Code.put2(0);
             Code.put(Code.invokevirtual);
+            // argument za invoke virtual
             String name = designator.obj.getName();
             for (int i = 0; i < name.length(); i++) {
                 Code.put4(name.charAt(i));
@@ -304,12 +305,7 @@ public class CodeGenerator extends VisitorAdaptor {
         Designator designator = designatorAssign.getDesignator();
 
         // ucitavanje vrednosti u promenljivu
-        Code.store(designator.obj);
-        if (designator instanceof DesignatorPointAccess
-                && (designator.obj.getKind() == Obj.Fld || designator.obj.getKind() == Obj.Meth)) {
-            // Code.put(Code.pop);
-        }
-
+        Code.store(designator.obj);        
     }
 
     public void visit(Assignop assignop) {
@@ -357,8 +353,7 @@ public class CodeGenerator extends VisitorAdaptor {
         }
         if (designatorName.getParent() instanceof DesignatorPointAccess) {
             DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess) designatorName.getParent();
-            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum
-            /* && designatorPointAccess.obj.getKind() != Obj.Meth */)
+            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum            )
                 // kod pristupa klasi na stek staviti prvo objekat
                 Code.load(designatorPointAccess.getDesignator().obj);
         }
@@ -370,6 +365,7 @@ public class CodeGenerator extends VisitorAdaptor {
             return;
         if (designatorArrayAccess.getParent() instanceof StatementRead)
             return;
+        // ucitavanje polja niza cim argumenti budu na steku osim u slicaju dodele vrednosti
         Code.load(designatorArrayAccess.obj);
     }
 
@@ -381,19 +377,7 @@ public class CodeGenerator extends VisitorAdaptor {
             Obj elem = obj.getType().getMembers().stream()
                     .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
             designatorPointAccess.obj = elem;
-        }
-
-        Designator designator = designatorPointAccess.getDesignator();
-
-        if ((obj.getKind() == Obj.Meth) && designator instanceof DesignatorArrayAccess) {
-            // Code.put(Code.pop);
-        }
-
-        // // za pristup polju ili metodi klase podmetnuti na stek adresu objekta
-        // if(obj.getKind() == Obj.Fld || obj.getKind() == Obj.Meth) {
-        // // adresa objekta
-        // Code.load(designatorPointAccess.getDesignator().obj);
-        // }
+        }         
     }
     // endregion
 
@@ -534,12 +518,12 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(ForBody forBody) {
-        // bezuslovni skok na update statement
-        Code.putJump(forUpdateStmntStack.peek());
-
+        
         // postaviti adresu za continue skokove
         continueStack.peek().forEach(adr -> Code.fixup(adr));
-
+        // bezuslovni skok na update statement
+        Code.putJump(forUpdateStmntStack.peek());
+        
         // postaviti adresu za false skokove iza for bloka
         LinkedList<Integer> fix = fixupFalseStack.pop();
         fix.forEach(adr -> Code.fixup(adr));

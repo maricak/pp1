@@ -30,7 +30,7 @@ public class MJParserTest {
 
         Logger log = Logger.getLogger(MJParserTest.class);
 
-        File sourceCode = new File("test/test302.mj");
+        File sourceCode = new File("test/stabla.mj");
         if (!sourceCode.exists()) {
             log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
             return;
@@ -48,7 +48,7 @@ public class MJParserTest {
             SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
             System.out.println(program.toString(""));
             program.traverseBottomUp(semanticAnalyzer);
-            MyTable.dump();
+           // MyTable.dump();
 
             if (!parser.errorDetected && semanticAnalyzer.passed()) {
 
