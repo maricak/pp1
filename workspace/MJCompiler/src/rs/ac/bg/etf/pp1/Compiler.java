@@ -10,12 +10,11 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import java_cup.runtime.Symbol;
 import rs.ac.bg.etf.pp1.ast.Program;
-import rs.ac.bg.etf.pp1.ast.SyntaxNode;
 import rs.ac.bg.etf.pp1.mysymboltable.MyTable;
 import rs.ac.bg.etf.pp1.util.Log4JUtils;
 import rs.etf.pp1.mj.runtime.Code;
 
-public class MJParserTest {
+public class Compiler {
 
     static {
         DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
@@ -30,7 +29,14 @@ public class MJParserTest {
 
         Logger log = Logger.getLogger(MJParserTest.class);
 
-        File sourceCode = new File("test/test303.mj");
+        //File sourceCode = new File("test/test303.mj");
+
+        if (args.length < 2) {
+			log.error("Nema dovoljno argumenata! Usage: MJParser <source-file> <obj-file> ");
+			return;
+		}		
+        File sourceCode = new File(args[0]);
+        
         if (!sourceCode.exists()) {
             log.error("Source fajl [" + sourceCode.getAbsolutePath() + "] nije pronadjen!");
             return;
@@ -52,8 +58,8 @@ public class MJParserTest {
 
             if (!parser.errorDetected && semanticAnalyzer.passed()) {
 
-                File objFile = new File("test/program.obj");
-                log.info("Generating bytecode file: " + objFile.getAbsolutePath());
+                File objFile = new File(args[1]);
+                log.info("Generisanje bytecode fajla: " + objFile.getAbsolutePath());
                 if (objFile.exists())
                     objFile.delete();
 

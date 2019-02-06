@@ -24,7 +24,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     public void report_error(String message, SyntaxNode info) {
         errorDetected = true;
-        StringBuilder msg = new StringBuilder("SINTAKSNA GRESKA!: [");
+        StringBuilder msg = new StringBuilder("SEANTICKA GRESKA!: [");
         msg.append(message).append("]");
         int line = (info == null) ? 0 : info.getLine();
         if (line != 0)

@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [      
+
         {
             "type": "java",
             "name": "LexerGenerator",
@@ -40,6 +41,14 @@
             "request": "launch",
             "mainClass": "rs.ac.bg.etf.pp1.MJParserTest",
             "projectName": "MJCompiler"
+        },
+        {            
+            "type": "java",
+            "name": "Compiler",
+            "request": "launch",
+            "mainClass": "rs.ac.bg.etf.pp1.Compiler",
+            "projectName": "MJCompiler", 
+            "args": "test\\interfejsi.mj test\\program.obj"
         },
         {
             "type": "java",

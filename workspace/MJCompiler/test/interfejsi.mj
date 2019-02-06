@@ -96,7 +96,7 @@ enum StringPicker{IMA=42, NEMA=43}
     int c, v, miz[];
     {
     chr(2);
-    	miz[2]++;
+    	//miz[2]++;
     	util=new Util2;
     	builder1=new Util2;
     	builder2=new Util2;

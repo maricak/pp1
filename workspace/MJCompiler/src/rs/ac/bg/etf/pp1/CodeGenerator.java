@@ -305,7 +305,7 @@ public class CodeGenerator extends VisitorAdaptor {
         Designator designator = designatorAssign.getDesignator();
 
         // ucitavanje vrednosti u promenljivu
-        Code.store(designator.obj);        
+        Code.store(designator.obj);
     }
 
     public void visit(Assignop assignop) {
@@ -353,7 +353,7 @@ public class CodeGenerator extends VisitorAdaptor {
         }
         if (designatorName.getParent() instanceof DesignatorPointAccess) {
             DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess) designatorName.getParent();
-            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum            )
+            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum)
                 // kod pristupa klasi na stek staviti prvo objekat
                 Code.load(designatorPointAccess.getDesignator().obj);
         }
@@ -365,7 +365,8 @@ public class CodeGenerator extends VisitorAdaptor {
             return;
         if (designatorArrayAccess.getParent() instanceof StatementRead)
             return;
-        // ucitavanje polja niza cim argumenti budu na steku osim u slicaju dodele vrednosti
+        // ucitavanje polja niza cim argumenti budu na steku osim u slicaju dodele
+        // vrednosti
         Code.load(designatorArrayAccess.obj);
     }
 
@@ -377,7 +378,11 @@ public class CodeGenerator extends VisitorAdaptor {
             Obj elem = obj.getType().getMembers().stream()
                     .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
             designatorPointAccess.obj = elem;
-        }         
+        }
+        if (designatorPointAccess.getParent() instanceof DesignatorArrayAccess
+              /*  || designatorPointAccess.getParent() instanceof DesignatorPointAccess*/) {
+            Code.load(obj);
+        }
     }
     // endregion
 
@@ -518,12 +523,12 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(ForBody forBody) {
-        
+
         // postaviti adresu za continue skokove
         continueStack.peek().forEach(adr -> Code.fixup(adr));
         // bezuslovni skok na update statement
         Code.putJump(forUpdateStmntStack.peek());
-        
+
         // postaviti adresu za false skokove iza for bloka
         LinkedList<Integer> fix = fixupFalseStack.pop();
         fix.forEach(adr -> Code.fixup(adr));
