@@ -7,6 +7,8 @@ enum IncrementType { BY_ONE, DOUBLE_VALUE }
 int i;
 bool ibool;
 
+IncrementType enumnis[];
+
 int niz[];
 {
 	
@@ -23,8 +25,15 @@ int niz[];
 		return sum(a,pom);
 	}
 	
+	int fja(IncrementType nis[]) {
+		return 5;
+	}
+	
 	void main()
 	{
+	
+		//print(IncrementType.BY_ONE);
+	
 		if(1!=1) print(-6);
 		else print(0);  
 			
@@ -61,6 +70,10 @@ int niz[];
 		
 		if(i == 3) print(4);
 		else print(-4);  
+		
+		enumnis = new IncrementType[3];
+		
+		print(fja(enumnis));
 		
 		read(niz[0]);
 		read(niz[1]);

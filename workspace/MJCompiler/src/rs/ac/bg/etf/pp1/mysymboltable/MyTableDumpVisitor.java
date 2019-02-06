@@ -125,6 +125,12 @@ public class MyTableDumpVisitor extends DumpSymbolTableVisitor {
             case Struct.Class:
                 output.append("Class");
                 break;
+            case Struct.Enum:
+                output.append("Enum");
+                break;
+            case Struct.Interface:
+                output.append("Interface");
+                break;
             }
             break;
         case Struct.Class:

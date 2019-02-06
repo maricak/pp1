@@ -42,11 +42,11 @@ public class MJParserTest {
             Yylex lexer = new Yylex(br);
             MJParser parser = new MJParser(lexer);
             Symbol s = parser.parse(); // pocetak parsiranja
-            SyntaxNode program = (SyntaxNode) (s.value);
+            Program program = (Program) (s.value);
 
             MyTable.init(); // Universe scope
             SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
-            // System.out.println(((Program)prog).toString());
+            System.out.println(program.toString(""));
             program.traverseBottomUp(semanticAnalyzer);
             MyTable.dump();
 

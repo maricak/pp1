@@ -213,6 +213,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         }
         // otvaranje novog opsega za klasu
         MyTable.openScope();
+        MyTable.insert(Obj.Fld, "vtp", MyTable.intType);
     }
 
     // extends
@@ -1445,8 +1446,6 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             break;
         }
     }
-
-    // endregion
 
     public boolean passed() {
         return !errorDetected && foundMain;

@@ -108,7 +108,8 @@ nonterminal ForStart ForStart;
 nonterminal ForBody ForBody;
 nonterminal EnumAssignList EnumAssignList;
 nonterminal EnumAssign EnumAssign;
-nonterminal MethodFormParsEnd MethodFormParsEnd; 
+nonterminal MethodFormParsEnd MethodFormParsEnd;
+nonterminal CallStart CallStart; 
 nonterminal Assignop Assignop;
 nonterminal Relop Relop;
 nonterminal Addop Addop;
@@ -118,6 +119,7 @@ nonterminal ElseStart ElseStart;
 nonterminal IfStart IfStart;
 nonterminal ForInitStmnt ForInitStmnt;
 nonterminal ForUpdateStmnt ForUpdateStmnt;
+nonterminal FuncCallName FuncCallName;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart, InterfaceStart, InterfaceMethodStart;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, Condition, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
@@ -334,10 +336,13 @@ StatementList ::= (Statements) StatementList:S1 Statement:S2 {: RESULT=new State
 
 DesignatorStatement ::= (DesignatorAssign) Designator:D1 Assignop:A2 Expr:E3 {: RESULT=new DesignatorAssign(D1, A2, E3); RESULT.setLine(D1left); :}
                       | (DesignatorStandardFunction) StandardFunction:S1 {: RESULT=new DesignatorStandardFunction(S1); RESULT.setLine(S1left); :}
-                      | (DesignatorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS {: RESULT=new DesignatorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
+                      | (DesignatorFunctionCall)  Designator:D1 CallStart:C2 LEFT_PARENTHESIS ActPars:A3 RIGHT_PARENTHESIS {: RESULT=new DesignatorFunctionCall(D1, C2, A3); RESULT.setLine(D1left); :}
                       | (DesignatorIncrement) Designator:D1 INCREMENT {: RESULT=new DesignatorIncrement(D1); RESULT.setLine(D1left); :}
                       | (DesignatorDecrement) Designator:D1 DECREMENT {: RESULT=new DesignatorDecrement(D1); RESULT.setLine(D1left); :}
 					  ;		
+
+CallStart ::= (CallStart) {: RESULT=new CallStart(); :} /*epsilon */
+            ;
 
 ActPars ::= (ActParameter) Expr:E1 {: RESULT=new ActParameter(E1); RESULT.setLine(E1left); :}
           | (ActParameters) ActPars:A1 COMMA Expr:E2 {: RESULT=new ActParameters(A1, E2); RESULT.setLine(A1left); :}
@@ -348,11 +353,11 @@ Condition ::= (Condition) CondTerm:C1 CondTermList:C2 {: RESULT=new Condition(C1
 			;
 			
 CondTermList ::= (ConditionTermList) CondTermList:C1 OrStart:O2 CondTerm:C3 {: RESULT=new ConditionTermList(C1, O2, C3); RESULT.setLine(C1left); :}
-				 | (ConditionTermListNO) {: RESULT=new ConditionTermListNO(); :} /* epsilon */
-				 ;				
+			   | (ConditionTermListNO) {: RESULT=new ConditionTermListNO(); :} /* epsilon */
+			   ;				
 
 OrStart ::= (OrStart) OR {: RESULT=new OrStart(); :}
-     ;
+          ;
 
 CondTerm ::= (CondTerm) CondFact:C1 CondFactList:C2 {: RESULT=new CondTerm(C1, C2); RESULT.setLine(C1left); :}
 		   ;
@@ -378,7 +383,7 @@ Term ::= (TermFactor) Factor:F1 {: RESULT=new TermFactor(F1); RESULT.setLine(F1l
 
 Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); RESULT.setLine(D1left); :}
          | (FactorStandardFunction) StandardFunction:S1 {: RESULT=new FactorStandardFunction(S1); RESULT.setLine(S1left); :}
-         | (FactorFunctionCall) Designator:D1 LEFT_PARENTHESIS ActPars:A2 RIGHT_PARENTHESIS {: RESULT=new FactorFunctionCall(D1, A2); RESULT.setLine(D1left); :}
+         | (FactorFunctionCall) Designator:D1 CallStart:C2 LEFT_PARENTHESIS ActPars:A3 RIGHT_PARENTHESIS {: RESULT=new FactorFunctionCall(D1, C2, A3); RESULT.setLine(D1left); :}
 		 | (FactorConst) ConstValue:C1 {: RESULT=new FactorConst(C1); RESULT.setLine(C1left); :}	
 		 | (FactorNewObj) NEW Type:T1 {: RESULT=new FactorNewObj(T1); RESULT.setLine(T1left); :}
          | (FactorNewArray) NEW Type:T1 LEFT_BRACKET Expr:E2 RIGHT_BRACKET {: RESULT=new FactorNewArray(T1, E2); RESULT.setLine(T1left); :}

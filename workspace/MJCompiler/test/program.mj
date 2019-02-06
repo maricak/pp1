@@ -1,7 +1,23 @@
 program m
+
+	class C {
+		int polje;
+		{
+			void k(int p) {
+				print(p);
+			}
+			void m(int d) {
+				print(d);
+				k(d);
+				this.polje = d;
+			}
+		}
+	}
 {
-    void main() int i; {
-    	i = 2;
-        print(i);
+    void main() int p,s, d;C i[]; C c; int niz[];{
+    
+    	c = new C;
+    	c.m(2);
+    
     }
 }

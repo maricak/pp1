@@ -1,45 +1,96 @@
 
 package rs.ac.bg.etf.pp1;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
 
 import rs.ac.bg.etf.pp1.ast.*;
-import rs.ac.bg.etf.pp1.mysymboltable.MyTable;
+import rs.ac.bg.etf.pp1.mysymboltable.*;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.concepts.*;
 
 public class CodeGenerator extends VisitorAdaptor {
 
+    private Struct currentClass;
+    private Obj currentMethod;
+
+    private HashMap<String, Integer> vtpHashMap = new HashMap<>();
+    private VirtualTable virtualTable = new VirtualTable();
+
+    // region klase
+
+    public void visit(ClassStart classStart) {
+        currentClass = classStart.struct;
+
+        if (currentClass.getElemType() != null) {
+            for (Obj parentMethod : currentClass.getElemType().getMembers()) {
+                if (parentMethod.getKind() == Obj.Meth) {
+                    Obj currentMethod = currentClass.getMembersTable().searchKey(parentMethod.getName());
+                    currentMethod.setAdr(parentMethod.getAdr());
+                }
+            }
+        }
+
+        vtpHashMap.put(classStart.getClassName(), Code.dataSize);
+    }
+
+    public void visit(ClassDecl classDecl) {
+        System.err.println("klasa " + classDecl.getClassStart().getClassName());
+        for (Obj method : classDecl.getClassStart().struct.getMembers()) {
+            if (method.getKind() == Obj.Meth) {
+                System.err.println("Virtuelna metoda " + method.getName() + " adr " + method.getAdr());
+                virtualTable.addFunctionEntry(method.getName(), method.getAdr());
+            }
+        }
+        virtualTable.addTableTerminator();
+        currentClass = null;
+    }
+    // endregion
+
     // region metode
     public void visit(MethodStart methodStart) {
+        // inicijalizovanje main pc
         Obj method = methodStart.obj;
         if (methodStart.getMethodName().equals("main")) {
             Code.mainPc = Code.pc;
         }
+        // pozivanje funckcije
         method.setAdr(Code.pc);
         Code.put(Code.enter);
         Code.put(method.getLevel());
         Code.put(method.getLocalSymbols().size());
+
+        currentMethod = method;
+
+        if (methodStart.getMethodName().equals("main")) {
+            virtualTable.copyTable();
+        }
     }
 
+    // kraj metode
     public void visit(MethodDecl methodDecl) {
         Obj obj = methodDecl.getMethodStart().obj;
+        // return ako nije bila naredba return
         if (obj.getType() == MyTable.noType) {
             Code.put(Code.exit);
             Code.put(Code.return_);
+            // runtime error, nema return
         } else {
             Code.put(Code.trap);
             Code.put(1);
         }
+        currentMethod = null;
     }
 
     public void visit(StatementReturn statementReturn) {
+        // instrukcije za kraj metode
         Code.put(Code.exit);
         Code.put(Code.return_);
     }
 
     public void visit(StatementReturnExpr statementReturnExpr) {
+        // instrukcije za kraj metode
         Code.put(Code.exit);
         Code.put(Code.return_);
     }
@@ -47,14 +98,17 @@ public class CodeGenerator extends VisitorAdaptor {
 
     // region konstante
     public void visit(ConstValueInt constValueInt) {
+        // ucitavanje vrednosti na stek
         Code.loadConst(constValueInt.getValue());
     }
 
     public void visit(ConstValueBool constValueBool) {
+        // ucitavanje vrednosti na stek
         Code.loadConst(constValueBool.getValue());
     }
 
     public void visit(ConstValueChar constValueChar) {
+        // ucitavanje vrednosti na stek
         Code.loadConst(constValueChar.getValue());
     }
     // endregion
@@ -65,45 +119,112 @@ public class CodeGenerator extends VisitorAdaptor {
                 || statementPrint.getExpr().struct.getKind() == Struct.Bool) {
             Code.put(Code.print);
         } else {
+            // char
             Code.put(Code.bprint);
         }
     }
 
     public void visit(PrintParameter printParameter) {
+        // argument za sirinu ispisa
         Code.loadConst(printParameter.getValue());
     }
 
     public void visit(PrintParameterNO printParameterNO) {
+        // ako nije naveden arugment sirina je 5
         Code.put(Code.const_5);
     }
 
     public void visit(StatementRead statementRead) {
         if (statementRead.getDesignator().obj.getType().getKind() == Struct.Char) {
+            // char
             Code.put(Code.bread);
         } else {
             Code.put(Code.read);
         }
+        // vrednost se cuva u promenljivu
         Code.store(statementRead.getDesignator().obj);
     }
     // endregion
 
     // region poziv funkcije
     public void visit(StandardFunctionLen standardFunctionLen) {
+        // duzina niza
         Code.put(Code.arraylength);
     }
 
     public void visit(DesignatorFunctionCall designatorFunctionCall) {
+        // poziv funkcije
         callFunction(designatorFunctionCall.getDesignator());
     }
 
     public void visit(FactorFunctionCall factorFunctionCall) {
+        // poziv funckije
         callFunction(factorFunctionCall.getDesignator());
     }
 
+    private void callStart(Designator designator) {
+
+        if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
+                && currentClass != null // kod je unutar klase
+                && currentMethod != null // kod je unutar metode
+                && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije lokalna promenljiva ili
+                                                                             // parametar
+                && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
+        {
+            Code.put(Code.load);
+            Code.put(0);
+        }
+    }
+
+    public void visit(CallStart callStart) {
+        Designator designator;
+        if (callStart.getParent() instanceof DesignatorFunctionCall) {
+            designator = ((DesignatorFunctionCall) callStart.getParent()).getDesignator();
+            callStart(designator);
+        }
+        if (callStart.getParent() instanceof FactorFunctionCall) {
+            designator = ((FactorFunctionCall) callStart.getParent()).getDesignator();
+            callStart(designator);
+        }
+    }
+
     private void callFunction(Designator designator) {
-        int offset = designator.obj.getAdr() - Code.pc;
-        Code.put(Code.call);
-        Code.put2(offset);
+        // poziv funkcije --> skok
+
+        // int offset = designator.obj.getAdr() - Code.pc;
+        // Code.put(Code.call);
+        // Code.put2(offset);
+
+        if (designator instanceof DesignatorPointAccess) {
+            if (!(((DesignatorPointAccess) designator).getDesignator() instanceof DesignatorArrayAccess))
+                Code.load(((DesignatorPointAccess) designator).getDesignator().obj);
+            else
+                designator.traverseBottomUp(this);
+            Code.put(Code.getfield);
+            Code.put2(0);
+            Code.put(Code.invokevirtual);
+            String name = designator.obj.getName();
+            for (int i = 0; i < name.length(); i++) {
+                Code.put4(name.charAt(i));
+            }
+            Code.put4(-1);
+        } else if (currentClass != null && currentClass.getMembers().contains(designator.obj)) {
+
+            Code.put(Code.load);
+            Code.put(0);
+            Code.put(Code.getfield);
+            Code.put2(0);
+            Code.put(Code.invokevirtual);
+            String name = designator.obj.getName();
+            for (int i = 0; i < name.length(); i++) {
+                Code.put4(name.charAt(i));
+            }
+            Code.put4(-1);
+        } else {
+            int offset = designator.obj.getAdr() - Code.pc;
+            Code.put(Code.call);
+            Code.put2(offset);
+        }
     }
     // endregion
 
@@ -111,10 +232,13 @@ public class CodeGenerator extends VisitorAdaptor {
     public void visit(TermMulop termMulop) {
         Mulop operation = termMulop.getMulop();
         if (operation instanceof Multiplie) {
+            // mnozenje
             Code.put(Code.mul);
         } else if (operation instanceof Divide) {
+            // deljenje
             Code.put(Code.div);
         } else if (operation instanceof Modulo) {
+            // moduo
             Code.put(Code.rem);
         }
     }
@@ -122,17 +246,21 @@ public class CodeGenerator extends VisitorAdaptor {
     public void visit(ExprAddop exprAddop) {
         Addop operation = exprAddop.getAddop();
         if (operation instanceof Add) {
+            // sabiranje
             Code.put(Code.add);
         } else if (operation instanceof Subtract) {
+            // oduzimanje
             Code.put(Code.sub);
         }
     }
 
     public void visit(ExprNegativeTerm exprNegativeTerm) {
+        // negacija
         Code.put(Code.neg);
     }
 
     public void visit(DesignatorIncrement designatorIncrement) {
+        // argument se sabira sa 1
         Code.load(designatorIncrement.getDesignator().obj);
         Code.put(Code.const_1);
         Code.put(Code.add);
@@ -140,6 +268,7 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(DesignatorDecrement designatorDecrement) {
+        // od argumenta se oduzima jedan
         Code.load(designatorDecrement.getDesignator().obj);
         Code.put(Code.const_1);
         Code.put(Code.sub);
@@ -149,6 +278,7 @@ public class CodeGenerator extends VisitorAdaptor {
 
     // region alokacija
     public void visit(FactorNewArray factorNewArray) {
+        // pravlenje niza
         Code.put(Code.newarray);
         if (factorNewArray.getType().struct.getKind() == Struct.Char) {
             Code.put(0);
@@ -158,37 +288,112 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(FactorNewObj factorNewObj) {
-
+        Code.put(Code.new_);
+        Code.put2(factorNewObj.struct.getNumberOfFields() * 4);
+        Code.put(Code.dup);
+        Code.loadConst(vtpHashMap.get(((TypeCustom) factorNewObj.getType()).getTypeName())); // pokazivac na tabel
+                                                                                             // virtuelnih funckija
+        Code.put(Code.putfield);
+        Code.put2(0);
     }
 
     // endregion
 
     // region operandi
     public void visit(DesignatorAssign designatorAssign) {
-        Code.store(designatorAssign.getDesignator().obj);
+        Designator designator = designatorAssign.getDesignator();
+
+        // ucitavanje vrednosti u promenljivu
+        Code.store(designator.obj);
+        if (designator instanceof DesignatorPointAccess
+                && (designator.obj.getKind() == Obj.Fld || designator.obj.getKind() == Obj.Meth)) {
+            // Code.put(Code.pop);
+        }
+
+    }
+
+    public void visit(Assignop assignop) {
+        Designator designator = ((DesignatorAssign) assignop.getParent()).getDesignator();
+
+        if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
+                && currentClass != null // kod je unutar klase
+                && currentMethod != null // kod je unutar metode
+                && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije lokalna promenljiva ili
+                                                                             // parametar
+                && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
+        {
+            Code.put(Code.load);
+            Code.put(0);
+        }
     }
 
     public void visit(FactorDesignator factorDesignator) {
-        Code.load(factorDesignator.getDesignator().obj);
+        Designator designator = factorDesignator.getDesignator();
+
+        if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
+                && currentClass != null // kod je unutar klase
+                && currentMethod != null // kod je unutar metode
+                && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije lokalna promenljiva ili
+                // parametar
+                && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
+        {
+            Code.put(Code.load);
+            Code.put(0);
+        }
+
+        if (!(designator instanceof DesignatorArrayAccess)) {
+            // vrednost ide na stek
+            if (designator.obj.getKind() != Obj.Elem)
+                Code.load(designator.obj);
+        }
     }
 
     public void visit(DesignatorName designatorName) {
+
         if (designatorName.getParent() instanceof DesignatorArrayAccess) {
-            // kod pristupa nizu prvo posatviti adresu niza pa tek onda indeksa
+            // kod pristupa nizu prvo postaviti adresu niza pa tek onda indeks
             DesignatorArrayAccess designatorArrayAccess = (DesignatorArrayAccess) designatorName.getParent();
             Code.load(designatorArrayAccess.getDesignator().obj);
         }
+        if (designatorName.getParent() instanceof DesignatorPointAccess) {
+            DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess) designatorName.getParent();
+            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum
+            /* && designatorPointAccess.obj.getKind() != Obj.Meth */)
+                // kod pristupa klasi na stek staviti prvo objekat
+                Code.load(designatorPointAccess.getDesignator().obj);
+        }
+
+    }
+
+    public void visit(DesignatorArrayAccess designatorArrayAccess) {
+        if (designatorArrayAccess.getParent() instanceof DesignatorAssign)
+            return;
+        if (designatorArrayAccess.getParent() instanceof StatementRead)
+            return;
+        Code.load(designatorArrayAccess.obj);
     }
 
     public void visit(DesignatorPointAccess designatorPointAccess) {
-        Struct struct = designatorPointAccess.obj.getType();
+        Obj obj = designatorPointAccess.obj;
         // u semantickoj analizi se prosledjuje enum, ovde treba proslediti bas enum
         // konstantu
-        if (struct.getKind() == Struct.Enum) {
-            Obj elem = struct.getMembers().stream().filter(e -> e.getName().equals(designatorPointAccess.getName()))
-                    .findFirst().orElse(null);
+        if (obj.getKind() == Obj.Type && obj.getType().getKind() == Struct.Enum) {
+            Obj elem = obj.getType().getMembers().stream()
+                    .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
             designatorPointAccess.obj = elem;
         }
+
+        Designator designator = designatorPointAccess.getDesignator();
+
+        if ((obj.getKind() == Obj.Meth) && designator instanceof DesignatorArrayAccess) {
+            // Code.put(Code.pop);
+        }
+
+        // // za pristup polju ili metodi klase podmetnuti na stek adresu objekta
+        // if(obj.getKind() == Obj.Fld || obj.getKind() == Obj.Meth) {
+        // // adresa objekta
+        // Code.load(designatorPointAccess.getDesignator().obj);
+        // }
     }
     // endregion
 
@@ -303,11 +508,11 @@ public class CodeGenerator extends VisitorAdaptor {
     }
 
     public void visit(ForConditionNO forConditionNO) {
-         // preskakanje update statement
-         Code.putJump(0);
-         fixupTrueStack.peek().add(Code.pc - 2);
-         // adresa za update statement
-         forUpdateStmntStack.push(Code.pc);
+        // preskakanje update statement
+        Code.putJump(0);
+        fixupTrueStack.peek().add(Code.pc - 2);
+        // adresa za update statement
+        forUpdateStmntStack.push(Code.pc);
     }
 
     public void visit(ForUpdateStatement forUpdateStatement) {
