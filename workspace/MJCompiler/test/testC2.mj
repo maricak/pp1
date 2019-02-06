@@ -26,7 +26,7 @@ program P
 	int x, i; char c;
 	{	
 		val = new Table;
-		val.pos = new int [Num.ZERO];
+		val.pos = new int [size];
 		val.neg = new int [size];
 		for (i = 0; i<size; i++)
 		{

@@ -38,6 +38,7 @@
         {            
             "type": "java",
             "name": "MJParserTest",
+            "console": "integratedTerminal",
             "request": "launch",
             "mainClass": "rs.ac.bg.etf.pp1.MJParserTest",
             "projectName": "MJCompiler"
@@ -45,10 +46,11 @@
         {            
             "type": "java",
             "name": "Compiler",
+            "console": "integratedTerminal",
             "request": "launch",
             "mainClass": "rs.ac.bg.etf.pp1.Compiler",
             "projectName": "MJCompiler", 
-            "args": "test\\interfejsi.mj test\\program.obj"
+            "args": "test\\testC3.mj test\\testC3.obj"
         },
         {
             "type": "java",
@@ -57,7 +59,7 @@
             "console": "integratedTerminal",
             "mainClass": "rs.etf.pp1.mj.runtime.Run",
             "projectName": "MJCompiler", 
-            "args": "test\\program.obj"
+            "args": "test\\testC3.obj"
         },
         {
             "type": "java",

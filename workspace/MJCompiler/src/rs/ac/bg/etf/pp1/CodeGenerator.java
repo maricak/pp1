@@ -161,7 +161,14 @@ public class CodeGenerator extends VisitorAdaptor {
         callFunction(factorFunctionCall.getDesignator());
     }
 
-    private void callStart(Designator designator) {
+    public void visit(CallStart callStart) {
+        Designator designator = null;
+        if (callStart.getParent() instanceof DesignatorFunctionCall) {
+            designator = ((DesignatorFunctionCall) callStart.getParent()).getDesignator();
+        }
+        if (callStart.getParent() instanceof FactorFunctionCall) {
+            designator = ((FactorFunctionCall) callStart.getParent()).getDesignator();
+        }
 
         if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
                 && currentClass != null // kod je unutar klase
@@ -175,27 +182,12 @@ public class CodeGenerator extends VisitorAdaptor {
         }
     }
 
-    public void visit(CallStart callStart) {
-        Designator designator;
-        if (callStart.getParent() instanceof DesignatorFunctionCall) {
-            designator = ((DesignatorFunctionCall) callStart.getParent()).getDesignator();
-            callStart(designator);
-        }
-        if (callStart.getParent() instanceof FactorFunctionCall) {
-            designator = ((FactorFunctionCall) callStart.getParent()).getDesignator();
-            callStart(designator);
-        }
-    }
-
     private void callFunction(Designator designator) {
         // poziv funkcije --> skok
 
         if (designator instanceof DesignatorPointAccess) {
-            // objekat -- this
-            if (!(((DesignatorPointAccess) designator).getDesignator() instanceof DesignatorArrayAccess))
-                Code.load(((DesignatorPointAccess) designator).getDesignator().obj);
-            else
-                designator.traverseBottomUp(this);
+            // this je element niza
+            designator.traverseBottomUp(this);
             // get vtp
             Code.put(Code.getfield);
             Code.put2(0);
@@ -211,6 +203,7 @@ public class CodeGenerator extends VisitorAdaptor {
             // this
             Code.put(Code.load);
             Code.put(0);
+
             // get vtp
             Code.put(Code.getfield);
             Code.put2(0);
@@ -262,6 +255,11 @@ public class CodeGenerator extends VisitorAdaptor {
 
     public void visit(DesignatorIncrement designatorIncrement) {
         // argument se sabira sa 1
+
+        if (designatorIncrement.getDesignator() instanceof DesignatorArrayAccess) {
+            designatorIncrement.getDesignator().traverseBottomUp(this);
+        }
+
         Code.load(designatorIncrement.getDesignator().obj);
         Code.put(Code.const_1);
         Code.put(Code.add);
@@ -270,9 +268,15 @@ public class CodeGenerator extends VisitorAdaptor {
 
     public void visit(DesignatorDecrement designatorDecrement) {
         // od argumenta se oduzima jedan
+
+        if (designatorDecrement.getDesignator() instanceof DesignatorArrayAccess) {
+            designatorDecrement.getDesignator().traverseBottomUp(this);
+        }
+
         Code.load(designatorDecrement.getDesignator().obj);
         Code.put(Code.const_1);
         Code.put(Code.sub);
+
         Code.store(designatorDecrement.getDesignator().obj);
     }
     // endregion
@@ -301,88 +305,149 @@ public class CodeGenerator extends VisitorAdaptor {
     // endregion
 
     // region operandi
-    public void visit(DesignatorAssign designatorAssign) {
-        Designator designator = designatorAssign.getDesignator();
+    // public void visit(DesignatorAssign designatorAssign) {
+    // Designator designator = designatorAssign.getDesignator();
 
-        // ucitavanje vrednosti u promenljivu
-        Code.store(designator.obj);
+    // // ucitavanje vrednosti u promenljivu
+    // Code.store(designator.obj);
+    // }
+
+    // public void visit(Assignop assignop) {
+    // Designator designator = ((DesignatorAssign)
+    // assignop.getParent()).getDesignator();
+
+    // if (!(designator instanceof DesignatorPointAccess) // nije pristup preko
+    // objekta
+    // && currentClass != null // kod je unutar klase
+    // && currentMethod != null // kod je unutar metode
+    // && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije
+    // lokalna promenljiva ili
+    // // parametar
+    // && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
+    // {
+    // Code.put(Code.load);
+    // Code.put(0);
+    // }
+    // }
+
+    // public void visit(FactorDesignator factorDesignator) {
+    // Designator designator = factorDesignator.getDesignator();
+
+    // if (!(designator instanceof DesignatorPointAccess) // nije pristup preko
+    // objekta
+    // && currentClass != null // kod je unutar klase
+    // && currentMethod != null // kod je unutar metode
+    // && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije
+    // lokalna promenljiva ili
+    // // parametar
+    // && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
+    // {
+    // Code.put(Code.load);
+    // Code.put(0);
+    // }
+
+    // if (!(designator instanceof DesignatorArrayAccess)) {
+    // // vrednost ide na stek
+    // if (designator.obj.getKind() != Obj.Elem)
+    // Code.load(designator.obj);
+    // }
+    // }
+
+    // public void visit(DesignatorName designatorName) {
+
+    // if (designatorName.getParent() instanceof DesignatorArrayAccess) {
+    // // kod pristupa nizu prvo postaviti adresu niza pa tek onda indeks
+    // DesignatorArrayAccess designatorArrayAccess = (DesignatorArrayAccess)
+    // designatorName.getParent();
+    // Code.load(designatorArrayAccess.getDesignator().obj);
+    // }
+    // if (designatorName.getParent() instanceof DesignatorPointAccess) {
+    // DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess)
+    // designatorName.getParent();
+    // if (designatorPointAccess.getDesignator().obj.getType().getKind() !=
+    // Struct.Enum)
+    // // kod pristupa klasi na stek staviti prvo objekat
+    // Code.load(designatorPointAccess.getDesignator().obj);
+    // }
+
+    // }
+
+    // public void visit(DesignatorArrayAccess designatorArrayAccess) {
+    // if (designatorArrayAccess.getParent() instanceof DesignatorAssign)
+    // return;
+    // if (designatorArrayAccess.getParent() instanceof StatementRead)
+    // return;
+    // // ucitavanje polja niza cim argumenti budu na steku osim u slicaju dodele
+    // // vrednosti
+    // Code.load(designatorArrayAccess.obj);
+    // }
+
+    // public void visit(DesignatorPointAccess designatorPointAccess) {
+    // Obj obj = designatorPointAccess.obj;
+    // // u semantickoj analizi se prosledjuje enum, ovde treba proslediti bas enum
+    // // konstantu
+    // if (obj.getKind() == Obj.Type && obj.getType().getKind() == Struct.Enum) {
+    // Obj elem = obj.getType().getMembers().stream()
+    // .filter(e ->
+    // e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
+    // designatorPointAccess.obj = elem;
+    // }
+    // if (designatorPointAccess.getParent() instanceof DesignatorArrayAccess
+    // /* || designatorPointAccess.getParent() instanceof DesignatorPointAccess */)
+    // {
+    // Code.load(obj);
+    // }
+    // }
+    // endregion
+
+    // region operandi
+
+    public void visit(DesignatorEnd designatorEnd) {
+        Designator designator = null;
+        if (designatorEnd.getParent() instanceof FactorDesignator) {
+            designator = ((FactorDesignator) designatorEnd.getParent()).getDesignator();
+        }
+        if (designatorEnd.getParent() instanceof DesignatorPointAccess) {
+            DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess) designatorEnd.getParent();
+            designator = designatorPointAccess.getDesignator();
+
+            Obj obj = designatorPointAccess.obj;
+            // u semantickoj analizi se prosledjuje enum, ovde treba proslediti bas enum
+            // konstantu
+            if (obj.getKind() == Obj.Type && obj.getType().getKind() == Struct.Enum) {
+                Obj elem = obj.getType().getMembers().stream()
+                        .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
+                designator.obj = elem;
+                designatorPointAccess.obj = elem;
+                return;
+            }
+        }
+        if (designatorEnd.getParent() instanceof DesignatorArrayAccess) {
+            designator = ((DesignatorArrayAccess) designatorEnd.getParent()).getDesignator();
+        }
+
+        if (!(designator instanceof DesignatorPointAccess) && currentClass != null && currentMethod != null
+                && !currentMethod.getLocalSymbols().contains(designator.obj)
+                && currentClass.getMembers().contains(designator.obj)) {
+            Code.put(Code.load);
+            Code.put(0);
+        }
+        Code.load(designator.obj);
     }
 
     public void visit(Assignop assignop) {
         Designator designator = ((DesignatorAssign) assignop.getParent()).getDesignator();
 
-        if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
-                && currentClass != null // kod je unutar klase
-                && currentMethod != null // kod je unutar metode
-                && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije lokalna promenljiva ili
-                                                                             // parametar
-                && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
-        {
+        if (!(designator instanceof DesignatorPointAccess) && currentClass != null && currentMethod != null
+                && !currentMethod.getLocalSymbols().contains(designator.obj)
+                && currentClass.getMembers().contains(designator.obj)) {
             Code.put(Code.load);
             Code.put(0);
         }
     }
 
-    public void visit(FactorDesignator factorDesignator) {
-        Designator designator = factorDesignator.getDesignator();
-
-        if (!(designator instanceof DesignatorPointAccess) // nije pristup preko objekta
-                && currentClass != null // kod je unutar klase
-                && currentMethod != null // kod je unutar metode
-                && !currentMethod.getLocalSymbols().contains(designator.obj) // ime nije lokalna promenljiva ili
-                // parametar
-                && currentClass.getMembers().contains(designator.obj)) // ime je polje klase
-        {
-            Code.put(Code.load);
-            Code.put(0);
-        }
-
-        if (!(designator instanceof DesignatorArrayAccess)) {
-            // vrednost ide na stek
-            if (designator.obj.getKind() != Obj.Elem)
-                Code.load(designator.obj);
-        }
-    }
-
-    public void visit(DesignatorName designatorName) {
-
-        if (designatorName.getParent() instanceof DesignatorArrayAccess) {
-            // kod pristupa nizu prvo postaviti adresu niza pa tek onda indeks
-            DesignatorArrayAccess designatorArrayAccess = (DesignatorArrayAccess) designatorName.getParent();
-            Code.load(designatorArrayAccess.getDesignator().obj);
-        }
-        if (designatorName.getParent() instanceof DesignatorPointAccess) {
-            DesignatorPointAccess designatorPointAccess = (DesignatorPointAccess) designatorName.getParent();
-            if (designatorPointAccess.getDesignator().obj.getType().getKind() != Struct.Enum)
-                // kod pristupa klasi na stek staviti prvo objekat
-                Code.load(designatorPointAccess.getDesignator().obj);
-        }
-
-    }
-
-    public void visit(DesignatorArrayAccess designatorArrayAccess) {
-        if (designatorArrayAccess.getParent() instanceof DesignatorAssign)
-            return;
-        if (designatorArrayAccess.getParent() instanceof StatementRead)
-            return;
-        // ucitavanje polja niza cim argumenti budu na steku osim u slicaju dodele
-        // vrednosti
-        Code.load(designatorArrayAccess.obj);
-    }
-
-    public void visit(DesignatorPointAccess designatorPointAccess) {
-        Obj obj = designatorPointAccess.obj;
-        // u semantickoj analizi se prosledjuje enum, ovde treba proslediti bas enum
-        // konstantu
-        if (obj.getKind() == Obj.Type && obj.getType().getKind() == Struct.Enum) {
-            Obj elem = obj.getType().getMembers().stream()
-                    .filter(e -> e.getName().equals(designatorPointAccess.getName())).findFirst().orElse(null);
-            designatorPointAccess.obj = elem;
-        }
-        if (designatorPointAccess.getParent() instanceof DesignatorArrayAccess
-              /*  || designatorPointAccess.getParent() instanceof DesignatorPointAccess*/) {
-            Code.load(obj);
-        }
+    public void visit(DesignatorAssign designatorAssign) {
+        Code.store(designatorAssign.getDesignator().obj);
     }
     // endregion
 

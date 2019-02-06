@@ -102,6 +102,7 @@ nonterminal ForCond ForCond;
 nonterminal PrintParam PrintParam;
 nonterminal StatementList StatementList;
 nonterminal DesignatorStatement DesignatorStatement;
+nonterminal DesignatorEnd DesignatorEnd;
 nonterminal ActPars ActPars;
 nonterminal MethodVarsEnd MethodVarsEnd;
 nonterminal ForStart ForStart;
@@ -119,7 +120,6 @@ nonterminal ElseStart ElseStart;
 nonterminal IfStart IfStart;
 nonterminal ForInitStmnt ForInitStmnt;
 nonterminal ForUpdateStmnt ForUpdateStmnt;
-nonterminal FuncCallName FuncCallName;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart, InterfaceStart, InterfaceMethodStart;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, Condition, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
@@ -374,14 +374,14 @@ Expr ::= (ExprTerm) Term:T1 {: RESULT=new ExprTerm(T1); RESULT.setLine(T1left); 
        | (ExprNegativeTerm) SUBTRACT Term:T1 {: RESULT=new ExprNegativeTerm(T1); RESULT.setLine(T1left); :}
        | (ExprAddop) Expr:E1 Addop:A2 Term:T3 {: RESULT=new ExprAddop(E1, A2, T3); RESULT.setLine(E1left); :}
        | (ExprERR) error 
-         {: parser.report_error("OPORAVAK Sintaksna greska EXPR ", new Object()); :} {: RESULT=new ExprERR(); :}
+         {: parser.type=""; parser.report_error("OPORAVAK Sintaksna greska EXPR ", null); :} {: RESULT=new ExprERR(); :}
 	   ;		
 
 Term ::= (TermFactor) Factor:F1 {: RESULT=new TermFactor(F1); RESULT.setLine(F1left); :} 
        | (TermMulop) Term:T1 Mulop:M2 Factor:F3 {: RESULT=new TermMulop(T1, M2, F3); RESULT.setLine(T1left); :}
 	   ;			
 
-Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); RESULT.setLine(D1left); :}
+Factor ::= (FactorDesignator) Designator:D1 DesignatorEnd:D2 {: RESULT=new FactorDesignator(D1, D2); RESULT.setLine(D1left); :}
          | (FactorStandardFunction) StandardFunction:S1 {: RESULT=new FactorStandardFunction(S1); RESULT.setLine(S1left); :}
          | (FactorFunctionCall) Designator:D1 CallStart:C2 LEFT_PARENTHESIS ActPars:A3 RIGHT_PARENTHESIS {: RESULT=new FactorFunctionCall(D1, C2, A3); RESULT.setLine(D1left); :}
 		 | (FactorConst) ConstValue:C1 {: RESULT=new FactorConst(C1); RESULT.setLine(C1left); :}	
@@ -392,9 +392,12 @@ Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); 
 		 ;		
 					
 Designator ::= (DesignatorName) IDENTIFIER:name {: RESULT=new DesignatorName(name); RESULT.setLine(nameleft); :}
-             | (DesignatorPointAccess) Designator:D1 POINT IDENTIFIER:name {: RESULT=new DesignatorPointAccess(D1, name); RESULT.setLine(D1left); :}
-             | (DesignatorArrayAccess) Designator:D1 LEFT_BRACKET Expr:E2 RIGHT_BRACKET {: RESULT=new DesignatorArrayAccess(D1, E2); RESULT.setLine(D1left); :}
+             | (DesignatorPointAccess) Designator:D1 DesignatorEnd:D2 POINT IDENTIFIER:name {: RESULT=new DesignatorPointAccess(D1, D2, name); RESULT.setLine(D1left); :}
+             | (DesignatorArrayAccess) Designator:D1 DesignatorEnd:D2 LEFT_BRACKET Expr:E3 RIGHT_BRACKET {: RESULT=new DesignatorArrayAccess(D1, D2, E3); RESULT.setLine(D1left); :}
              ;
+
+DesignatorEnd ::= (DesignatorEnd) {: RESULT=new DesignatorEnd(); :} /* epsilon */
+                ;
 
 Assignop ::= (Assignop) ASSIGN {: RESULT=new Assignop(); :} 	
 		   ;

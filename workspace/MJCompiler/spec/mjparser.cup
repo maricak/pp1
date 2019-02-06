@@ -75,9 +75,9 @@ nonterminal Program, DeclList, Decl, ConstDecl, ConstAssignList, EnumDecl;
 nonterminal VarDecl, VarList, ClassDecl, Extends, ClassVarDeclList;
 nonterminal Implements, InterfaceList, ClassMethodDeclList, MethodDeclList, InterfaceDecl, InterfaceMethodDeclList, InterfaceMethodDecl;
 nonterminal MethodDecl, OptionalBrackets, VarDeclList, FormPars, FormPar, Statement, ConstAssign, IfCond;
-nonterminal ForStatement, ForCond, PrintParam, StatementList, DesignatorStatement;
+nonterminal ForStatement, ForCond, PrintParam, StatementList, DesignatorStatement, DesignatorEnd;
 nonterminal ActPars, MethodVarsEnd, ForStart, ForBody, EnumAssignList, EnumAssign, MethodFormParsEnd, CallStart; 
-nonterminal Assignop, Relop, Addop, Mulop, OrStart, ElseStart, IfStart, ForInitStmnt, ForUpdateStmnt, FuncCallName;
+nonterminal Assignop, Relop, Addop, Mulop, OrStart, ElseStart, IfStart, ForInitStmnt, ForUpdateStmnt;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramStart, MethodStart, Designator, EnumStart, InterfaceStart, InterfaceMethodStart;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ClassStart, Factor, Expr, Term, Type, ReturnType, Condition, CondTermList, CondTerm, CondFactList, CondFact, StandardFunction;
@@ -332,14 +332,14 @@ Expr ::= (ExprTerm) Term
        | (ExprNegativeTerm) SUBTRACT Term
        | (ExprAddop) Expr Addop Term
        | (ExprERR) error 
-         {: parser.report_error("OPORAVAK Sintaksna greska EXPR ", new Object()); :}
+         {: parser.type=""; parser.report_error("OPORAVAK Sintaksna greska EXPR", null); :}
 	   ;		
 
 Term ::= (TermFactor) Factor 
        | (TermMulop) Term Mulop Factor
 	   ;			
 
-Factor ::= (FactorDesignator) Designator
+Factor ::= (FactorDesignator) Designator DesignatorEnd
          | (FactorStandardFunction) StandardFunction
          | (FactorFunctionCall) Designator CallStart LEFT_PARENTHESIS ActPars RIGHT_PARENTHESIS
 		 | (FactorConst) ConstValue	
@@ -350,9 +350,12 @@ Factor ::= (FactorDesignator) Designator
 		 ;		
 					
 Designator ::= (DesignatorName) IDENTIFIER:name
-             | (DesignatorPointAccess) Designator POINT IDENTIFIER:name
-             | (DesignatorArrayAccess) Designator LEFT_BRACKET Expr RIGHT_BRACKET
+             | (DesignatorPointAccess) Designator DesignatorEnd POINT IDENTIFIER:name
+             | (DesignatorArrayAccess) Designator DesignatorEnd LEFT_BRACKET Expr RIGHT_BRACKET
              ;
+
+DesignatorEnd ::= (DesignatorEnd) /* epsilon */
+                ;
 
 Assignop ::= (Assignop) ASSIGN 	
 		   ;

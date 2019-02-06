@@ -1,517 +1,196 @@
-INFO  06:11:28,125 - Prevodjenje source fajla: e:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\interfejsi.mj
-INFO  06:11:28,195 - #31 program
-INFO  06:11:28,195 - #54 Programcic123
-INFO  06:11:28,196 - #32 class
-INFO  06:11:28,197 - #54 PackedCharArray
-INFO  06:11:28,197 - #29 {
-INFO  06:11:28,199 - #4 char
-INFO  06:11:28,200 - #54 array
-INFO  06:11:28,201 - #27 [
-INFO  06:11:28,201 - #28 ]
-INFO  06:11:28,201 - #22 ;
-INFO  06:11:28,202 - #30 }
-INFO  06:11:28,203 - #34 interface
-INFO  06:11:28,205 - #54 IUtil
-INFO  06:11:28,205 - #29 {
-INFO  06:11:28,206 - #46 void
-INFO  06:11:28,207 - #54 printstr
-INFO  06:11:28,207 - #25 (
-INFO  06:11:28,208 - #4 char
-INFO  06:11:28,209 - #54 str
-INFO  06:11:28,209 - #27 [
-INFO  06:11:28,209 - #28 ]
-INFO  06:11:28,209 - #26 )
-INFO  06:11:28,211 - #22 ;
-INFO  06:11:28,211 - #30 }
-INFO  06:11:28,213 - #34 interface
-INFO  06:11:28,214 - #54 IBuilder
-INFO  06:11:28,214 - #29 {
-INFO  06:11:28,214 - #54 PackedCharArray
-INFO  06:11:28,214 - #54 buildIma
-INFO  06:11:28,214 - #25 (
-INFO  06:11:28,214 - #26 )
-INFO  06:11:28,215 - #22 ;
-INFO  06:11:28,215 - #30 }
-INFO  06:11:28,215 - #34 interface
-INFO  06:11:28,215 - #54 IBuilder2
-INFO  06:11:28,215 - #29 {
-INFO  06:11:28,216 - #54 PackedCharArray
-INFO  06:11:28,216 - #54 buildNema
-INFO  06:11:28,216 - #25 (
-INFO  06:11:28,216 - #26 )
-INFO  06:11:28,216 - #22 ;
-INFO  06:11:28,216 - #30 }
-INFO  06:11:28,216 - #54 IBuilder
-INFO  06:11:28,216 - #54 builder1
-INFO  06:11:28,216 - #22 ;
-INFO  06:11:28,217 - #32 class
-INFO  06:11:28,217 - #54 Util
-INFO  06:11:28,218 - #35 implements
-INFO  06:11:28,218 - #54 IBuilder
-INFO  06:11:28,218 - #23 ,
-INFO  06:11:28,218 - #54 IBuilder2
-INFO  06:11:28,218 - #29 {
-INFO  06:11:28,218 - #2 int
-INFO  06:11:28,218 - #54 i
-INFO  06:11:28,219 - #22 ;
-INFO  06:11:28,219 - #29 {
-INFO  06:11:28,219 - #46 void
-INFO  06:11:28,220 - #54 metoda
-INFO  06:11:28,220 - #25 (
-INFO  06:11:28,222 - #2 int
-INFO  06:11:28,222 - #54 ll
-INFO  06:11:28,222 - #26 )
-INFO  06:11:28,223 - #2 int
-INFO  06:11:28,223 - #54 i
-INFO  06:11:28,223 - #22 ;
-INFO  06:11:28,223 - #2 int
-INFO  06:11:28,223 - #54 j
-INFO  06:11:28,223 - #22 ;
-INFO  06:11:28,224 - #29 {
-INFO  06:11:28,224 - #30 }
-INFO  06:11:28,225 - #54 PackedCharArray
-INFO  06:11:28,227 - #54 buildIma
-INFO  06:11:28,227 - #25 (
-INFO  06:11:28,227 - #26 )
-INFO  06:11:28,227 - #54 PackedCharArray
-INFO  06:11:28,227 - #54 pca
-INFO  06:11:28,227 - #22 ;
-INFO  06:11:28,227 - #4 char
-INFO  06:11:28,227 - #54 nizchar
-INFO  06:11:28,227 - #27 [
-INFO  06:11:28,227 - #28 ]
-INFO  06:11:28,228 - #22 ;
-INFO  06:11:28,228 - #29 {
-INFO  06:11:28,228 - #54 nizchar
-INFO  06:11:28,228 - #19 =
-INFO  06:11:28,228 - #39 new
-INFO  06:11:28,229 - #4 char
-INFO  06:11:28,230 - #27 [
-INFO  06:11:28,230 - #51 3
-INFO  06:11:28,230 - #28 ]
-INFO  06:11:28,230 - #22 ;
-INFO  06:11:28,231 - #54 nizchar
-INFO  06:11:28,231 - #27 [
-INFO  06:11:28,231 - #51 0
-INFO  06:11:28,231 - #28 ]
-INFO  06:11:28,231 - #19 =
-INFO  06:11:28,231 - #52 73
-INFO  06:11:28,231 - #22 ;
-INFO  06:11:28,231 - #54 nizchar
-INFO  06:11:28,231 - #27 [
-INFO  06:11:28,232 - #51 1
-INFO  06:11:28,232 - #28 ]
-INFO  06:11:28,232 - #19 =
-INFO  06:11:28,232 - #52 109
-INFO  06:11:28,232 - #22 ;
-INFO  06:11:28,232 - #54 nizchar
-INFO  06:11:28,232 - #27 [
-INFO  06:11:28,232 - #51 2
-INFO  06:11:28,232 - #28 ]
-INFO  06:11:28,232 - #19 =
-INFO  06:11:28,232 - #52 97
-INFO  06:11:28,232 - #22 ;
-INFO  06:11:28,232 - #54 pca
-INFO  06:11:28,232 - #19 =
-INFO  06:11:28,232 - #39 new
-INFO  06:11:28,232 - #54 PackedCharArray
-INFO  06:11:28,232 - #22 ;
-INFO  06:11:28,233 - #54 pca
-INFO  06:11:28,233 - #24 .
-INFO  06:11:28,233 - #54 array
-INFO  06:11:28,233 - #19 =
-INFO  06:11:28,233 - #54 nizchar
-INFO  06:11:28,233 - #22 ;
-INFO  06:11:28,233 - #41 return
-INFO  06:11:28,233 - #54 pca
-INFO  06:11:28,233 - #22 ;
-INFO  06:11:28,233 - #30 }
-INFO  06:11:28,233 - #54 PackedCharArray
-INFO  06:11:28,233 - #54 buildNema
-INFO  06:11:28,233 - #25 (
-INFO  06:11:28,233 - #26 )
-INFO  06:11:28,234 - #29 {
-INFO  06:11:28,235 - #41 return
-INFO  06:11:28,236 - #5 null
-INFO  06:11:28,236 - #22 ;
-INFO  06:11:28,236 - #30 }
-INFO  06:11:28,237 - #30 }
-INFO  06:11:28,237 - #30 }
-INFO  06:11:28,237 - #54 IBuilder2
-INFO  06:11:28,237 - #54 builder2
-INFO  06:11:28,237 - #22 ;
-INFO  06:11:28,237 - #32 class
-INFO  06:11:28,237 - #54 Util2
-INFO  06:11:28,237 - #33 extends
-INFO  06:11:28,237 - #54 Util
-INFO  06:11:28,237 - #35 implements
-INFO  06:11:28,237 - #54 IUtil
-INFO  06:11:28,237 - #23 ,
-INFO  06:11:28,237 - #54 IBuilder2
-INFO  06:11:28,237 - #29 {
-INFO  06:11:28,237 - #29 {
-INFO  06:11:28,237 - #46 void
-INFO  06:11:28,238 - #54 metoda
-INFO  06:11:28,238 - #25 (
-INFO  06:11:28,238 - #2 int
-INFO  06:11:28,238 - #54 o
-INFO  06:11:28,238 - #26 )
-INFO  06:11:28,238 - #29 {
-INFO  06:11:28,238 - #30 }
-INFO  06:11:28,238 - #46 void
-INFO  06:11:28,238 - #54 printstr
-INFO  06:11:28,238 - #25 (
-INFO  06:11:28,238 - #4 char
-INFO  06:11:28,238 - #54 stirngoci
-INFO  06:11:28,238 - #27 [
-INFO  06:11:28,238 - #28 ]
-INFO  06:11:28,238 - #26 )
-INFO  06:11:28,238 - #2 int
-INFO  06:11:28,238 - #54 i
-INFO  06:11:28,238 - #22 ;
-INFO  06:11:28,239 - #29 {
-INFO  06:11:28,239 - #50 len
-INFO  06:11:28,239 - #25 (
-INFO  06:11:28,239 - #54 stirngoci
-INFO  06:11:28,239 - #26 )
-INFO  06:11:28,239 - #22 ;
-INFO  06:11:28,239 - #40 for
-INFO  06:11:28,239 - #25 (
-INFO  06:11:28,240 - #54 i
-INFO  06:11:28,240 - #19 =
-INFO  06:11:28,240 - #51 0
-INFO  06:11:28,240 - #22 ;
-INFO  06:11:28,240 - #54 i
-INFO  06:11:28,240 - #15 <
-INFO  06:11:28,240 - #50 len
-INFO  06:11:28,242 - #25 (
-INFO  06:11:28,242 - #54 stirngoci
-INFO  06:11:28,242 - #26 )
-INFO  06:11:28,242 - #22 ;
-INFO  06:11:28,246 - #54 i
-INFO  06:11:28,246 - #20 ++
-INFO  06:11:28,246 - #26 )
-INFO  06:11:28,247 - #44 print
-INFO  06:11:28,247 - #25 (
-INFO  06:11:28,247 - #54 stirngoci
-INFO  06:11:28,247 - #27 [
-INFO  06:11:28,247 - #54 i
-INFO  06:11:28,247 - #28 ]
-INFO  06:11:28,247 - #26 )
-INFO  06:11:28,248 - #22 ;
-INFO  06:11:28,248 - #30 }
-INFO  06:11:28,250 - #54 PackedCharArray
-INFO  06:11:28,250 - #54 buildNema
-INFO  06:11:28,250 - #25 (
-INFO  06:11:28,250 - #26 )
-INFO  06:11:28,250 - #54 PackedCharArray
-INFO  06:11:28,250 - #54 pca
-INFO  06:11:28,250 - #22 ;
-INFO  06:11:28,250 - #4 char
-INFO  06:11:28,250 - #54 nizchar
-INFO  06:11:28,250 - #27 [
-INFO  06:11:28,250 - #28 ]
-INFO  06:11:28,250 - #22 ;
-INFO  06:11:28,250 - #29 {
-INFO  06:11:28,250 - #54 nizchar
-INFO  06:11:28,250 - #19 =
-INFO  06:11:28,251 - #39 new
-INFO  06:11:28,251 - #4 char
-INFO  06:11:28,251 - #27 [
-INFO  06:11:28,251 - #51 4
-INFO  06:11:28,251 - #28 ]
-INFO  06:11:28,251 - #22 ;
-INFO  06:11:28,251 - #54 nizchar
-INFO  06:11:28,251 - #27 [
-INFO  06:11:28,251 - #51 0
-INFO  06:11:28,251 - #28 ]
-INFO  06:11:28,251 - #19 =
-INFO  06:11:28,251 - #52 78
-INFO  06:11:28,251 - #22 ;
-INFO  06:11:28,251 - #54 nizchar
-INFO  06:11:28,251 - #27 [
-INFO  06:11:28,251 - #51 1
-INFO  06:11:28,251 - #28 ]
-INFO  06:11:28,251 - #19 =
-INFO  06:11:28,251 - #52 101
-INFO  06:11:28,251 - #22 ;
-INFO  06:11:28,251 - #54 nizchar
-INFO  06:11:28,251 - #27 [
-INFO  06:11:28,251 - #51 2
-INFO  06:11:28,251 - #28 ]
-INFO  06:11:28,251 - #19 =
-INFO  06:11:28,251 - #52 109
-INFO  06:11:28,251 - #22 ;
-INFO  06:11:28,251 - #54 nizchar
-INFO  06:11:28,251 - #27 [
-INFO  06:11:28,251 - #51 3
-INFO  06:11:28,251 - #28 ]
-INFO  06:11:28,252 - #19 =
-INFO  06:11:28,252 - #52 97
-INFO  06:11:28,252 - #22 ;
-INFO  06:11:28,252 - #54 pca
-INFO  06:11:28,252 - #19 =
-INFO  06:11:28,252 - #39 new
-INFO  06:11:28,252 - #54 PackedCharArray
-INFO  06:11:28,252 - #22 ;
-INFO  06:11:28,255 - #54 pca
-INFO  06:11:28,255 - #24 .
-INFO  06:11:28,255 - #54 array
-INFO  06:11:28,255 - #19 =
-INFO  06:11:28,255 - #54 nizchar
-INFO  06:11:28,255 - #22 ;
-INFO  06:11:28,255 - #41 return
-INFO  06:11:28,255 - #54 pca
-INFO  06:11:28,255 - #22 ;
-INFO  06:11:28,255 - #30 }
-INFO  06:11:28,255 - #30 }
-INFO  06:11:28,255 - #30 }
-INFO  06:11:28,255 - #54 IUtil
-INFO  06:11:28,256 - #54 util
-INFO  06:11:28,256 - #22 ;
-INFO  06:11:28,256 - #54 PackedCharArray
-INFO  06:11:28,256 - #54 ima
-INFO  06:11:28,256 - #22 ;
-INFO  06:11:28,256 - #54 PackedCharArray
-INFO  06:11:28,256 - #54 nema
-INFO  06:11:28,256 - #22 ;
-INFO  06:11:28,256 - #36 enum
-INFO  06:11:28,256 - #54 StringPicker
-INFO  06:11:28,256 - #29 {
-INFO  06:11:28,257 - #54 IMA
-INFO  06:11:28,257 - #19 =
-INFO  06:11:28,257 - #51 42
-INFO  06:11:28,257 - #23 ,
-INFO  06:11:28,258 - #54 NEMA
-INFO  06:11:28,258 - #19 =
-INFO  06:11:28,258 - #51 43
-INFO  06:11:28,258 - #30 }
-INFO  06:11:28,258 - #29 {
-INFO  06:11:28,259 - #46 void
-INFO  06:11:28,259 - #54 met
-INFO  06:11:28,259 - #25 (
-INFO  06:11:28,259 - #26 )
-INFO  06:11:28,259 - #29 {
-INFO  06:11:28,259 - #30 }
-INFO  06:11:28,259 - #46 void
-INFO  06:11:28,259 - #54 main
-INFO  06:11:28,259 - #25 (
-INFO  06:11:28,259 - #26 )
-INFO  06:11:28,259 - #54 PackedCharArray
-INFO  06:11:28,259 - #54 message
-INFO  06:11:28,259 - #22 ;
-INFO  06:11:28,259 - #2 int
-INFO  06:11:28,259 - #54 c
-INFO  06:11:28,259 - #23 ,
-INFO  06:11:28,259 - #54 v
-INFO  06:11:28,259 - #23 ,
-INFO  06:11:28,260 - #54 miz
-INFO  06:11:28,260 - #27 [
-INFO  06:11:28,260 - #28 ]
-INFO  06:11:28,260 - #22 ;
-INFO  06:11:28,260 - #29 {
-INFO  06:11:28,260 - #48 chr
-INFO  06:11:28,260 - #25 (
-INFO  06:11:28,260 - #51 2
-INFO  06:11:28,260 - #26 )
-INFO  06:11:28,260 - #22 ;
-INFO  06:11:28,260 - #54 util
-INFO  06:11:28,260 - #19 =
-INFO  06:11:28,260 - #39 new
-INFO  06:11:28,260 - #54 Util2
-INFO  06:11:28,260 - #22 ;
-INFO  06:11:28,260 - #54 builder1
-INFO  06:11:28,260 - #19 =
-INFO  06:11:28,260 - #39 new
-INFO  06:11:28,261 - #54 Util2
-INFO  06:11:28,261 - #22 ;
-INFO  06:11:28,261 - #54 builder2
-INFO  06:11:28,261 - #19 =
-INFO  06:11:28,261 - #39 new
-INFO  06:11:28,261 - #54 Util2
-INFO  06:11:28,261 - #22 ;
-INFO  06:11:28,261 - #54 ima
-INFO  06:11:28,261 - #19 =
-INFO  06:11:28,261 - #54 builder1
-INFO  06:11:28,261 - #24 .
-INFO  06:11:28,261 - #54 buildIma
-INFO  06:11:28,261 - #25 (
-INFO  06:11:28,263 - #26 )
-INFO  06:11:28,264 - #22 ;
-INFO  06:11:28,265 - #54 nema
-INFO  06:11:28,265 - #19 =
-INFO  06:11:28,265 - #54 builder2
-INFO  06:11:28,265 - #24 .
-INFO  06:11:28,265 - #54 buildNema
-INFO  06:11:28,265 - #25 (
-INFO  06:11:28,265 - #26 )
-INFO  06:11:28,265 - #22 ;
-INFO  06:11:28,265 - #54 util
-INFO  06:11:28,265 - #24 .
-INFO  06:11:28,265 - #54 printstr
-INFO  06:11:28,265 - #25 (
-INFO  06:11:28,265 - #54 message
-INFO  06:11:28,265 - #24 .
-INFO  06:11:28,265 - #54 array
-INFO  06:11:28,265 - #26 )
-INFO  06:11:28,266 - #22 ;
-INFO  06:11:28,266 - #45 read
-INFO  06:11:28,266 - #25 (
-INFO  06:11:28,266 - #54 c
-INFO  06:11:28,266 - #26 )
-INFO  06:11:28,266 - #22 ;
-INFO  06:11:28,266 - #54 met
-INFO  06:11:28,266 - #25 (
-INFO  06:11:28,266 - #26 )
-INFO  06:11:28,266 - #22 ;
-INFO  06:11:28,266 - #30 }
-INFO  06:11:28,267 - #30 }
-INFO  06:11:28,267 - #0 eof
-INFO  06:11:28,268 - #0 eof
-INFO  06:11:28,287 - DETEKCIJA: [Deklarisano polje klase array] na liniji 7
-INFO  06:11:28,335 - DETEKCIJA: [Deklarisana globalna promenljiva builder1] na liniji 25
-INFO  06:11:28,342 - DETEKCIJA: [Deklarisano polje klase i] na liniji 30
-INFO  06:11:28,342 - DETEKCIJA: [Deklarisana lokalna promenljiva i] na liniji 32
-INFO  06:11:28,342 - DETEKCIJA: [Deklarisana lokalna promenljiva j] na liniji 32
-INFO  06:11:28,342 - DETEKCIJA: [Deklarisana lokalna promenljiva pca] na liniji 37
-INFO  06:11:28,342 - DETEKCIJA: [Deklarisana lokalna promenljiva nizchar] na liniji 38
-INFO  06:11:28,342 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildImaVar nizchar: Arr of char, 2, 1 ] na liniji 40
-INFO  06:11:28,344 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildImaVar nizchar: Arr of char, 2, 1 ] na liniji 41
-INFO  06:11:28,345 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 41
-INFO  06:11:28,345 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildImaVar nizchar: Arr of char, 2, 1 ] na liniji 42
-INFO  06:11:28,345 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 42
-INFO  06:11:28,345 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildImaVar nizchar: Arr of char, 2, 1 ] na liniji 43
-INFO  06:11:28,345 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 43
-INFO  06:11:28,345 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildImaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 44
-INFO  06:11:28,345 - DETEKCIJA: [Pravljenje objekta tipa PackedCharArray Type PackedCharArray: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 ] na liniji 44
-INFO  06:11:28,345 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildImaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 45
-INFO  06:11:28,348 - DETEKCIJA: [Pristup polju array Fld array: Arr of char, 1, 1 ] na liniji 45
-INFO  06:11:28,348 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildImaVar nizchar: Arr of char, 2, 1 ] na liniji 45
-INFO  06:11:28,348 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildImaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 46
-INFO  06:11:28,348 - DETEKCIJA: [Deklarisana globalna promenljiva builder2] na liniji 55
-INFO  06:11:28,348 - DETEKCIJA: [Deklarisana lokalna promenljiva i] na liniji 63
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba formalnog parametra stirngoci metode printstrVar stirngoci: Arr of char, 1, 1 ] na liniji 65
-INFO  06:11:28,349 - DETEKCIJA: [Poziv funkcije lenMeth len: int, 0, 1 
-   Var arr: Arr of notype, 0, 1 
-] na liniji 65
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive i metode printstrVar i: int, 2, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive i metode printstrVar i: int, 2, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba formalnog parametra stirngoci metode printstrVar stirngoci: Arr of char, 1, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Poziv funkcije lenMeth len: int, 0, 1 
-   Var arr: Arr of notype, 0, 1 
-] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive i metode printstrVar i: int, 2, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba formalnog parametra stirngoci metode printstrVar stirngoci: Arr of char, 1, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive i metode printstrVar i: int, 2, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Pristup elementu niza stirngociVar stirngoci: Arr of char, 1, 1 ] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Poziv funkcije print] na liniji 66
-INFO  06:11:28,349 - DETEKCIJA: [Deklarisana lokalna promenljiva pca] na liniji 71
-INFO  06:11:28,349 - DETEKCIJA: [Deklarisana lokalna promenljiva nizchar] na liniji 72
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 74
-INFO  06:11:28,349 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 75
-INFO  06:11:28,350 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 75
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 76
-INFO  06:11:28,350 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 76
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 77
-INFO  06:11:28,350 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 77
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 78
-INFO  06:11:28,350 - DETEKCIJA: [Pristup elementu niza nizcharVar nizchar: Arr of char, 2, 1 ] na liniji 78
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildNemaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 79
-INFO  06:11:28,350 - DETEKCIJA: [Pravljenje objekta tipa PackedCharArray Type PackedCharArray: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 ] na liniji 79
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildNemaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 80
-INFO  06:11:28,350 - DETEKCIJA: [Pristup polju array Fld array: Arr of char, 1, 1 ] na liniji 80
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive nizchar metode buildNemaVar nizchar: Arr of char, 2, 1 ] na liniji 80
-INFO  06:11:28,350 - DETEKCIJA: [Upotreba lokalne promenljive pca metode buildNemaVar pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 ] na liniji 81
-INFO  06:11:28,350 - DETEKCIJA: [Deklarisana globalna promenljiva util] na liniji 85
-INFO  06:11:28,350 - DETEKCIJA: [Deklarisana globalna promenljiva ima] na liniji 87
-INFO  06:11:28,350 - DETEKCIJA: [Deklarisana globalna promenljiva nema] na liniji 88
-INFO  06:11:28,352 - DETEKCIJA: [Deklarisana lokalna promenljiva message] na liniji 95
-INFO  06:11:28,352 - DETEKCIJA: [Deklarisana lokalna promenljiva c] na liniji 96
-INFO  06:11:28,352 - DETEKCIJA: [Deklarisana lokalna promenljiva v] na liniji 96
-INFO  06:11:28,352 - DETEKCIJA: [Deklarisana lokalna promenljiva miz] na liniji 96
-INFO  06:11:28,352 - DETEKCIJA: [Poziv funkcije chrMeth chr: char, 0, 1 
-   Var i: int, 0, 1 
-] na liniji 98
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive utilVar util: Interface [Meth printstr: notype, 0, 1 
-   Var str: Arr of char, 0, 1 
-], 2, 0 ] na liniji 100
-INFO  06:11:28,352 - DETEKCIJA: [Pravljenje objekta tipa Util2 Type Util2: Class [Fld vtp: int, 0, 1 Fld i: int, 1, 1 Meth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
+INFO  20:20:09,807 - Prevodjenje source fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\testC3.mj
+INFO  20:20:09,866 - #31 program
+INFO  20:20:09,867 - #54 P
+INFO  20:20:09,867 - #34 interface
+INFO  20:20:09,868 - #54 I
+INFO  20:20:09,869 - #29 {
+INFO  20:20:09,869 - #46 void
+INFO  20:20:09,870 - #54 pisi
+INFO  20:20:09,872 - #25 (
+INFO  20:20:09,877 - #26 )
+INFO  20:20:09,878 - #22 ;
+INFO  20:20:09,878 - #30 }
+INFO  20:20:09,879 - #32 class
+INFO  20:20:09,880 - #54 A
+INFO  20:20:09,880 - #35 implements
+INFO  20:20:09,881 - #54 I
+INFO  20:20:09,882 - #29 {
+INFO  20:20:09,882 - #29 {
+INFO  20:20:09,883 - #46 void
+INFO  20:20:09,884 - #54 pisi
+INFO  20:20:09,884 - #25 (
+INFO  20:20:09,885 - #26 )
+INFO  20:20:09,886 - #29 {
+INFO  20:20:09,887 - #44 print
+INFO  20:20:09,888 - #25 (
+INFO  20:20:09,889 - #52 65
+INFO  20:20:09,889 - #26 )
+INFO  20:20:09,890 - #22 ;
+INFO  20:20:09,890 - #30 }
+INFO  20:20:09,890 - #30 }
+INFO  20:20:09,892 - #30 }
+INFO  20:20:09,892 - #32 class
+INFO  20:20:09,893 - #54 B
+INFO  20:20:09,893 - #35 implements
+INFO  20:20:09,893 - #54 I
+INFO  20:20:09,894 - #29 {
+INFO  20:20:09,894 - #29 {
+INFO  20:20:09,894 - #46 void
+INFO  20:20:09,894 - #54 pisi
+INFO  20:20:09,894 - #25 (
+INFO  20:20:09,895 - #26 )
+INFO  20:20:09,895 - #29 {
+INFO  20:20:09,895 - #44 print
+INFO  20:20:09,895 - #25 (
+INFO  20:20:09,895 - #52 66
+INFO  20:20:09,896 - #26 )
+INFO  20:20:09,896 - #22 ;
+INFO  20:20:09,896 - #30 }
+INFO  20:20:09,896 - #30 }
+INFO  20:20:09,896 - #30 }
+INFO  20:20:09,896 - #32 class
+INFO  20:20:09,896 - #54 C
+INFO  20:20:09,896 - #33 extends
+INFO  20:20:09,897 - #54 A
+INFO  20:20:09,897 - #29 {
+INFO  20:20:09,897 - #30 }
+INFO  20:20:09,898 - #32 class
+INFO  20:20:09,898 - #54 D
+INFO  20:20:09,898 - #33 extends
+INFO  20:20:09,898 - #54 B
+INFO  20:20:09,898 - #29 {
+INFO  20:20:09,899 - #30 }
+INFO  20:20:09,899 - #32 class
+INFO  20:20:09,899 - #54 E
+INFO  20:20:09,899 - #33 extends
+INFO  20:20:09,899 - #54 D
+INFO  20:20:09,899 - #29 {
+INFO  20:20:09,899 - #30 }
+INFO  20:20:09,900 - #29 {
+INFO  20:20:09,901 - #46 void
+INFO  20:20:09,902 - #54 main
+INFO  20:20:09,902 - #25 (
+INFO  20:20:09,903 - #26 )
+INFO  20:20:09,907 - #54 I
+INFO  20:20:09,908 - #54 i
+INFO  20:20:09,908 - #22 ;
+INFO  20:20:09,910 - #29 {
+INFO  20:20:09,910 - #54 i
+INFO  20:20:09,910 - #19 =
+INFO  20:20:09,910 - #39 new
+INFO  20:20:09,911 - #54 A
+INFO  20:20:09,912 - #22 ;
+INFO  20:20:09,912 - #54 i
+INFO  20:20:09,912 - #24 .
+INFO  20:20:09,913 - #54 pisi
+INFO  20:20:09,913 - #25 (
+INFO  20:20:09,914 - #26 )
+INFO  20:20:09,914 - #22 ;
+INFO  20:20:09,915 - #54 i
+INFO  20:20:09,915 - #19 =
+INFO  20:20:09,915 - #39 new
+INFO  20:20:09,915 - #54 B
+INFO  20:20:09,916 - #22 ;
+INFO  20:20:09,916 - #54 i
+INFO  20:20:09,916 - #24 .
+INFO  20:20:09,916 - #54 pisi
+INFO  20:20:09,916 - #25 (
+INFO  20:20:09,917 - #26 )
+INFO  20:20:09,917 - #22 ;
+INFO  20:20:09,917 - #54 i
+INFO  20:20:09,917 - #19 =
+INFO  20:20:09,917 - #39 new
+INFO  20:20:09,917 - #54 C
+INFO  20:20:09,917 - #22 ;
+INFO  20:20:09,918 - #54 i
+INFO  20:20:09,918 - #24 .
+INFO  20:20:09,918 - #54 pisi
+INFO  20:20:09,918 - #25 (
+INFO  20:20:09,918 - #26 )
+INFO  20:20:09,918 - #22 ;
+INFO  20:20:09,918 - #54 i
+INFO  20:20:09,918 - #19 =
+INFO  20:20:09,919 - #39 new
+INFO  20:20:09,919 - #54 D
+INFO  20:20:09,919 - #22 ;
+INFO  20:20:09,919 - #54 i
+INFO  20:20:09,919 - #24 .
+INFO  20:20:09,919 - #54 pisi
+INFO  20:20:09,919 - #25 (
+INFO  20:20:09,919 - #26 )
+INFO  20:20:09,919 - #22 ;
+INFO  20:20:09,919 - #54 i
+INFO  20:20:09,919 - #19 =
+INFO  20:20:09,920 - #39 new
+INFO  20:20:09,920 - #54 E
+INFO  20:20:09,920 - #22 ;
+INFO  20:20:09,920 - #54 i
+INFO  20:20:09,920 - #24 .
+INFO  20:20:09,920 - #54 pisi
+INFO  20:20:09,920 - #25 (
+INFO  20:20:09,920 - #26 )
+INFO  20:20:09,920 - #22 ;
+INFO  20:20:09,920 - #30 }
+INFO  20:20:09,920 - #30 }
+INFO  20:20:09,920 - #0 eof
+INFO  20:20:09,921 - #0 eof
+INFO  20:20:09,990 - DETEKCIJA: [Poziv funkcije print] na liniji 8
+INFO  20:20:09,992 - DETEKCIJA: [Poziv funkcije print] na liniji 13
+INFO  20:20:09,996 - DETEKCIJA: [Deklarisana lokalna promenljiva i] na liniji 30
+INFO  20:20:09,996 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 32
+INFO  20:20:09,997 - DETEKCIJA: [Pravljenje objekta tipa A Type A: Class [Fld vtp: int, 0, 1 Meth pisi: notype, 0, 1 
    Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
+], 0, 0 ] na liniji 32
+INFO  20:20:09,997 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 33
+INFO  20:20:09,999 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 33
+INFO  20:20:09,999 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 33
+INFO  20:20:09,999 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 34
+INFO  20:20:09,999 - DETEKCIJA: [Pravljenje objekta tipa B Type B: Class [Fld vtp: int, 0, 1 Meth pisi: notype, 0, 1 
    Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth metoda: notype, 0, 2 
+], 0, 0 ] na liniji 34
+INFO  20:20:10,000 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 35
+INFO  20:20:10,000 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 35
+INFO  20:20:10,000 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 35
+INFO  20:20:10,000 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 36
+INFO  20:20:10,000 - DETEKCIJA: [Pravljenje objekta tipa C Type C: Class [Fld vtp: int, 0, 1 Meth pisi: notype, 0, 1 
    Var this: , 0, 1 
-   Var o: int, 1, 1 
-Meth printstr: notype, 0, 2 
+], 0, 0 ] na liniji 36
+INFO  20:20:10,001 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 37
+INFO  20:20:10,001 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 37
+INFO  20:20:10,001 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 37
+INFO  20:20:10,001 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 38
+INFO  20:20:10,001 - DETEKCIJA: [Pravljenje objekta tipa D Type D: Class [Fld vtp: int, 0, 1 Meth pisi: notype, 0, 1 
    Var this: , 0, 1 
-   Var stirngoci: Arr of char, 1, 1 
-   Var i: int, 2, 1 
-], 0, 0 ] na liniji 100
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive builder1Var builder1: Interface [Meth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-], 0, 0 ] na liniji 101
-INFO  06:11:28,352 - DETEKCIJA: [Pravljenje objekta tipa Util2 Type Util2: Class [Fld vtp: int, 0, 1 Fld i: int, 1, 1 Meth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
+], 0, 0 ] na liniji 38
+INFO  20:20:10,001 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 39
+INFO  20:20:10,002 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 39
+INFO  20:20:10,002 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 39
+INFO  20:20:10,002 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 40
+INFO  20:20:10,002 - DETEKCIJA: [Pravljenje objekta tipa E Type E: Class [Fld vtp: int, 0, 1 Meth pisi: notype, 0, 1 
    Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
-   Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth metoda: notype, 0, 2 
-   Var this: , 0, 1 
-   Var o: int, 1, 1 
-Meth printstr: notype, 0, 2 
-   Var this: , 0, 1 
-   Var stirngoci: Arr of char, 1, 1 
-   Var i: int, 2, 1 
-], 0, 0 ] na liniji 101
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive builder2Var builder2: Interface [Meth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-], 1, 0 ] na liniji 102
-INFO  06:11:28,352 - DETEKCIJA: [Pravljenje objekta tipa Util2 Type Util2: Class [Fld vtp: int, 0, 1 Fld i: int, 1, 1 Meth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
-   Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 
-   Var this: , 0, 1 
-   Var pca: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 1, 1 
-   Var nizchar: Arr of char, 2, 1 
-Meth metoda: notype, 0, 2 
-   Var this: , 0, 1 
-   Var o: int, 1, 1 
-Meth printstr: notype, 0, 2 
-   Var this: , 0, 1 
-   Var stirngoci: Arr of char, 1, 1 
-   Var i: int, 2, 1 
-], 0, 0 ] na liniji 102
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive imaVar ima: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 3, 0 ] na liniji 103
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive builder1Var builder1: Interface [Meth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-], 0, 0 ] na liniji 103
-INFO  06:11:28,352 - DETEKCIJA: [Pristup enum konstanti buildImaMeth buildIma: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-] na liniji 103
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive nemaVar nema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 4, 0 ] na liniji 104
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive builder2Var builder2: Interface [Meth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-], 1, 0 ] na liniji 104
-INFO  06:11:28,352 - DETEKCIJA: [Pristup enum konstanti buildNemaMeth buildNema: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 0 
-] na liniji 104
-INFO  06:11:28,352 - DETEKCIJA: [Upotreba globalne promenljive utilVar util: Interface [Meth printstr: notype, 0, 1 
-   Var str: Arr of char, 0, 1 
-], 2, 0 ] na liniji 105
-INFO  06:11:28,353 - DETEKCIJA: [Pristup enum konstanti printstrMeth printstr: notype, 0, 1 
-   Var str: Arr of char, 0, 1 
-] na liniji 105
-INFO  06:11:28,353 - DETEKCIJA: [Upotreba lokalne promenljive message metode mainVar message: Class [Fld vtp: int, 0, 1 Fld array: Arr of char, 1, 1 ], 0, 1 ] na liniji 105
-INFO  06:11:28,353 - DETEKCIJA: [Pristup polju array Fld array: Arr of char, 1, 1 ] na liniji 105
-INFO  06:11:28,353 - DETEKCIJA: [Poziv metode printstr Meth printstr: notype, 0, 1 
-   Var str: Arr of char, 0, 1 
-] na liniji 105
-INFO  06:11:28,353 - DETEKCIJA: [Upotreba lokalne promenljive c metode mainVar c: int, 1, 1 ] na liniji 106
-INFO  06:11:28,353 - DETEKCIJA: [Poziv funkcije read] na liniji 106
-INFO  06:11:28,353 - DETEKCIJA: [Poziv globalne funkcije Meth met: notype, 0, 0 
-] na liniji 107
-INFO  06:11:28,353 - DETEKCIJA: [Poziv funkcije met Meth met: notype, 0, 0 
-] na liniji 107
-INFO  06:11:28,353 - Generisanje bytecode fajla: e:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\program.obj
+], 0, 0 ] na liniji 40
+INFO  20:20:10,002 - DETEKCIJA: [Upotreba lokalne promenljive i metode mainVar i: Interface [Meth pisi: notype, 0, 0 
+], 0, 1 ] na liniji 41
+INFO  20:20:10,002 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 41
+INFO  20:20:10,003 - DETEKCIJA: [Poziv metode pisi Meth pisi: notype, 0, 0 
+] na liniji 41
+INFO  20:20:10,003 - Generisanje bytecode fajla: E:\FAKS\4\Prevodioci\projekat\pp1\workspace\MJCompiler\test\testC3.obj
+INFO  20:20:10,010 - Parsiranje uspesno zavrseno!

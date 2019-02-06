@@ -1,0 +1,43 @@
+program P	
+	interface I{
+        void pisi();
+	}
+
+	class A implements I{
+        {
+		    void pisi() {print('A');}
+        }
+	}
+    class B implements I{
+        {
+		    void pisi() {print('B');}
+        }
+	}
+
+    class C extends A{
+
+	}
+    class D extends B{
+		
+	}
+    class E extends D {
+
+    }
+
+{
+
+	void main() 
+	I i;
+	{			
+       i = new A;
+       i.pisi();
+       i = new B;
+       i.pisi();
+       i = new C;
+       i.pisi();
+       i = new D;
+       i.pisi();
+       i = new E;
+       i.pisi();
+	}
+}

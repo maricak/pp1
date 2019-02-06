@@ -24,7 +24,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
     public void report_error(String message, SyntaxNode info) {
         errorDetected = true;
-        StringBuilder msg = new StringBuilder("SEANTICKA GRESKA!: [");
+        StringBuilder msg = new StringBuilder("SEMANTICKA GRESKA!: [");
         msg.append(message).append("]");
         int line = (info == null) ? 0 : info.getLine();
         if (line != 0)
@@ -233,6 +233,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                     // dodavanje u opseg klase
                     MyTable.currentScope.addToLocals(newField);
                 }
+            }
+
+            // interfejsi osnovne klase su interfejsi i izvedene klase
+            if(baseClass.getImplementedInterfaces() != null) {
+                baseClass.getImplementedInterfaces().forEach(i -> currentClass.addImplementedInterface(i));
             }
         }
     }
@@ -568,7 +573,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             if (baseMethods.get(methodStart.getMethodName()) != null) {
                 // provera da li je metoda vec redefinisana
                 if (baseMethods.get(methodStart.getMethodName())) {
-                    report_error("Inherited method " + methodStart.getMethodName() + "was already implemented",
+                    report_error("Nasledjena metoda " + methodStart.getMethodName() + "je vec implementirana",
                             methodStart);
                 }
                 // metoda ne redefinise metod iz interfejsa
@@ -578,7 +583,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             if (interfaceMethods.get(methodStart.getMethodName()) != null) {
                 // provera da li je metoda vec redefinisana
                 if (interfaceMethods.get(methodStart.getMethodName())) {
-                    report_error("Inherited method " + methodStart.getMethodName() + "was already implemented",
+                    report_error("Nasledjena metoda " + methodStart.getMethodName() + "je vec implementirana",
                             methodStart);
                 }
                 // metoda redefinise metodu iz interfejsa
@@ -586,7 +591,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             }
             // provera da li redefinicija metode ima odgovarajuci povratni tip
             if (!baseMethod.getType().equals(methodStart.getReturnType().struct)) {
-                report_error("Prilikom redefinisanja metode" + methodStart.getMethodName()
+                report_error("Prilikom redefinisanja metode " + methodStart.getMethodName()
                         + " povratni tip se sme da se menja", methodStart);
             } else {
                 // promenljive metode koja se redefinise
@@ -688,7 +693,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 // interfaceMethod se koristi da se izbegne this parametar -- interfejs metode
                 // ga nemaju
                 if (baseNumberOfParameters + interfaceMethod <= numberOfParameters) {
-                    report_error("Broj parametara u redefinisanoj metodi" + currentMethod.getName()
+                    report_error("Broj parametara u redefinisanoj metodi " + currentMethod.getName()
                             + " je veci nego u originalnoj", formPar);
                     // dogodila se greska
                     // overrideError = true;
@@ -993,7 +998,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                 if (!incompatible) {
                     tdv.visitObjNode(method);
                     if (designatorFunctionCall.getDesignator() instanceof DesignatorName) {
-                        report_info("Poziv funkcije " + method.getName() + " " + tdv.getOutput(), designatorFunctionCall);
+                        report_info("Poziv funkcije " + method.getName() + " " + tdv.getOutput(),
+                                designatorFunctionCall);
                     } else {
                         report_info("Poziv metode " + method.getName() + " " + tdv.getOutput(), designatorFunctionCall);
                     }
@@ -1159,7 +1165,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         // provera da li su operandi celi brojevi
         if ((left.getKind() == Struct.Int && right.getKind() == Struct.Int)
                 || (left.getKind() == Struct.Int && right.getKind() == Struct.Enum)
-                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Int)) {
+                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Int)
+                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Enum)) {
             exprAddop.struct = MyTable.intType;
         } else {
             report_error("Operacija radi samo nad celim brojevima", exprAddop);
@@ -1188,7 +1195,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
         // provera da li su operandi celi brojevi
         if ((left.getKind() == Struct.Int && right.getKind() == Struct.Int)
                 || (left.getKind() == Struct.Int && right.getKind() == Struct.Enum)
-                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Int)) {
+                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Int)
+                || (left.getKind() == Struct.Enum && right.getKind() == Struct.Enum)) {
             termMulop.struct = MyTable.intType;
         } else {
             report_error("Operacija radi samo nad celim brojevima", termMulop);
@@ -1356,16 +1364,17 @@ public class SemanticAnalyzer extends VisitorAdaptor {
                         designatorPointAccess.obj = elem;
                     }
                     tdv.visitObjNode(elem);
-                    if (struct.getKind() == Struct.Class) {
+                    if (struct.getKind() == Struct.Class || struct.getKind() == Struct.Interface) {
                         if (elem.getKind() == Obj.Meth) {
-                            report_info("Poziv metode " + elem.getName() +  " " + tdv.getOutput(),
+                            report_info("Poziv metode " + elem.getName() + " " + tdv.getOutput(),
                                     designatorPointAccess);
                         } else {
                             report_info("Pristup polju " + elem.getName() + " " + tdv.getOutput(),
                                     designatorPointAccess);
                         }
                     } else {
-                        report_info("Pristup enum konstanti " + elem.getName() + tdv.getOutput(), designatorPointAccess);
+                        report_info("Pristup enum konstanti " + elem.getName() + tdv.getOutput(),
+                                designatorPointAccess);
                     }
                 }
             }
@@ -1436,12 +1445,12 @@ public class SemanticAnalyzer extends VisitorAdaptor {
             if (designator.obj.getFpPos() > 0 && !designator.getName().equals("this")) {
                 report_info("Upotreba formalnog parametra " + designator.getName() + " metode "
                         + currentMethod.getName() + tdv.getOutput(), designator);
-            } else if (currentMethod != null && currentMethod.getLocalSymbols().contains(designator.obj) && !designator.getName().equals("this")) {
+            } else if (currentMethod != null && currentMethod.getLocalSymbols().contains(designator.obj)
+                    && !designator.getName().equals("this")) {
                 report_info("Upotreba lokalne promenljive " + designator.getName() + " metode "
                         + currentMethod.getName() + tdv.getOutput(), designator);
             } else {
-                report_info("Upotreba globalne promenljive " + designator.getName() + tdv.getOutput(),
-                        designator);
+                report_info("Upotreba globalne promenljive " + designator.getName() + tdv.getOutput(), designator);
             }
             break;
         }
